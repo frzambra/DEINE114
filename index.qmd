@@ -1,0 +1,27 @@
+---
+title: "Análisis Espaciales en R con Aplicaciones en Ecología del Paisaje"
+subtitle: "Doctorado en Ecología Integrativa"
+institute: "Universidad Mayor"
+author: "Dr. Francisco Zambrano"
+lang: es
+---
+
+En este repositorio se comparte el material para el curso de `Análisis Espaciales en R con Aplicaciones en Ecología del Paisaje` (DEINE114) del [Doctorado en Ecología Integrativa](https://vri.umayor.cl/doctorados/doctorado-en-ecologia-integrativa). Acá están disponibles los enlaces a las clases, talleres, tutoriales, libros, etc.
+
+# Descripción General del Curso
+
+Durante este curso se desarrollará un Modelo de Distribución de Especies (MDE). Se procesarán diferentes variables espaciales predictoras de tipo climática, geomorfométricas y de paisaje sutilizarán. Se utilizará un modelo de Random Forest para desarrollar el MDE.
+
+
+# Recursos para aprender
+
+-   R
+    -   [SWIRL](https://swirlstats.com/)
+    -   [Quick-R](https://www.statmethods.net/)
+-   R-Spatial
+    -   [r-spatial](https://www.r-spatial.org/) - Edzer Pebesma
+    -   [rspatial](https://www.rspatial.org/) - Robert Hijmans
+-   Libros R-Spatial
+    -   [Applied Spatial Data Analysis with R](http://gis.humboldt.edu/OLM/r/Spatial%20Analysis%20With%20R.pdf). Roger Bivand, Edzer Pebesma, Virgilio Gómez-Rubio.
+    -   [Geocomputation with R](https://geocompr.robinlovelace.net/). Robin Lovelace, Jakub Nowosad, Jannes Muenchow
+    -   [Spatial Data Science](https://keen-swartz-3146c4.netlify.app/). Edzer Pebesma y Roger Bivand. Estado: en desarrollo

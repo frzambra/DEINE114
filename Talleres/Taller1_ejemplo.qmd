@@ -1,0 +1,445 @@
+---
+title: "Taller 1: Ejemplo"
+subtitle: "Preparación de los datos"
+author: "Dr. Francisco Zambrano"
+number-sections: true
+lang: es
+execute:
+  cache: false
+---
+
+## Setup
+
+### Instalar paquetes de R
+
+```{r}
+# install.packages(c('tidyverse','sf','terra','tmap','remotes','geodata','rstac','earthdatalogin))
+# remotes::install_github("ODES-Chile/agrometR")
+```
+
+### Cargar paquetes de R
+
+```{r}
+#| message: false
+library(remotes) #paquete que trae función para instala un paquete desde github
+library(tidyverse) #colección de paquetes para análisis de datos
+library(sf) #manejo de datos vectoriales
+library(terra) #manejo de datos raster y vectoriales
+library(tmap) # creación de mapas temáticos
+library(geodata) # acceso a descarga de diferentes datos raster y vectoriales
+library(rstac) # acceder a spatial temporal assets catalogs (STAC)
+library(agrometR) #acceder a datos de estaciones red Agromet
+library(earthdatalogin) #para acceder a productos NASA 'EarthData' 
+```
+
+## Prepara datos vectoriales área de estudio
+
+**Descargar datos vectoriales de límites administrativos**
+
+```{r}
+#descarga límites administrativos a nivel de regiones para Chile
+regiones <- geodata::gadm('chile',path = 'data/raw') 
+
+#convierte entre clase spatVector a sf
+regiones_sf <- regiones |> 
+  sf::st_as_sf()
+
+#clase del objeto regiones_sf
+class(regiones_sf)
+
+# hacer un mapa de las geometrias de las regiones
+plot(sf::st_geometry(regiones_sf))
+
+regiones_sf$NAME_1
+
+#selecciona las regiones entre Copquimbo y Araucania
+regs <- regiones_sf[c(2,6,7,8,12,13,14,16),]   #selecciona la geometria (fila) 16 que corresponde a la región de Valparaiso
+
+plot(sf::st_geometry(regs))
+```
+
+```{r}
+#extensión para cortar para chile continental
+e <- c(xmin= -73.95,ymin=-40,xmax=-69.5,ymax=-28.9)
+ext_sf <- e |> 
+  sf::st_bbox() |>
+  sf::st_as_sfc() |>  
+  sf::st_as_sf(crs = 4326) 
+
+```
+
+```{r}
+regs_con <- sf::st_intersection(regs,ext_sf)
+
+#une todas las regiones para quedar con un poligono con los límites entre Coquimbo y Araucania y se queda con la geometria
+regs_con <- sf::st_union(regs_con) |> 
+  sf::st_geometry()
+
+#mapa de la geometria
+plot(sf::st_geometry(regs_con))
+```
+
+## Preparar predictores rasters
+
+### Preparar predictores de elevación 
+
+```{r}
+#centroide de la región de Valparaiso
+coords <- regs_con |>
+  sf::st_centroid()|> # función de centroide devuelve un objeto sf
+  sf::st_coordinates() # convierte el objeto sf en matrix
+
+#descargar elevación a resolución de 30 segundos
+elev <- geodata::elevation_30s('chile',path='data/raw')
+
+#cortar y aplicar mascara para la región de interés
+elev_regs <- terra::crop(elev,regs_con)
+elev_regs <- terra::mask(elev_regs,sf::st_as_sf(regs_con))
+
+#mapa de elevación
+plot(elev_regs)
+# reproyectar objeto raster a 32719 UTM zona 19S datum WGS84
+elev_proj <- terra::project(elev_regs,"EPSG:32719")
+
+#reproyecta objeto vectorial sf a utm zona 19S datum WGS84
+regs_utm <- regs_con |>
+  sf::st_transform(32719)
+
+write_rds(regs_utm,'data/procesada/regs_utm_sf.rds')
+#bbox de los límites de las regiones
+bb_num <- regs_utm |>
+  sf::st_bbox()
+
+# crear raster con resolución de 500m
+r <- terra::rast(xmin = bb_num[1],
+          xmax = bb_num[3],
+          ymin = bb_num[2],
+          ymax=bb_num[4],
+          res =500,crs = "EPSG:32719")
+```
+
+**Calcular aspect y slope **
+
+```{r}
+elev_asp <- terra::terrain(elev_proj,'aspect')
+elev_slope <- terra::terrain(elev_proj,'slope')
+
+#unir las tres capas
+elev_pred <- c(elev_proj,elev_asp,elev_slope)
+
+#cambiar nombre a las capas
+names(elev_pred) <- c("dem","aspect","slope")
+
+#resamplea para ajustar a resolución de 500 m
+
+elev_pred_res <- terra::resample(elev_pred,r)
+
+#Mapa de los tres rasters
+plot(elev_pred_res)
+```
+
+### Crear raster de distancia a la costa 
+
+Descargar límites de Chile
+
+```{r}
+lim_ch <- geodata::gadm('chile',level = 0,path = 'data/raw')
+
+lim_chl <- lim_ch |>
+  sf::st_as_sf() |> #convierte en case sf
+  sf::st_geometry() |> #extrae solo la geometria
+  sf::st_transform(32719) #reproyecta a UTM WGS84 huso 19 Sur
+
+plot(sf::st_geometry(lim_chl))
+plot(sf::st_geometry(regs_utm),col='red',add = TRUE)
+```
+
+**Extraer linea de costa**
+
+```{r}
+#simplifica poligono de límite de Chile y convierte a MULTILINESTRING
+lim_chile_linea <- lim_chl |> 
+  sf::st_simplify(dTolerance=1000) |>  
+  sf::st_cast('MULTILINESTRING')
+
+#simplifica poligono de límite de regiones y convierte a MULTILINESTRING
+regs_linea <- regs_utm |> 
+  sf::st_simplify(dTolerance=1000) |> 
+  sf::st_cast('MULTIPOINT')
+
+#intersecta limites regiones con límites de Chile 
+costa <- sf::st_intersection(regs_linea,lim_chile_linea)
+
+# coordenadas para extraer polígono de la costa
+m <- matrix(c(-70.511, -72.581, -74.759, -72.549,-70.511, -28.834, -39.706, -39.294, -28.575,-28.834),ncol=2)
+
+#crear polígono
+pol <- sf::st_polygon(list(m)) |> 
+  sf::st_sfc(crs=4326) |> 
+  sf::st_transform(32719) 
+
+#hace intersección para extraer linea de costa
+costa <- sf::st_intersection(costa,pol) #linea de costa
+```
+
+**Calcula distancia a la costa**
+
+```{r}
+#extrae las coordenadas de cada pixel
+xy <- terra::xyFromCell(r,1:ncell(r))
+
+#convierte coordenadas en objeto sf
+r_cent <- xy |> 
+  tibble::as_tibble() |> 
+  sf::st_as_sf(coords =c('x','y'),crs=32719)
+
+#calcula distancia a la costa
+dist_cost <- sf::st_distance(costa,r_cent)
+
+#agregar distancias calculadas a raster r
+values(r) <- as.numeric(dist_cost)
+
+dcosta <- terra::mask(r,vect(regs_utm))
+names(dcosta) <- 'dist_costa'
+plot(dcosta)
+plot(regs_utm,add=TRUE)
+```
+
+### Descargar datos MODIS desde STAC cmr.earthdata.nasa.gov
+ 
+De MODIS descargaremos del satelite TERRA los productos de temperatura superficial de suelo (LST) cada 8 días [MOD11A2 version 6.1](https://lpdaac.usgs.gov/products/mod11a2v061/) y del índice NDVI mensual [MOD13A3 versión 6.1](https://lpdaac.usgs.gov/products/mod13a3v061/). Ambos, con resolución espacial ~1km.
+
+Para la descargar utilizaremos el repositorio cmr.earthdata.nasa.gov en donde están almacenados los Spatio Temporal Assets Catalogs (STAC). Para esto vamos a utilizar los paquetes `{earthdatalogin}` para las credenciales y `{rsatc}` para acceder y descargar los archvios necesarios.
+
+
+```{r}
+
+# busca el producto MOD13A1 para enero del 2023
+
+library(earthdatalogin)
+earthdatalogin::edl_netrc() #login al servicio cmr.earthdata.nasa.gov
+
+products <- c('MOD13A3.v061','MOD11A2.v061') #productos a descargar almacenados como carácter en un vector
+mes <- 'enero' #mes de ejemplo que utilizaré para la descarga
+
+o <- lapply(products,\(prod){ #itera sobre el vector products y le va asignanado a prod en cada iteración
+  items <- stac("https://cmr.earthdata.nasa.gov/stac/LPCLOUD") |>  # indica la fuente del STAC
+    stac_search(collections = prod, #busca el producto prod, en la primera iteración corresponde a MOD13A3.v061
+                bbox = as.numeric(bb_num |> st_transform(4326)),  #limite de la extensión donde buscar
+                datetime = "2023-01-01T00:00:00Z/2023-01-31T00:00:00Z") |>  #fecha y hora para buscar, en este caso para el mes de enero
+    post_request() |> 
+    items_fetch()
+  
+  items$features |> #indica los items a descargar
+    purrr::map(list("assets",6,'href')) |> #extrae el url del producto
+    purrr::map_chr(\(x) edl_download(x,dest = file.path('data/raw/modis/',prod,mes,basename(x)))) #realiza la descarga en la carpeta indicada
+})
+```
+
+Leer los archivos descargados. En este caso para cubrir el área de estudio (Coquimbo-Araucania) se requieren tres tiles de MODIS 'h11v11','h11v12'y 'h12v12'. En el caso del producto MOD13A3 que es mensual, se tienen tres archivos, uno por cada tile. En el caso del producto MOD11A2 que tiene frecuencia de 8 días, se tienen 4 archivos, uno para cada tile. Cada uno de los productos tiene varias bandas, en este caso NDVI y LST, se encuentran en la primera banda.
+
+Con NDVI de MOD13A3 hay que hacer un mosaico con los tres tiles del mes de enero.
+
+```{r}
+# MOD13A3 NDVI Enero
+files <- list.files('data/raw/modis/MOD13A3.v061/enero',full.names = TRUE) #lista los archivos guardados para enero
+
+ndvi_ene <- files |> 
+  purrr::map(rast,lyrs=1) |> #itera y carga cada archivo y los almacena en una lista
+  terra::sprc() |>  # crea una spatRasterCollection para poder hacer el mosaico
+  terra::mosaic() |>  #crea el mosaico
+  terra::project('EPSG:32719') |> #reproyecta a UTM
+  terra::mask(vect(regs_utm)) |> #aplica mascara para el área de estudio
+  terra::trim() |> #elimina los NA sobrantes alrededor de la extensión
+  terra::app(\(x) x*1e-8) # transforma los valorea al rango 0-1
+
+ndvi_ene <- terra::resample(ndvi_ene,r) #resamplea para igual resolución
+names(ndvi_ene) <- 'ndvi_ene' #cambia nombre
+plot(ndvi_ene)
+plot(regs_utm,add = TRUE)
+```
+
+Con LST de MOD11A2, es necesario promediar las cuatro fechas y luego hacer el mosaico con los tres tiles resultantes.
+
+Calculo del promedio para cada tile y el resultado se almacena en una lista
+
+```{r}
+# MOD11A2 LST Enero
+
+tiles <- c('h11v11','h11v12','h12v12') #tiles que corresponden al área de estudio
+
+
+lst_out <- purrr::map(tiles,\(tile){
+  files <- list.files('data/raw/modis/MOD11A2.v061/enero',full.names = TRUE,pattern = tile)
+  
+  lst_regs <- files |> 
+    purrr::map(rast,lyrs = 'LST_Day_1km') |> #extrae la banda por el nombre, también se podría haber usado el índice (1)
+    terra::rast() |> 
+    terra::app(mean)
+})
+```
+
+Mosaico para los tres tiles resultantes.
+
+```{r}
+lst_ene <- lst_out |> 
+  terra::sprc() |>  # crea una spatRasterCollection para poder hacer el mosaico
+  terra::mosaic() |> # aplica el mosaico para unir los tres tiles
+  terra::project("EPSG:32719") |> #reproyecta a UTM
+  terra::mask(vect(regs_utm)) |>  #aplica mascara para el área de estudio
+  terra::trim() |>  #elimina NA sobrantes en los bordes
+  terra::app(\(x) x-273.15) #convierte la T° de Kelvin a °C
+```
+
+Resampleo para igualar la resolución espacial con los otros predictores.
+
+```{r}
+lst_ene <- resample(lst_ene,r)
+names(lst_ene) <- 'lst_ene'
+plot(lst_ene)
+plot(regs_utm,add = TRUE)
+```
+
+### Todos los predictores raster
+
+Se juntan todos los predictores en un objeto `spatRaster` y se guarda en el disco.
+
+```{r}
+
+predictores <- c(elev_pred_res,dcosta,ndvi_ene,lst_ene)
+writeRaster(predictores,'data/procesada/predictores_enero.tif',overwrite = TRUE) #guarda los predictores
+plot(predictores)
+```
+
+## Preparar datos in-situ temperatura 
+
+Datos de las estaciones agromet
+
+```{r}
+estaciones_agromet |> glimpse()
+```
+
+Transformamos el `tibble` en un objeto `sf`
+
+```{r}
+estas_sf <- estaciones_agromet |> 
+  st_as_sf(coords = c('longitud','latitud'),crs = 4326) |> #crea objeto sf
+  st_transform(32719) #reproyecta a UTM WGS84 huso 19 Sur
+```
+
+Seleccionamos las estaciones que se encuentran en nuestra área de estudio
+
+```{r}
+estas_regs <- st_intersection(estas_sf,regs_utm) #intersección estaciones con área de estudio
+
+ids <- estas_regs |> pull(ema) #extrae la columna ema de las estaciones
+```
+
+Cargar datos meteorológicos de las estaciones agromet para el año 2023 y muestra un resumen.
+
+```{r}
+data_agro <- read_rds('data/raw/agromet/datos_agromet_2023.rds')
+
+data_agro |> glimpse()
+```
+
+Función que realiza un filtro de valores anómalos usando un z-score modificado con la mediana.
+
+```{r}
+filt_out2 <- function(x,c,...){
+  M <- .6745*(x - median(x,...))/mad(x,...)
+  
+  x[M > c] <- NA 
+  x[M < -c] <- NA
+  
+  return(x)
+}
+```
+
+Filtramos los datos de temperatura para las estaciones en el área de estudio y promediamos para los meses en estudio
+
+```{r}
+data_agro_estaciones <- data_agro |> 
+  filter(station_id %in% ids) |> #filtra estaciones que corresponden a ids
+  select(station_id,fecha_hora,temp_promedio_aire) |> #selecciona las columnas indicadas  
+  mutate(temp_promedio_aire = filt_out2(temp_promedio_aire,c=1.7)) |> #aplica filtro simple para outliers
+  mutate(mes = month(fecha_hora)) |> # crea una variable mes
+  filter(mes %in% c(1,5,9,12)) |>  #filtra los meses 
+  group_by(station_id,mes) |> # agrupa por codigo de estación y mes
+  summarize(temp = mean(temp_promedio_aire,na.rm = TRUE)) |> #calcula el promedio mensual
+  drop_na() #elimina las filas que tienen valores NA
+```
+
+Realizamos la unión con el objeto sf de las estaciones
+
+```{r}
+data_estas_sf <- estas_regs |> 
+  select(ema) |> 
+  dplyr::rename(station_id = ema) |> 
+  left_join(data_agro_estaciones) 
+
+```
+
+### Breve analisis exploratorio
+
+```{r}
+data_estas_sf |> 
+  st_drop_geometry() |> 
+  ggplot(aes(temp)) + 
+  geom_density() +
+  theme_bw()
+```
+
+```{r}
+data_estas_sf |> 
+  cbind(st_coordinates(data_estas_sf |> st_transform(4326))) |> 
+  st_drop_geometry() |> 
+  ggplot(aes(temp,Y)) + 
+  geom_point() +
+  theme_bw()
+
+```
+## Mapeo de predictores raster y datos de temperatura
+
+Enero 2023
+
+```{r}
+#| fig-width: 12
+#| fig-height: 12
+#| 
+tmap_mode('view')
+
+preds <- rast('data/procesada/predictores_enero.tif')
+tm_shape(preds) + 
+  tm_raster(style = 'cont') +
+  tm_shape(data_estas_sf |> filter(mes == 1)) +
+  tm_dots(col='temp',style = 'jenks',palette = viridis::viridis(10)) +
+  tm_facets(free.scales.fill = TRUE,as.layers = FALSE) +
+  tm_layout(legend.show = FALSE)
+```
+
+## Crear set de datos para modelación espacial
+
+```{r}
+
+#extrae los datos de los predictores en las ubicaciones de las estaciones
+data_temp_pred <- terra::extract(predictores,data_estas_sf)
+
+#une con los datos de temperatura in-situ
+data_unida <- cbind(data_estas_sf,data_temp_pred) |> 
+  select(-ID) |> 
+  drop_na()
+
+#almacena en el disco el resultado
+write_rds(data_unida,'data/procesada/data_estas_temp_con_predictores.rds')
+
+#crea una tabla dinámica con {gt}
+library(gt) #pquete para la creación de tablas
+data_unida |> 
+  sf::st_drop_geometry() |> 
+  gt::gt() |> 
+  gt::fmt_number(decimals = 1, drop_trailing_zeros = TRUE) |>
+  gt::opt_interactive()
+```
+
+

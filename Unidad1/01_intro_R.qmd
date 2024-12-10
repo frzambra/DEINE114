@@ -1,0 +1,1064 @@
+---
+title: "Introducción a R"
+subtitle: "Análisis espacial con R"
+author: "Dr. Francisco Zambrano"
+execute: 
+  echo: true
+format: 
+  revealjs:
+    slide-number: true
+    logo: ../imgs/logo_hemera_2024.png
+    css: ../logo.css
+    revealjs-plugins:
+      - drop
+    drop:
+      shortcut: "]"
+editor: visual
+---
+
+# Para partir {background-color="darkgreen"}
+
+## Motivación {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+::: incremental
+-   Es quizas el más poderoso ambiente computacional para análisis de datos.
+
+-   Con `R` puedes:
+
+    -   leer y guardar archivos,
+    -   manipular y resumir datos
+    -   correr modelos y test estadísticos
+    -   crear elegantes gráficos
+    -   y mucho, mucho más
+
+-   Las funcionalidades se amplian gracias a miles de paquetes (plug-ins)
+
+-   Consejos:
+
+    -   Cuando tengas duda, pruébalo! (Norman Matloff's)
+    -   Estas aprendiendo un lenguaje, tendras que dedicar mucho tiempo para alcanzar un buen nivel en R, pero vale la pena.
+:::
+
+## Motivación {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+::: incremental
+¿Por qué utilizar `R`?
+
+-   `R` en su nucleo, es un lenguaje de programación `orientada a objetos` de alto nivel, lenguaje de programación funcional `(Wickham, 2014)`, y fue especialmente diseñado como una interfaz intercativa a otros softwares (Chambers 2016).
+
+-   `R` es una herramienta potente que ha tenido un alto crecimiento, en particular para el análisis espacial.
+
+-   Revolución de datos (ej., datos satelitales).
+
+-   `R` para entender el mundo
+
+-   `R` es un ambiente y lenguaje de código abierto y multiplataforma para computacion estadística y gráficos.
+
+-   Por todas las ventajas que tiene para análisis de datos (includios espaciales) e investigación reproducible.
+:::
+
+## Ranking popularidad `R` {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r}
+#| echo: false
+knitr::include_url({"https://pypl.github.io/PYPL.html?country=DE"})
+```
+
+# R: lo básico {background-color="orange"}
+
+## Sintaxis de R {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Ejemplo de script:
+
+-   los comentarios `#` se utilizan para documentar funciones y su contenido.
+-   en R se tuenen objetos (variables) y funciones
+-   el operador de asignación `<-`
+-   el operador `=` para argumentos en una función
+
+```{r}
+#| echo: true
+#| eval: false
+# Carga paquete {ggplot2}
+library(ggplot2)
+
+# nombree de variables
+nombre_archivo <- 'datos.csv'
+
+# cargar datos
+
+data <- read.csv2(nombre_archivo,header = FALSE)
+```
+
+## Sintaxis de R {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Tener en mente
+
+> todo lo que hay en `R` es un objeto y todo lo que pasa en R es fruto de una `función`
+
+## Funciones y argumentos {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+-   Las `funciones` ejecutan acciones sobre los `argumentos`.
+    -   synatxis: `nombre_funcion(argumentos)`
+    -   ejemplo: mean(10)
+-   Los `argumentos` son los datos de entrada - valores, expresiones, texto, etc.
+    -   Le dices a la función que argumentos necesita dentro de los parentesis.
+
+Usa la función `ls()` para ver todos los objetos definidos. Notar que `ls()` no toma ningun argumento!
+
+```{r}
+#| echo: true
+#| eval: false
+ls()
+```
+
+# Tipos y estructuras de datos {background-color="lightblue"}
+
+## Tipos de datos {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+::::: columns
+::: {.column width="50%"}
+Tipos de datos:\
+- **Numéricos:** integer y double\
+- **Caracter**\
+- **Lógicos**\
+- Complejos\
+- Raw
+
+```{r echo = TRUE}
+
+v1 <- c(1,5,7,10)
+v2 <- c('palabra1','palabra2','palabra3')
+v3 <- c(TRUE, FALSE, FALSE, TRUE)
+```
+:::
+
+::: {.column width="\"50%"}
+![](figs/r-programming-data-types.png)
+:::
+:::::
+
+## Tipos de datos derivados {.smaller background-image="../imgs//R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+::::: columns
+::: {.column width="50%"}
+**Valores faltantes (NA)**
+
+```{r, echo = TRUE}
+(n1 <- c(NA, 1, 3, NA))
+(n2 <- c(NA, 'a', 'b', NA))
+(n3 <- c(NA, TRUE, FALSE, NA))
+```
+
+**Date y date-time**
+
+```{r, echo=TRUE}
+(d1 <- as.Date("2024-09-02"))
+class(d1)
+(d2 <- as.POSIXct("2024-09-02 19:00:00"))
+class(d2)
+```
+:::
+
+::: {.column width="50%"}
+**Factores**
+
+```{r,echo=TRUE}
+(f1 <- factor(c('A','B','A','B','C','C')))
+levels(f1)
+```
+:::
+:::::
+
+## Vectores {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Hay dos tipos de vectores en R:
+
+-   `Vectores atómicos`: homogéneos
+    -   Seis tipos: **lógicos**, **integer**, **double**, **character**, complex, and raw. Vectores tipo integer y double son conocidos como vectores numericos.
+-   `Listas`: hetereogéneos
+    -   son a veces llamados vectores recursivos, por que las listas puede contener otras listas.
+
+![](img/data-structures-overview.png){width="400"}
+
+## Estructuras de datos {.smaller background-image="../imgs//R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+::::: columns
+::: {.column width="50%"}
+Estructuras de datos:\
+- `vectores`\
+- matrices\
+- arrays\
+- data.frame\
+- listas
+:::
+
+::: {.column width="50%"}
+![](figs/estructuras_datos_R.png)
+:::
+:::::
+
+## Estructuras de datos {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+
+::::: columns
+::: {.column width="50%"}
+**Vectores atómicos**
+
+```{r}
+#| echo: true
+(v1 <- c(1, 2, 3, 4)) #numeric vector
+(v2 <- c('a', 'b', 'c','d')) #character vector
+(v3 <- c(TRUE, FALSE, TRUE, TRUE)) # logical vector
+```
+
+**Matrices**
+
+```{r, echo=TRUE}
+(m1 <- matrix(data = 1:9,nrow = 3, ncol = 3))
+
+```
+
+```{r, echo=TRUE}
+(m2 <- matrix(1:9, nrow = 3, byrow = TRUE))
+```
+:::
+
+::: {.column width="50%"}
+**Data Frames**
+
+```{r, echo = TRUE}
+(df <- data.frame(columna1=v1, 
+                  columna2=v2, 
+                  columna3=v3))
+#str(df)
+```
+
+**Listas**
+
+```{r, echo=TRUE}
+(l <- list(v1,m2,df,list(v1,v2)))
+```
+:::
+:::::
+
+# Estructuras e control {background-color="orange"}
+
+## Condicionales y ciclos {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+::::: columns
+::: {.column width="50%"}
+```{r, echo=TRUE}
+a <- 5
+
+if (a==5){
+  print('A es igual a 5') 
+} else {
+    print('A no es igual a 5')
+  }
+  
+```
+:::
+
+::: {.column width="50%"}
+```{r,echo=TRUE}
+for (i in 10:1) {
+  print(i)
+}
+```
+:::
+:::::
+
+## Funciones applys {.smaller .scroller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Reemplazan en muchos casos el uso de ciclos `for`
+
+::::: columns
+::: {.column width="50%"}
+`apply`: aplica funciones sobre matrices o arrays
+
+```{r,echo=TRUE}
+m2
+apply(X = m2,MARGIN = 1,FUN = mean) #aplica por fila
+apply(m2,1,sum) #aplica por fila
+apply(m2,2,sum) #aplica por columna
+```
+:::
+
+::: {.column width="50%"}
+`lapply` aplica una función a una lista
+
+```{r,echo=TRUE}
+lapply(l,class)
+```
+:::
+:::::
+
+## Crear funciones {.smaller .scroller background-image="../imgs//R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Sintaxis**
+
+```{r,echo=TRUE,eval=FALSE}
+
+nombre_funcion <- function(arg1, arg2, ...){
+  #script
+}
+  
+
+```
+
+**Ejemplos de funciones**
+
+```{r, echo=TRUE}
+fun <- function(x,y) {
+  x+y
+}
+```
+
+```{r, echo=TRUE}
+fun2 <- function(x,...){
+  fun(x,...)+2
+}
+fun2(8,4)
+fun2(1:5,3:5)
+```
+
+## Algunas cosas importantes {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+-   R es un lenguaje vectorizado por defecto.
+
+**Ejemplo**
+
+Aplicar la función `log` a cada elemento del vector v1.
+
+```{r, echo=TRUE}
+v1 <- c(40,30,10,50,80)
+v2 <- vector()
+
+for (i in 1:5) v2[i] <- log(v1[i])
+v2
+```
+
+Pero lo podemos realizar así:
+
+```{r, echo=TRUE}
+(v2 <- log(v1))
+```
+
+## Algunas cosas importantes {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Jerarquia de coherción**
+
+Si intentamos mezclar diferentes tipos de datos en un vector.
+
+```{r, echo=TRUE}
+(v1 <- c(0, TRUE, 'a'))
+```
+
+logical -\> integer -\> double -\> character
+
+**Reciclado de vectores**
+
+Si intentamos realizar operaciones con vectores de diferentes cantidades de elementos.
+
+```{r,echo=TRUE,warning=TRUE}
+v1 <- c(1,5,10,15,3,2,7,6,0)
+v2 <- c(1,2,3)
+v3 <- c(1,2)
+(v1 + v2)
+(v1 + v3)
+```
+
+# Indexación {background-color="lightblue"}
+
+## Vector
+
+-   Paréntesis cuadrado `[` para indexación
+
+-   Parnétesis redondo `(` para llamar una función
+
+::::: columns
+::: {.column widt="50%"}
+```{r}
+a <- 5:12
+a
+#primer elemento
+a[1] #<<
+# los elementos 3, 4 y 5
+3:5
+
+```
+:::
+
+::: {.column widt="50%"}
+```{r}
+a[3:5] #<<
+#elementos 3, 5, 8
+a[c(3, 5, 8)]
+# que pasa enm ete caso
+a[c(3, 8, 12)]
+```
+:::
+:::::
+
+## Matrix
+
+Obtener un valor \[#fila,#columna\]
+
+```{r}
+#| echo: true
+m <- matrix(1:9, nrow=3, ncol=3, byrow=TRUE)
+colnames(m) <- c('a', 'b', 'c')
+m
+```
+
+::::: columns
+::: {.column widt="50%"}
+```{r}
+m[2,2]
+```
+:::
+
+::: {.column widt="50%"}
+```{r}
+m[1,3]
+```
+:::
+:::::
+
+## Matrix
+
+Varios valores
+
+::::: columns
+::: {.column widt="50%"}
+```{r}
+m
+#toda una columna o fila
+m[,2] #columna
+m[3,] #fila
+```
+:::
+
+::: {.column widt="50%"}
+```{r}
+# dos filas, dos columnas
+m[1:2,1:2]
+```
+
+```{r}
+# dos filas, dos columnas
+m[1:2,2:3]
+```
+:::
+:::::
+
+## Matrix
+
+::::: columns
+::: {.column widt="50%"}
+Por nombre de columna
+
+```{r}
+m[, 'b']
+m[, c('a', 'c')]
+```
+
+Por un solo valor
+
+```{r}
+m[, 'b']
+m[, c('a', 'c')]
+```
+:::
+
+::: {.column widt="50%"}
+**Importante notar**
+
+```{r}
+m[,2] 
+m[,2,drop=FALSE]
+```
+:::
+:::::
+
+## Data.frame
+
+Por índice numérico
+
+::::: columns
+::: {.column widt="50%"}
+```{r}
+d <- data.frame(m)
+class(d)
+d
+d[,2]
+```
+:::
+
+::: {.column widt="50%"}
+```{r}
+d[2] #la segunda columna
+```
+:::
+:::::
+
+## Data.frame
+
+Por nombre de columna
+
+::::: columns
+::: {.column widt="50%"}
+No mantienen la estructura
+
+```{r}
+d[,'b']
+d$b
+d[['b']]
+```
+:::
+
+::: {.column widt="50%"}
+En este caso se mantiene la estructura de `data.frame`
+
+```{r}
+d['b']
+d[,'b', drop = FALSE]
+```
+:::
+:::::
+
+## Técnicas de indexación con `which`, `%in%` y `match`
+
+```{r}
+x <- 10:20
+x
+x > 15
+i <- which(x > 15)
+i
+x[i]
+```
+
+## Técnicas de indexación con `which`, `%in%` y `match`
+
+¿Cómo saber si los valor de un vector `j` están en un vector `x`?
+
+```{r}
+x <- 10:20
+x
+j <- c(7,9,11,13)
+j
+j %in% x
+
+```
+
+## Técnicas de indexación con `which`, `%in%` y `match`
+
+```{r}
+which(j %in% x)
+```
+
+Otra función importante es `match`
+
+```{r}
+match(j, x)
+```
+
+No es lo mismo `match(j, x)` que `match(x, j)`
+
+```{r}
+match(x, j)
+```
+
+# Algebra {background-color='brown'}
+
+## Vector
+
+La suma, resta y multiplicación es elemento a elemento
+
+```{r}
+a <- 1:5
+b <- 6:10
+a
+b
+a*b
+```
+
+## Vector
+
+La multiplicación `vector` por `escalar`
+
+```{r}
+a*5
+```
+
+¿Qué pasa en este caso?
+
+```{r}
+a+c(1,0)
+```
+
+## Vector
+
+¿Por qué no pasa lo mismo acá?
+
+```{r}
+1:10 + c(1,0)
+```
+
+## Comparaciones lógicas
+
+Para igualdad: `==`
+
+```{r}
+a
+a == 2
+a < 4
+```
+
+## Comparaciones lógicas
+
+::::: columns
+::: {.column widt="50%"}
+y : `&`
+
+```{r}
+a
+a >= 3 & b < 8
+```
+:::
+
+::: {.column widt="50%"}
+o : `|`
+
+```{r}
+b
+a > 3 & b <= 8
+```
+:::
+:::::
+
+## Comparaciones lógicas
+
+Not : !
+
+```{r}
+!TRUE
+a > 3
+!(a > 3)
+```
+
+## Algunas funciones
+
+```{r}
+sqrt(9)
+a
+sqrt(a)
+exp(a)
+```
+
+## Algunas funciones
+
+::::: columns
+::: {.column widt="50%"}
+```{r}
+min(a)
+max(a)
+range(a)
+sum(a)
+```
+:::
+
+::: {.column widt="50%"}
+```{r}
+mean(a)
+median(a)
+prod(a)
+sd(a)
+```
+:::
+:::::
+
+## Números aleatorios
+
+```{r}
+set.seed(123) #<<
+runif(10) # dsitribución uniforme
+rnorm(10, mean=4, sd=1) #distribución normal
+```
+
+## Números aleatorios
+
+```{r}
+runif(10) # dsitribución uniforme
+rnorm(10, mean=4, sd=1) #distribución normal
+```
+
+## Números aleatorios
+
+```{r}
+set.seed(123) #<<
+runif(10) # distribución uniforme
+rnorm(10, mean=4, sd=1) #distribución normal
+```
+
+## Matrices
+
+::::: columns
+::: {.column widt="50%"}
+```{r}
+m <- matrix(1:6, ncol=3, nrow=2, byrow=TRUE)
+m
+m * 1:2
+m * m
+```
+:::
+
+::: {.column widt="50%"}
+```{r}
+#multiplación de matrices
+m %*% t(m)
+```
+:::
+:::::
+
+# Leer y guardar archivos {background-color='orange'}
+
+## Delimitadores
+
+Delimitadores para ruta debe ser `/` o `\\`
+
+```{r error=TRUE}
+f <- "C:\projects\research\data\obs.csv"
+```
+
+```{r}
+txt <- "Este es un ejemplo:\nUna nueva linea!\nOtra más...\n"
+message(txt)
+```
+
+```{r}
+f1 <- "/home/francisco/Documentos/data.csv"
+f2 <- "\\home\\francisco\\Documentos\\data.csv"
+file.exists(f1) #<<
+```
+
+## Funciones para cargar y guardar
+
+```{r}
+head(iris)
+
+write.table(iris,'data.csv',row.names = FALSE) 
+write.csv(iris,'data.csv',row.names = FALSE) #sep ; dec ,
+write.csv2(iris,'data.csv',row.names = FALSE) #sep , dec .
+
+file.exists('data.csv')
+```
+
+## Funciones para cargar y guardar
+
+```{r}
+data <- read.csv2('data.csv') 
+head(data)
+readLines('data.csv')
+```
+
+## Funciones para cargar y guardar
+
+```{r}
+#| eval: false
+webpage <- readLines("https://psl.noaa.gov/enso/mei/data/meiv2.data", warn=FALSE)
+webpage
+```
+
+## Otras funciones
+
+```{r}
+getwd() #cual es el directorio actual
+file.path(getwd(),'files') # concatena texto para crear un path
+list.files()  # lista los archivos
+```
+
+# Exploración de datos {background-color='yellow'}
+
+## Summary y Table
+
+```{r}
+head(iris)
+str(iris)
+```
+
+## Summary y Table
+
+```{r}
+summary(iris)
+unique(iris$Species)
+```
+
+## Summary y Table
+
+```{r}
+table(iris$Species)
+table(iris$Species,cut(iris$Petal.Length,4))
+```
+
+## Quantile, range, mean
+
+```{r}
+quantile(iris$Sepal.Length)
+range(iris$Sepal.Length)
+mean(iris$Sepal.Length)
+```
+
+## Quantile, range, mean
+
+Si tienen `NA`
+
+```{r error = TRUE}
+quantile(c(iris$Sepal.Length,NA))
+range(c(iris$Sepal.Length,NA))
+mean(c(iris$Sepal.Length,NA))
+```
+
+## Quantile, range, mean
+
+Si tienen `NA`
+
+```{r error = TRUE}
+quantile(c(iris$Sepal.Length,NA),na.rm = TRUE)
+range(c(iris$Sepal.Length,NA),na.rm = TRUE)
+mean(c(iris$Sepal.Length,NA),na.rm = TRUE)
+```
+
+## Gráficos (base)
+
+```{r eval=FALSE}
+par(mfrow=c(2,2))
+plot(iris$Sepal.Length, iris$Sepal.Width)
+boxplot(iris[, c('Sepal.Length', 'Sepal.Width')])
+plot(sort(iris$Sepal.Length))
+hist(iris$Sepal.Width)
+```
+
+## Gráficos (base)
+
+```{r echo=FALSE,fig.width=10}
+par(mfrow=c(2,2))
+plot(iris$Sepal.Length, iris$Sepal.Width)
+boxplot(iris[, c('Sepal.Length', 'Sepal.Width')])
+plot(sort(iris$Sepal.Length))
+hist(iris$Sepal.Width)
+```
+
+<!-- # 5 Funciones -->
+
+<!-- ## Para ver el contenido de una función -->
+
+<!-- ```{r error=TRUE} -->
+
+<!-- nrow -->
+
+<!-- dim -->
+
+<!-- nrow() -->
+
+<!-- args(nrow) -->
+
+<!-- ``` -->
+
+<!-- ## Ayuda  -->
+
+<!-- Ayuda sobre una función y ejemplos de uso -->
+
+<!-- ```{r eval = FALSE} -->
+
+<!-- help('sum') -->
+
+<!-- ?summary -->
+
+<!-- ?`[` -->
+
+<!-- ``` -->
+
+<!-- ## Crear -->
+
+<!-- ```{r} -->
+
+<!-- f <- function() { -->
+
+<!--     return('Hola mundo') -->
+
+<!-- } -->
+
+<!-- f() #<< -->
+
+<!-- f <- function(name) { -->
+
+<!--     x <- paste('Hola', name) -->
+
+<!--     return(x) -->
+
+<!-- } -->
+
+<!-- f('Francisco') #<< -->
+
+<!-- ``` -->
+
+<!-- ## Crear -->
+
+<!-- Así también funciona, si no se explicita `return` R devuelve el último valor evaluado. -->
+
+<!-- ```{r} -->
+
+<!-- f <- function(name) { -->
+
+<!--     paste('Hola', name) -->
+
+<!-- } -->
+
+<!-- f('Javier') #<< -->
+
+<!-- sumsquare <- function(a, b) { -->
+
+<!--     d <- a + b -->
+
+<!--     dd <- d * d -->
+
+<!--     return(dd) -->
+
+<!-- } -->
+
+<!-- sumsquare(a = 1, b= 4) -->
+
+<!-- ``` -->
+
+<!-- # 6 Estructuras de control -->
+
+<!-- ## Estructuras comunes son: -->
+
+<!-- - `if`, `else`: evaluar una condici;on -->
+
+<!-- - `for`: ejecuta un bucle -->
+
+<!-- - `while`: ejecuta un bucle  _while_ una condición es verdadera -->
+
+<!-- - `repeat`: ejecuta un buncle infinito -->
+
+<!-- - `break`: sale de la ejecucción de un bucle -->
+
+<!-- - `next`: se salta una iteración en el bucle -->
+
+<!-- - `return`: sale de una función -->
+
+<!-- La mayoría de las estructuras de control se utilizan para escribir funciones. -->
+
+<!-- --- -->
+
+<!-- ## Estructura de control: `if` -->
+
+<!-- ```{r eval=FALSE} -->
+
+<!-- if(<condition>) { -->
+
+<!--         ## do something -->
+
+<!-- } else { -->
+
+<!--         ## do something else -->
+
+<!-- } -->
+
+<!-- if(<condition1>) { -->
+
+<!--         ## do something -->
+
+<!-- } else if(<condition2>)  { -->
+
+<!--         ## do something different -->
+
+<!-- } else { -->
+
+<!--         ## do something different -->
+
+<!-- } -->
+
+<!-- ``` -->
+
+<!-- ## if -->
+
+<!-- Esta es una estructura `if/else` valida. -->
+
+<!-- ```{r eval=FALSE} -->
+
+<!-- if(x > 3) { -->
+
+<!--         y <- 10 -->
+
+<!-- } else { -->
+
+<!--         y <- 0 -->
+
+<!-- } -->
+
+<!-- ``` -->
+
+<!-- Está será valida -->
+
+<!-- ```{r eval=FALSE} -->
+
+<!-- y <- if(x > 3) { -->
+
+<!--         10 -->
+
+<!-- } else {  -->
+
+<!--         0 -->
+
+<!-- } -->
+
+<!-- ``` -->
+
+<!-- ## for -->
+
+<!-- `for` bucle toma una variable iterativa que le asigna su valor de un vector. Los bucles `for` son más comunmente usados para iterar entre los elementos de un objeto (list, vector, etc.) -->
+
+<!-- ```{r eval = FALSE} -->
+
+<!-- for(i in 1:10) { -->
+
+<!--         print(i) -->
+
+<!-- } -->
+
+<!-- ``` -->
+
+<!-- Este bucle toma la variable `i` y en cada iteración el bucle cambia su valor a 1, 2, 3, ..., 10, y luego termina. -->
+
+<!-- ## for -->
+
+<!-- Estos dos bucles tienen el mismo comportamiento. -->
+
+<!-- ```{r eval = FALSE} -->
+
+<!-- x <- c("a", "b", "c", "d") -->
+
+<!-- for(i in 1:4) { -->
+
+<!--         print(x[i]) -->
+
+<!-- } -->
+
+<!-- for(i in seq_along(x)) { -->
+
+<!--         print(x[i]) -->
+
+<!-- } -->
+
+<!-- for(letter in x) { -->
+
+<!--         print(letter) -->
+
+<!-- } -->
+
+<!-- for(i in 1:4) print(x[i]) -->
+
+<!-- ``` -->

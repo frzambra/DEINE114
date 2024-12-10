@@ -1,0 +1,840 @@
+---
+title: 'Análisis Espacial con R'
+subtitle: "Manejo de datos con {tidyverse}"
+author: 'Dr. Francisco Zambrano Bigiarini'
+institute: "Hemera, Universidad Mayor"
+format: 
+  revealjs:
+    logo: ../imgs/logo_hemera_2024.png
+    css: ../logo.css
+    revealjs-plugins:
+      - drop
+    drop:
+      shortcut: "]"
+slide-number: true
+editor: source
+---
+
+## ¿Qué es {tidyverse}? {.smaller background-image="https://www.tidyverse.org/images/hex-tidyverse.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+> {Tidyverse} es una colección de paquetes de R diseñados para la ciencia de datos. Todos los paquetes comparten una filosofía de diseño, gramática y estructuras de datos subyacentes. [tidyverse.org](https://www.tidyverse.org/)
+
+> Su objetivo principal es facilitar la conversión de datos entre un humano y una computadora.\~[Wickham, et al. (2019)](https://joss.theoj.org/papers/10.21105/joss.01686)
+
+::: columns
+::: {.column width="50%"}
+```{r, echo=F, out.width='30%'}
+#| fig-align: 'center'
+knitr::include_graphics("https://www.tidyverse.org/images/hex-tidyverse.png")
+```
+
+Official `tidyverse` [Hex Sticker](https://github.com/rstudio/hex-stickers)
+:::
+
+::: {.column width="50%"}
+```{r, echo=F, out.width='30%'}
+knitr::include_graphics("https://pbs.twimg.com/profile_images/905186381995147264/7zKAG5sY.jpg")
+```
+
+Hadley Wickham - Chief Scientist \@ Posit,\
+[Founding Father](https://twitter.com/hadleywickham/status/959507805282582528?s=20) of the `tidyverse`
+:::
+:::
+
+## ¿Qué es {tidyverse}? {.smaller background-image="https://www.tidyverse.org/images/hex-tidyverse.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+-   También puede verse como una filosofía de cómo escribir código en R. Es un dialecto.
+-   Muchas personas en la comunidad argumentan que este dialecto debería incorporarse en la base R.
+-   A menudo, cuando busca en Google soluciones específicas y lee las respuestas de stackoverflow, puede encontrar soluciones que se pueden implementar usando `base R` simple o usando la sintaxis `tidyverse`.
+
+## ¿Qué es {tidyverse}? {.smaller background-image="https://www.tidyverse.org/images/hex-tidyverse.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+> {Tidyverse} es una colección de paquetes de R diseñados para la ciencia de datos. Todos los paquetes comparten una filosofía de diseño, gramática y estructuras de datos subyacentes. [tidyverse.org](https://www.tidyverse.org/)
+
+::: columns
+::: {.column width="\"30%"}
+**Paquetes básicos de `tidyverse`:**\
+- `readr`: importar data\
+- `tibble`: objetos data frame modernos\
+- `stringr`: para trabajar con strings\
+- `forcats`: para trabajar con factores\
+- `tidyr`: ajustar la data\
+- `dplyr`: manipulación de datos\
+- `ggplot2`: visualización de datos\
+- `purrr`: programación funcional
+:::
+
+::: {.column width="\"70%"}
+```{r, echo=F, out.width='90%', out.height='90%', fig.align='center'}
+knitr::include_graphics("figs/tidyverse-hex.PNG")
+```
+:::
+:::
+
+## ¿Qué es {tidyverse}? {.smaller background-image="https://www.tidyverse.org/images/hex-tidyverse.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+> {Tidyverse} es una colección de paquetes de R diseñados para la ciencia de datos. Todos los paquetes comparten una filosofía de diseño, gramática y estructuras de datos subyacentes. [tidyverse.org](https://www.tidyverse.org/)
+
+-   Tidyverse se puede ver como un metapaquete
+-   cada paquete tiene su propio objetivo, lo que hace que tidyverse sea una colección modular de paquetes
+-   estos son los paquetes principales (hay muchos otros para fines especiales que se integran a la perfección, por ejemplo, lubridate, ...)
+
+## ¿Qué es {tidyverse}? {.smaller background-image="https://www.tidyverse.org/images/hex-tidyverse.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+> {Tidyverse} es una colección de paquetes de R diseñados para la ciencia de datos. Todos los paquetes comparten una filosofía de diseño, gramática y estructuras de datos subyacentes. [tidyverse.org](https://www.tidyverse.org/)
+
+```{r, eval=FALSE}
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+```         
+-- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+v ggplot2 3.3.5     v purrr   0.3.4
+v tibble  3.1.4     v dplyr   1.0.7
+v tidyr   1.1.3     v stringr 1.4.0
+v readr   2.0.1     v forcats 0.5.1
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
+```
+
+[^1]
+
+[^1]: *Source: [Allison Hill](https://github.com/apreshill/teachthat/blob/master/pivot/pivot_longer_smaller.gif)*
+
+## ¿Qué es {tidyverse}? {.smaller background-image="https://www.tidyverse.org/images/hex-tidyverse.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+> {Tidyverse} es una colección de paquetes de R diseñados para la ciencia de datos. Todos los paquetes comparten una filosofía de diseño, gramática y estructuras de datos subyacentes. [tidyverse.org](https://www.tidyverse.org/)
+
+-   ver la versión del paquete tidyverse, así como la versión de los ocho paquetes principales
+-   los ocho paquetes principales se cargan cargando el paquete `tidyverse`
+-   tenga en cuenta que algunas funciones `base R` (namespace `stats`) se sobrescriben con sus equivalentes `tidyverse` (namespaces `dplyr`)
+-   cuando trabajo con un paquete nuevo o poco utilizado, prefiero indicar explícitamente el namespace para recordar de dónde proviene la función
+
+## ¿Qué es {tidyverse}? {.smaller background-image="https://www.tidyverse.org/images/hex-tidyverse.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+> {Tidyverse} es una colección de paquetes de R diseñados para la ciencia de datos. Todos los paquetes comparten una filosofía de diseño, gramática y estructuras de datos subyacentes. [tidyverse.org](https://www.tidyverse.org/)
+
+Estos paquetes están orientados a facilitar el flujo de trabajo de ciencia de datos en el día-a-día:
+
+::: columns
+::: {.column width="\"50%"}
+```{r, echo=F, out.width='100%'}
+knitr::include_graphics("https://es.r4ds.hadley.nz/diagrams_w_text_as_path/es/data-science-wrangle.svg")
+```
+:::
+
+::: {.column width="\"50%"}
+**Importar:** `readr`\
+**Data ajustada:** `tidyr`\
+**Transformar:** `dplyr`, `forcats`, `stringr`\
+**Visualizar:** `ggplot2`\
+**Modelar:** `tidymodels`\
+**Comunicar:** `rmarkdown|Quarto`\
+**Programar:** `magrittr`, `purrr`, `tibble`
+:::
+:::
+
+## ¿Qué es {tidyverse}? {.smaller background-image="https://www.tidyverse.org/images/hex-tidyverse.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+> {Tidyverse} es una colección de paquetes de R diseñados para la ciencia de datos. Todos los paquetes comparten una filosofía de diseño, gramática y estructuras de datos subyacentes.
+
+Esta filosofía y gramática de diseño subyacente se reduce a una API consistente y fácil de usar:
+
+-   El `tibble` como estructura de datos subyacente central
+-   Uso extensivo del operador `|>`  para unir múltiples llamadas a funciones
+-   Convenciones de nomenclatura aplicadas consistentemente (por ejemplo, nombres de funciones en [*snakecase*](https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/other-stats-artwork/coding_cases.png))
+-   Orden coherente de los argumentos de función (p. ej., `fn(arg1 = datos, arg2 = nombres de columnas, ...)`)
+-   ...
+
+## ¿Qué es {tidyverse}? {.smaller background-image="https://www.tidyverse.org/images/hex-tidyverse.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+> {Tidyverse} es una colección de paquetes de R diseñados para la ciencia de datos. Todos los paquetes comparten una filosofía de diseño, gramática y estructuras de datos subyacentes.
+
+La sintaxis de `tidyverse` puede verse como un "dialecto" de `R`. Cuando se haya familiarizado con él, podrá transferir fácilmente su conocimiento sobre una función o paquete a otros componentes del `tidyverse`. Al igual que aprender un nuevo idioma[^2].
+
+[^2]:
+    -   API: interfaz de programación de aplicaciones
+    -   Estructuras de datos R: vector atómico (carácter, entero, numérico, lógico, complejo), lista, matriz, data frame, factores -\> tibble simplemente una extensión/mejor versión del data frame
+    -   snakecase: guiones bajos, números y caracteres en minúsculas
+
+# Pipes: <br> R-base: \|\> <br> {magrittr}: %\>% {background-color="darkblue"}
+
+```{r}
+#| include: false
+library(palmerpenguins)
+library(magrittr)
+```
+
+## Conceptos sobre los pipes {.smaller}
+
+-   El pipe de `{magrittr}` fue introducido alrededor del 2014 y ha sido ampliamente utilizado.
+
+-   Un esfuerzo conjunto entre R-core, el equipo de `{tidyverse}` y otros; han desarrollado un pipe `|>` para R base, el que está disponible desde R 4.1.0 en 2021.
+
+## Conceptos sobre los pipes {.smaller}
+
+### ¿Por qué utilizar los pipes?
+
+Los operadores pipes proporcionan una alternativa a la llamada de funciones
+
+Un ejemplo simple
+
+```{r}
+#| eval: false
+#| echo: true
+h(g(f(x)))
+```
+
+Muchos encontramos este tipo de funciones anidadas difícil de leer.
+
+-   El orden en como se llama la función `f`, luego, `g`, luego, `h`.
+
+-   Es a la inversa de como aparece el código
+
+El codigo tiene que leerse desde dentro hacia afuera.
+
+## Conceptos sobre los pipes {.smaller}
+
+Usando el operador pipe para la expresión
+
+```{r}
+#| eval: false
+#| echo: true
+h(g(f(x)))
+```
+
+Se puede escribir como:
+
+```{r}
+#| eval: false
+#| echo: true
+x |> f() |> g() |> h()
+```
+
+Evaluando la expresión, el resultado LHS
+
+```{r}
+#| eval: false
+#| echo: true
+x |> f() 
+```
+
+es implicitamente insertado como el primer argumento en RHS y evaluado como
+
+```{r}
+#| eval: false
+#| echo: true
+f(x)
+```
+
+## Conceptos sobre los pipes {.smaller}
+
+Una definición simplificada de los pipes
+
+```{r}
+#| eval: false
+#| echo: true
+
+`|>` = function(LHS,RHS) RHS(LHS)
+
+x |> f = f(x)
+
+x |> f() |> g() = g(f(x))
+
+x |> f() |> g() |> h() = h(g(f(x)))
+
+```
+
+## Conceptos sobre los pipes {.smaller}
+
+Con un ejemplo
+
+```{r}
+#| echo: true
+
+penguins[-c(2,7)] |> 
+  subset(species == 'Adelie') |>
+  subset(select = -species) |> 
+  apply(2,mean,na.rm = TRUE)
+```
+
+## Conceptos sobre los pipes {.smaller}
+
+En formato de funciones anidadas esto sería:
+
+```{r}
+#| echo: true
+apply(subset(subset(penguins[-c(2,7)],species == 'Adelie'),select = -species),2,mean,na.rm = TRUE)
+```
+
+## Conceptos sobre los pipes {.smaller}
+
+Otra forma de reducir el uso de funciones anidadas es con objetos temporales
+
+```{r}
+#| echo: true
+temp1 <- subset(penguins[-c(2,7)],species == 'Adelie')
+temp2 <- subset(temp1, select = -species) 
+apply(temp2, 2,mean,na.rm = TRUE)
+```
+
+Es una opción, pero:
+
+-   el código luce más desordenado
+-   es realmente difícl encontrar buenos nombres para variables temporales
+-   usar nombres generico como `tmp` puede ser contraproducente
+
+## ¿Por qué un pipe base? {.smaller}
+
+El pipe de `{magrittr}` ("%\>%") ha sido muy exitoso.
+
+Sin embargo, tiene algunos problemas:
+
+-   rastrear errores puede ser mas complejo de lo que uno esperaría
+
+-   hay mayor sobrecarga computacional que puede ser significativa
+
+-   hay un número de características que son raramente usadas y que agregan complejidad a la mantención.
+
+## Pasar como primer argumento al pipe `|>` {.smaller}
+
+-   En la versión 4.1.0 de R base: \|\>
+
+Funciona bien asignando al primer argumento de la función `RHS`
+
+```{r}
+#| echo: true
+penguins |> 
+  subset(species == 'Adelie') |> 
+  subset(select = -c(1,2,7)) |> 
+  apply(2, mean, na.rm = TRUE)
+```
+
+## Otros argumentos a los pipes `|>` {.smaller}
+
+**R 4.2.0 `|>`**
+
+-   En la versión 4.2.0 de R base: \|\>
+
+-   Se introduce el marcador de posición (placeholder) como un guion bajo `_`
+
+-   El `placeholder` debe ser pasado a la función como argumento nombrado (ej, `arg = _`)
+
+-   No admite -aún- la sintaxis de extracción estandar.
+
+```{r}
+#| echo: true
+penguins |> 
+  subset(species == 'Adelie') |> 
+  lm(bill_length_mm~flipper_length_mm, data =_)
+```
+
+# Tibble: <br> Data frames mejorados {background-color="darkgreen"}
+
+## Tibbles {.smaller background-image="https://raw.githubusercontent.com/tidyverse/tibble/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+`tibble` proporciona un `data frame` mejorado de clase `tbl_df`, el llamado `tibble`.
+
+-   Tipo de objeto diseñado para trabajar con datos tidy (ordenados/ajustados) y tidyverse
+
+-   Tiene diferencias con el `data.frame` en la visualización e indexación
+
+-   Los `tibbles` no aceptan nombre de filas (rownames)
+
+## tibble vs data.frame {.smaller background-image="https://raw.githubusercontent.com/tidyverse/tibble/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+-   Impresión/visualizacion de los datos (`print`):
+    -   el `data frame` trata de mostrar 1000 filas y todas las columnas
+    -   el `tibble` muestra 10 observaciones y las columnas que caben en pantalla
+    -   el `tibble` despliega información sobre el tipo de dato de cada variable (columna)
+
+```{r}
+#| echo: true
+# ver ayuda método print para objeto data.frame
+?print.data.frame
+
+# ver ayuda método print para objeto tbl_df
+library(tibble)
+?print.tbl_df
+```
+
+## `tibble` vs `data.frame` {.smaller background-image="https://raw.githubusercontent.com/tidyverse/tibble/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+-   Impresión/visualizacion de los datos (`print`):
+
+```{r}
+#| echo: true
+library(tibble)
+library(palmerpenguins)
+penguins |> data.frame()
+```
+
+## `tibble` vs `data.frame` {.smaller background-image="https://raw.githubusercontent.com/tidyverse/tibble/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+-   Impresión/visualizacion de los datos (`print`):
+
+```{r}
+#| echo: true
+penguins
+```
+
+## Tibbles {.smaller background-image="https://raw.githubusercontent.com/tidyverse/tibble/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Dos formas de crear un `tibble`
+
+`tibble()`
+
+Crea un `tibble` desde columnas de vectores con `tibble()`.
+
+```{r}
+#| echo: true
+tibble(
+  x = c("a", "b"),
+  y = c(1, 2),
+  z = c(T, F)
+)
+```
+
+`as_tibble()`
+
+Crea un `tibble` desde un `data.frame` existente con `as_tibble()`.
+
+```{r}
+#| echo: true
+data.frame(
+  x = c("a", "b"),
+  y = c(1, 2),
+  z = c(T, F)
+) |>  as_tibble()
+```
+
+## Con los `pinguinos` {.smaller background-image="https://raw.githubusercontent.com/tidyverse/tibble/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+::: panel-tabset
+## data.frame
+
+```{r}
+#| echo: true
+data.frame(penguins)
+```
+
+## tibble() (Opción 1)
+
+```{r}
+#| echo: true
+penguins
+```
+
+## tibble() (Opción 2)\]
+
+```{r}
+#| echo: true
+penguins |> glimpse()
+```
+:::
+
+## `tibble` {.smaller background-image="https://raw.githubusercontent.com/tidyverse/tibble/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+-   `{tibble}` permite tener nombre de columnas que no son validos como nombres de objetos.
+
+-   pueden tener espacios o contener carácteres especiales.
+
+Por ejemplo
+
+**Carácteres especiales**
+
+```{r}
+#| echo: true
+tb <- tibble(
+      `1` = 1:5,
+     ` ` = 5:1,
+     `país` = round(rnorm(5)))
+tb 
+```
+
+# `{readr}`:<br> Leer datos de texto rectangulares {background-color="brown"}
+
+## `{readr}`: r datos de texto rectangulares {.smaller .scrollable background-image="https://raw.githubusercontent.com/tidyverse/readr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+`{readr}` proporciona funciones de lectura y escritura para multiples formatos de archivo:\
+- `read_delim()`: archivos de delimitacion general\
+- `read_csv()`: archivos separados por coma (,)\
+- `read_csv2()`: idem pero separados por punto y coma (;)\
+- `read_tsv()`: archivos separados por tabulación\
+- `read_fwf()`: archivos de ancho fijo\
+- `read_table()`: archivos separados por espacios en blanco\
+- `read_log()`: archivos web log
+
+Convenientemente, las funciones `write_*()` funcionan de forma analógica. Además, utilice el paquete `{readxl}` para archivos de Excel, el paquete `{haven}` para archivos Stata, el paquete `{googlesheets4}` para Google Sheets o el paquete `{rvest}` para archivos HTML.
+
+## `{readr}`: r datos de texto rectangulares {.smaller .scrollable background-image="https://raw.githubusercontent.com/tidyverse/readr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Probémoslo leyendo los datos de los pingüinos.
+
+Con el propósito de ilustrar el `{readr}`, los datos `penguins` se escriben en un archivo csv a priori usando `write_csv(penguins, file = "./data/penguins.csv")`.
+
+```{r}
+#| include: false
+library(readr)
+write_csv(penguins, file = "./data/penguins.csv")
+```
+
+::: panel-tabset
+## El caso base
+
+```{r}
+#| echo: true
+data <- read_csv(file = "./data/penguins.csv")
+```
+
+## seleccionar columnas
+
+```{r}
+#| echo: true
+data <- read_csv(file = "./data/penguins.csv", col_select = c(species, island))
+```
+
+## nombre de columnas
+
+```{r}
+#| echo: true
+data <- read_csv(file = "./data/penguins.csv", col_names = paste("Var", 1:8, sep = "_"))
+```
+
+## saltar filas
+
+```{r}
+#| echo: true
+data <- read_csv(file = "./data/penguins.csv", skip = 5)
+```
+:::
+
+<br> <i>Nota: Al cargar con alguna función `read_*()` devuelve un objeto de tipo `tbl_df(tibble)`.</i>
+
+## `{readr}`: Leer datos de texto rectangulares {.smaller .scrollable background-image="https://raw.githubusercontent.com/tidyverse/readr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+`{readr}` imprime las especificaciones de la columna después de la importación. De forma predeterminada, intenta inferir el tipo de columna (por ejemplo, `int`, `dbl`, `chr`, `fct`, `date`, `lgl`) de las primeras 1000 filas y analiza las columnas en consecuencia.
+
+¡Intente hacer explícitas las especificaciones de las columnas! Es probable que se familiarice más con sus datos y vea advertencias si algo cambia inesperadamente.
+
+::: panel-tabset
+## Opción 1
+
+```{r, eval=F}
+#| echo: true
+read_csv(
+  file = "./data/penguins.csv",
+  col_types = cols(
+    species = col_character(),
+    year = col_datetime(format = "%Y"),
+    island = col_skip())
+  )
+```
+
+## Opción 2
+
+```{r, eval=F}
+#| echo: true
+read_csv(
+  file = "./data/penguins.csv",
+  col_types =  "_f?di"  # skip, factor, guess, double, integer, ...
+  )
+```
+:::
+
+Analizar solo las primeras 1000 filas es eficiente, pero puede dar lugar a conjeturas erróneas:
+
+```{r, eval=F}
+read_csv(file = "./data/penguins.csv", guess_max = 2000)
+```
+
+*Nota: Encuentre más información de `{readr}` en el [cheat sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-import.pdf).*
+
+## `{readr}`: Leer datos de texto rectangulares {.smaller .scrollable background-image="https://raw.githubusercontent.com/tidyverse/readr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+`write_rds()` y `read_rds()` proporcionan una buena alternativa para [serializar](https://en.wikipedia.org/wiki/Serialization) sus objetos `R` (por ejemplo, `tibbles`, modelos) y almacenar como archivos `.rds`.
+
+```{r}
+library(palmerpenguins)
+penguins |> 
+  write_rds(file = "./data/penguins.rds")
+```
+
+```{r}
+penguins <- read_rds(file = "./data/penguins.rds")
+```
+
+<br>
+
+Tenga en cuenta que:\
+- `write_rds()` solo se puede usar para guardar un objeto a la vez,\
+- un archivo `.rds` cargado debe almacenarse en una nueva variable, es decir, recibir un nuevo nombre,\
+- ¡`read_rds()` preserva los tipos de datos!
+
+# `{tidyr}`:<br> Ordenar datos desordenados {background-color="lightgreen"}
+
+## `{tidyr}`: Ordenar datos desordenados {.smaller .scrollable background-image="https://raw.githubusercontent.com/tidyverse/tidyr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+`tidyr` proporciona varias funciones que lo ayudan a llevar sus datos al formato *tidy* (por ejemplo, remodelar datos, dividir columnas, manejar valores faltantes o anidar datos).
+
+```{r}
+#| echo: true
+penguins
+```
+
+## `{tidyr}`: Ordenar datos desordenados {.smaller .scrollable background-image="https://raw.githubusercontent.com/tidyverse/tidyr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Pivotiar:** Convierte entre formato largo y ancho usando `pivot_longer()` y `pivot_wider()`.
+
+::: panel-tabset
+## `pivot_longer()`
+
+```{r}
+#| echo: true
+library(tidyr)
+
+long_penguins <- penguins |> 
+  pivot_longer(
+    cols = c(species, island),
+    names_to = "variable", values_to = "value"
+  )
+
+long_penguins |> pillar::glimpse()
+```
+
+## `pivot_wider()`
+
+```{r}
+#| echo: true
+long_penguins |> 
+  pivot_wider(
+    names_from = "variable", values_from = "value"
+  )  |> 
+  pillar::glimpse()
+```
+:::
+
+## `{tidyr}`: Ordenar datos desordenados {.smaller .scrollable background-image="https://raw.githubusercontent.com/tidyverse/tidyr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r, echo=FALSE,out.width='60%',fig.pos = 'center'}
+knitr::include_graphics("figs/tidyr-longer-wider.gif")
+```
+
+## `{tidyr}`: Ordenar datos desordenados {.smaller .scrollable background-image="https://raw.githubusercontent.com/tidyverse/tidyr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r, echo=F, out.height='80%', out.width='80%'}
+knitr::include_graphics("https://raw.githubusercontent.com/apreshill/teachthat/master/pivot/pivot_longer_smaller.gif")
+```
+
+[^3]
+
+[^3]: *Source: [Allison Hill](https://github.com/apreshill/teachthat/blob/master/pivot/pivot_longer_smaller.gif)*
+
+Nota: Encuentre más información sobre `pivot_*()` en la [pivoting vignette](https://tidyr.tidyverse.org/articles/pivot.html).
+
+# `{dplyr}`: Una gramática de la manipulación de datos {background-color="brown"}
+
+## `{dplyr}`: Una gramática de la manipulación de datos {.smaller background-image="https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+`{dplyr}` proporciona un conjuntio de funciones para manipulación de data frames (ej. tibbles) mientras se basa en una gramática consistente. Las funciones se representan intuitivamente mediante "verbos" que reflejan las operaciones subyacentes y siempre generan un tibble nuevo o modificado.
+
+**Operaciones en filas:**\
+- `filter()` elige filas que cumplen uno o varios criterios lógicos\
+- `slice()` elige filas en función de su ubicación en los datos\
+- `arrange()` cambia el orden de las filas
+
+**Operaciones en columnas:**\
+- `select()` escoge respectivamente y elimina ciertas columnas\
+- `rename()` cambia los nombres de las columnas\
+- `relocate()` cambia el orden de las columnas\
+- `mutate()` transforma los valores de la columna y/o crea nuevas columnas
+
+**Operaciones en data agrupada:**\
+- `group_by()` divide los datos en función de una o varias columnas\
+- `summarise()` reduce un grupo de datos en una sola fila
+
+## `{dplyr}`: Una gramática de la manipulación de datos {.smaller background-image="https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+::: columns
+::: {.column width="50%"}
+**Operaciones en filas:** `filter()` elige filas que cumplen uno o varios criterios lógicos
+
+Filtrar todos los pinguinos de `species` "Adelie".
+
+```{r, eval=F}
+#| echo: true
+penguins |> 
+  filter(species == "Adelie")
+```
+
+Filtrar para todos los pinguinos con un valor faltantes (NAs) en la columna `bill_length_mm`.
+
+```{r, eval=F}
+#| echo: true
+penguins |>  
+  filter(is.na(bill_length_mm))
+  # filter(!is.na(bill_length_mm))
+```
+:::
+
+::: {.column width="50%"}
+```{r, echo=F, out.height='40%', out.width='40%', dpi=100, out.extra='style="float:right; padding:10px"'}
+knitr::include_graphics(
+  "https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/rstats-artwork/dplyr_filter.jpg"
+)
+```
+:::
+:::
+
+Filtre para todos los pingüinos observados antes del `año` 2008 o posteriores al `año` 2008 y donde la masa corporal (`body_mass_g`) esté entre 3.800 y 4.000 gramos.
+
+```{r, eval=FALSE}
+#| echo: true
+penguins |>  
+  filter(between(body_mass_g, 3800, 4000) & (year < 2008 | year > 2008))
+```
+
+## `{dplyr}`: Una gramática de la manipulación de datos {.smaller background-image="https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Operaciones en filas:** `slice()` elige filas en función de su ubicación en los datos
+
+::: panel-tabset
+## `slice()`
+
+Elige filas basads en el índice
+
+```{r}
+#| echo: true
+library(dplyr)
+penguins |> 
+  slice(23:27)
+```
+
+## `slice_head()`
+
+Elige las primeras `n` filas (vice versa para `slice_tail()`).
+
+```{r}
+penguins |>  
+  slice_head(n = 5)  # alternativamente: slice_head(frac = 0.05)
+```
+
+## `slice_sample()`
+
+Elige una muestra aleatoria de `n` filas (con o sin remplazo).
+
+```{r}
+penguins |>  
+  slice_sample(n = 5)
+```
+
+## `slice_max()`
+
+Elige las `n` filas con los valores mayores (vice versa para `slice_min()`).
+
+```{r}
+penguins |>  
+  slice_max(bill_length_mm, n = 5)
+```
+:::
+
+## `{dplyr}`: Una gramática de la manipulación de datos {.smaller background-image="https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Operaciones en filas:** `arrange()` cambia el orden de las filas
+
+::: panel-tabset
+## Ascendente
+
+Devuleve las primeras cinco filas con la menor masa corporal (body mass)
+
+```{r}
+penguins |> 
+  arrange(body_mass_g)  |>  
+  slice_head(n = 5)  # equivalente a: slice_min(body_mass_g, n = 3)
+```
+
+## Descendente
+
+Devuleve los cinco pingüinos con la mayor masa corporal (body mass).
+
+```{r}
+penguins |>  
+  arrange(desc(body_mass_g)) |>  
+  slice_head(n = 5)  # equivalente a: slice_max(body_mass_g, n = 3)
+```
+:::
+
+## `{dplyr}`: Una gramática de la manipulación de datos {.smaller background-image="https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Operaciones en columnas:** `select()` escoge respectivamente y elimina ciertas columnas
+
+::: panel-tabset
+## `select()` por índice
+
+```{r}
+penguins |>  
+  select(1:3) |>  
+  glimpse()
+```
+
+## `select()` por nombre
+
+```{r}
+penguins |>  
+  select(species, island, bill_length_mm) |>  
+  glimpse()
+```
+:::
+
+## `{dplyr}`: Una gramática de la manipulación de datos {.smaller .scrollable background-image="https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Operaciones en columnas:** `mutate()` transforma el valor de una columnas y/o crea una nueva columna.
+
+Crear una nueva variable `bm_kg` que refleje el `body_mass_g` en kilogramos.
+
+```{r}
+penguins |>  
+  mutate(bm_kg = body_mass_g / 1000, .keep = "all", .after = island)  |>  
+  slice_head(n = 5)
+```
+
+-   Use el argumento `.keep` para especificar que columnas mantener despues de la manipulación.
+-   Use el argumento `.before`/`.after` para especificar la posición de la nueva columna.
+-   Para sobrescribir una columna, sólo utilice el mismo nombre de columna.
+-   Para mantener sólo la columna nueva utilice `dplyr::transmute()`.
+
+## `{dplyr}`: Una gramática de la manipulación de datos {.smaller .scrollable background-image="https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Operaciones en datos agrupados:** `group_by()` particiona los datos basado en una o varias columnas.
+
+```{r}
+penguins |> group_by(species)
+```
+
+Use `group_keys()`, `group_indices()` and `group_vars()` para acceder a las llaves de grupos, indices de grupos por filas y variables de grupos.
+
+## `{dplyr}`: Una gramática de la manipulación de datos {.smaller .scrollable background-image="https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Operaciones en datos agrupados:** `group_by()` particiona los datos basado en una o varias columnas.
+
+Internamente `group_by()` cambia la representación del `tibble` y lo trasnforma en un data frame agrupado (`grouped_df`). Esto permite operar en los subgrupos individualmente usando `summarise()`.
+
+**Operaciones en datos agrupados:** `summarise()` reduce datods agrupados en una sóla fila.
+
+::: panel-tabset
+## univariado
+
+```{r}
+penguins |>  group_by(species) |>  summarise(count = n(), .groups = "drop")
+```
+
+## bivariado
+
+```{r}
+penguins |>  group_by(species, sex)  |>  summarise(count = n(), .groups = "drop")
+```
+:::
+
+use `.groups =` para indicar que pasa con los grupos después de hacer el summarizado

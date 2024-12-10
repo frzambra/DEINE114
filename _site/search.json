@@ -1,0 +1,506 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Geostadística",
+    "section": "",
+    "text": "Unidad 1: Visualización y manejo de datos espaciales\n\nPresentación\nBreve Introducción a R\nDatos espaciales en R     \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRecursos para aprender\n\nDocker\n\nAlgunos comandos útiles\n\nR\n\nSWIRL\nQuick-R\n\nR-Spatial\n\nr-spatial - Edzer Pebesma\nrspatial - Robert Hijmans\n\nLibros R-Spatial\n\nApplied Spatial Data Analysis with R. Roger Bivand, Edzer Pebesma, Virgilio Gómez-Rubio.\nGeocomputation with R. Robin Lovelace, Jakub Nowosad, Jannes Muenchow\nSpatial Data Science. Edzer Pebesma y Roger Bivand. Estado: en desarrollo"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "El objetivo de este repositorio es compartir material para el curso de Geoestadística (METE133) del Magister en Teledetección de la Universidad Mayor.\nAcá se dejará el enlace a las clases, tutoriales, libros, etc."
+  },
+  {
+    "objectID": "index.html#descripción",
+    "href": "index.html#descripción",
+    "title": "METE133-2024_2",
+    "section": "Descripción",
+    "text": "Descripción\nEl objetivo de este repositorio es compartir material para el curso de Geoestadística (METE133) del Magister en Teledetección de la Universidad Mayor.\nAcá se dejará el enlace a las clases, tutoriales, libros, etc."
+  },
+  {
+    "objectID": "index.html#unidad-1-visualización-y-manejo-de-datos-espaciales",
+    "href": "index.html#unidad-1-visualización-y-manejo-de-datos-espaciales",
+    "title": "Magister en Teledetección Universidad Mayor",
+    "section": "",
+    "text": "Presentación\nBreve Introducción a R\nDatos espaciales en R\nManejo de datos con tidyverse"
+  },
+  {
+    "objectID": "index.html#unidad-2-regresión-lineal-y-autocorrelación-espacial",
+    "href": "index.html#unidad-2-regresión-lineal-y-autocorrelación-espacial",
+    "title": "Geostadística",
+    "section": "",
+    "text": "Modelos de regresión lineal\nConceptos básicos de Geoestadistica\nAutocorrelación espacial\nVariograma"
+  },
+  {
+    "objectID": "index.html#unidad-3-predicción-espacial",
+    "href": "index.html#unidad-3-predicción-espacial",
+    "title": "Geostadística",
+    "section": "",
+    "text": "BLUP\nPredicción espacial goestadística\nTamaño de pixel\nOptimización de muestreo"
+  },
+  {
+    "objectID": "index.html#bonus",
+    "href": "index.html#bonus",
+    "title": "Geostadística",
+    "section": "",
+    "text": "Rmarkdown"
+  },
+  {
+    "objectID": "index.html#recursos-para-aprender",
+    "href": "index.html#recursos-para-aprender",
+    "title": "Geostadística",
+    "section": "",
+    "text": "Docker\n\nAlgunos comandos útiles\n\nR\n\nSWIRL\nQuick-R\n\nR-Spatial\n\nr-spatial - Edzer Pebesma\nrspatial - Robert Hijmans\n\nLibros R-Spatial\n\nApplied Spatial Data Analysis with R. Roger Bivand, Edzer Pebesma, Virgilio Gómez-Rubio.\nGeocomputation with R. Robin Lovelace, Jakub Nowosad, Jannes Muenchow\nSpatial Data Science. Edzer Pebesma y Roger Bivand. Estado: en desarrollo"
+  },
+  {
+    "objectID": "about.html#descripción",
+    "href": "about.html#descripción",
+    "title": "About",
+    "section": "",
+    "text": "El objetivo de este repositorio es compartir material para el curso de Geoestadística (METE133) del Magister en Teledetección de la Universidad Mayor.\nAcá se dejará el enlace a las clases, tutoriales, libros, etc."
+  },
+  {
+    "objectID": "index.html#presentación",
+    "href": "index.html#presentación",
+    "title": "Magister en Teledetección Universidad Mayor",
+    "section": "",
+    "text": "Breve Introducción a R\nDatos espaciales en R\nManejo de datos con tidyverse"
+  },
+  {
+    "objectID": "index.html#datos-espaciales-en-r",
+    "href": "index.html#datos-espaciales-en-r",
+    "title": "Magister en Teledetección Universidad Mayor",
+    "section": "",
+    "text": "Manejo de datos con tidyverse"
+  },
+  {
+    "objectID": "Unidad1/00_presentacion_profesor_curso.html#profesor",
+    "href": "Unidad1/00_presentacion_profesor_curso.html#profesor",
+    "title": "Análisis Espacial con R (aka Geoestadística)",
+    "section": "Profesor",
+    "text": "Profesor\n\n\n\nDr. Francisco Zambrano\nIngeniero Civil Agrícola (Universidad de Concepción)\nDr. Ingeniería Agrícola (Universidad de Concepción)\nInvestigador Visitante en el Centro de Sequía de los Estados Unidos, Universidad de Nebraska, Lincoln Estados Unidos. 2016. link\nInvestigador visitante en la Facultad de Ciencias de la Geoinformación y Observación de la Tierra, Universidad de Twente, Enschede, Paises Bajos. 2016. link"
+  },
+  {
+    "objectID": "Unidad1/00_presentacion_profesor_curso.html#trayectoria",
+    "href": "Unidad1/00_presentacion_profesor_curso.html#trayectoria",
+    "title": "Análisis Espacial con R (aka Geoestadística)",
+    "section": "Trayectoria",
+    "text": "Trayectoria\n\nMás de 10 años trabajando en servicios públicos de los Ministerios de Obras Públicas y Agricultura de Chile, en temas relacionados con los recursos hídricos y la agricultura.\n\n\n\n\nInstituciones:\n\nDirección General de Aguas (DGA)\nComisión Nacional de Riego (CNR)\nInstituto de Investigaciones Agropecuarias (INIA)\nInstituto de Desarrollo Agropecuario (INDAP)\n\n\n\n\nRelacionado a:\n\nFiscalización de Derechos de Aprovechamiento de Aguas (DAA)\nRegularización de DAA\nAnálisis de redes de derechos de aprovechamiento de aguas (análisis de gráfos)\nOrganizaciones de Usuarios de Aguas (OUAs)\nMonitoreo de la sequía a lo largo de Chile."
+  },
+  {
+    "objectID": "Unidad1/00_presentacion_profesor_curso.html#lineas-de-investigación",
+    "href": "Unidad1/00_presentacion_profesor_curso.html#lineas-de-investigación",
+    "title": "Análisis Espacial con R (aka Geoestadística)",
+    "section": "Lineas de Investigación",
+    "text": "Lineas de Investigación\n\nEstudio de la sequía y su impacto en la vegetación en Chile (desde el año 2013)\nRecursos hídricos - oferta y demanda de agua\nEstres hídrico en especies frutales"
+  },
+  {
+    "objectID": "Unidad1/00_presentacion_profesor_curso.html#trabajos-recientes",
+    "href": "Unidad1/00_presentacion_profesor_curso.html#trabajos-recientes",
+    "title": "Análisis Espacial con R (aka Geoestadística)",
+    "section": "Trabajos recientes",
+    "text": "Trabajos recientes"
+  },
+  {
+    "objectID": "Unidad1/00_presentacion_profesor_curso.html#proyectos-adjudicados-pi-o-director",
+    "href": "Unidad1/00_presentacion_profesor_curso.html#proyectos-adjudicados-pi-o-director",
+    "title": "Análisis Espacial con R (aka Geoestadística)",
+    "section": "Proyectos Adjudicados (PI o Director)",
+    "text": "Proyectos Adjudicados (PI o Director)\n\nA multi-scale drought observatory for Chile: an early warning system to mitigate agricultural and ecological impacts. Concurso Fondo de Investigación Estratégica en Sequía 2021 – REC. Director. Monto 300 $MM. odes-chile\nSistema Satelital para la Optimización de Riego (SatOri). Concurso IDeA I+D 2021 – FONDEF. Director. Monto 200 $MM.\nThe impact of weather variability on wheat and maize production: an improved early warning model for agricultural drought.FONDECYT de Iniciación en Investigación 2019. Investigador Principal. Monto ~100 $MM."
+  },
+  {
+    "objectID": "Unidad1/00_presentacion_profesor_curso.html#otros-proyectos",
+    "href": "Unidad1/00_presentacion_profesor_curso.html#otros-proyectos",
+    "title": "Análisis Espacial con R (aka Geoestadística)",
+    "section": "Otros proyectos",
+    "text": "Otros proyectos\n\nModeling of Epigenetic Gene Regulatory Networks in sweet cherry floral buds in response to differential seasonal. ANILLO. Director Alterno. Monto ~400 $MM.\nMultivariate drought monitor system: biophysical modelling, remote sensing and hydroclimatic information for drought analyisis and forecasting in agriculture.FONDECYT Regular 2021. Investigador asociado. Monto ~162 $MM.\nAssessment of current and future water availability for agriculture and terrestrial ecosystems under different land-use scenarios over the aconcagua basin: toward drought adaptation. FONDECYT de Postdoctorado 2023. Investigador patrocinante. Monto de ~100 $MM."
+  },
+  {
+    "objectID": "Unidad1/00_presentacion_profesor_curso.html#unidades",
+    "href": "Unidad1/00_presentacion_profesor_curso.html#unidades",
+    "title": "Análisis Espacial con R (aka Geoestadística)",
+    "section": "Unidades",
+    "text": "Unidades\n\nUnidad 1: Procesamiento, manejo y visualización de datos espaciales con R.\n\nBreve introducción a R\nManejo de datos espaciales raster y vectoriales con {terra} y {sf}\nManipulación y visualización de datos utilizando {tidyverse} (sólo lo más necesario)\nVisualización de datos espaciales con {tmap}\n\nUnidad 2: Interpolación geostadística\n\nConcepctos básicos: modelos de predicción espacial, autocorrelación espacial, semi-variograma\nModelos de predicción espacial determinísticos: inverso de la distancia, regresión en coordenadas, OLS."
+  },
+  {
+    "objectID": "Unidad1/00_presentacion_profesor_curso.html#unidades-1",
+    "href": "Unidad1/00_presentacion_profesor_curso.html#unidades-1",
+    "title": "Análisis Espacial con R (aka Geoestadística)",
+    "section": "Unidades",
+    "text": "Unidades\n\nUnidad 2: Interpolación geostadística\n\nModelos de predicción espacial estadística: kriging, universal kriging, regresion kriging\n\nUnidad 3: Modelado espacial utilizando machine learning (random forest)\n\nArboles de decisión\nConceptos de random forest para predicción espacial\nPredicción espacial con random forest"
+  },
+  {
+    "objectID": "Unidad1/00_presentacion_profesor_curso.html#evaluaciones",
+    "href": "Unidad1/00_presentacion_profesor_curso.html#evaluaciones",
+    "title": "Análisis Espacial con R (aka Geoestadística)",
+    "section": "Evaluaciones",
+    "text": "Evaluaciones\n\nTaller 1: Preparar datos in-situ\nTaller 2: Preparar predictores espaciales\nTaller 3: Predicción espacial con métodos determinísticos\nTaller 4: Análisis de autocorrelación espacial\nTaller 5: Predicción espacial con kriging y regresión kriging\nTaller 6: Predicción espacial con random forest\n\nLa nota de cada taller equivale a 1/6 de la nota final.\nLos talleres se pueden hacer en grupos de hasta 3 personas."
+  },
+  {
+    "objectID": "Unidad1/00_presentacion_profesor_curso.html#motivación-del-curso",
+    "href": "Unidad1/00_presentacion_profesor_curso.html#motivación-del-curso",
+    "title": "Análisis Espacial con R (aka Geoestadística)",
+    "section": "Motivación del curso",
+    "text": "Motivación del curso\n\n¿Por qué utilizar R para análisis espacial?\n\n\n\nR es una herramienta potente que ha tenido un alto crecimiento, en particular para el análisis espacial.\n\n\n\n\nRevolución de geodata (ej., datos satelitales).\n\n\n\n\nR para entender el mundo\n\n\n\n\nR es un ambiente y lenguaje de código abierto y multiplataforma para computacion estadística y gráficos.\n\n\n\n\nPor todas las ventajas que tiene para análisis de datos (includios espaciales) e investigación reproducible."
+  },
+  {
+    "objectID": "Unidad1/00_presentacion_profesor_curso.html#objetivo-del-curso",
+    "href": "Unidad1/00_presentacion_profesor_curso.html#objetivo-del-curso",
+    "title": "Análisis Espacial con R (aka Geoestadística)",
+    "section": "Objetivo del curso",
+    "text": "Objetivo del curso\n\n\nNos centraremos en ver como podemos utilizar datos espaciales en R para realizar predicciones espaciales.\n\n\n\n\nVamos a definir un problema de predicción espacial que vamos a ir resolviendo a través del curso y 6 talleres."
+  },
+  {
+    "objectID": "Unidad1/00_presentacion_profesor_curso.html#qué-espero-de-los-participantes",
+    "href": "Unidad1/00_presentacion_profesor_curso.html#qué-espero-de-los-participantes",
+    "title": "Análisis Espacial con R (aka Geoestadística)",
+    "section": "¿Qué espero de los participantes?",
+    "text": "¿Qué espero de los participantes?\n\nMotivación y proactividad.\nHay muchos recursos en la web que facilitan la resolución de problemas\nHacer buenas preguntas\n\nAsking R questions\nHow to ask good questions that prompt useful answers\n\nWorkflow para resolver dudas:\n\nAyuda de R (help.search, ?)\nConsultar a compañeros . . .\nBuscar en google How can I do _____ with R\nStackoverflow, github, mailing list (R-help, R-SIG-GEO)\nSi todo lo anterior falla, iterar una véz más, y otra,…,\nPor último preguntar al profesor."
+  },
+  {
+    "objectID": "Unidad1/00_presentacion_profesor_curso.html#recursos-para-aprender",
+    "href": "Unidad1/00_presentacion_profesor_curso.html#recursos-para-aprender",
+    "title": "Análisis Espacial con R (aka Geoestadística)",
+    "section": "Recursos para aprender",
+    "text": "Recursos para aprender\n\nR\n\nSWIRL\nQuick-R\n\n\n\n\nR-Spatial\n\nr-spatial - Edzer Pebesma\nrspatial - Robert Hijmans\n\n\n\n\n\nLibros R-Spatial\n\nApplied Spatial Data Analysis with R. Roger Bivand, Edzer Pebesma, Virgilio Gómez-Rubio.\nGeocomputation with R. Robin Lovelace, Jakub Nowosad, Jannes Muenchow\nSpatial Data Science. Edzer Pebesma y Roger Bivand. Estado: en desarrollo"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html",
+    "href": "Unidad1/02_datos_espaciales_R.html",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "",
+    "text": "Datos Espaciales en R\n. . .\n\nDatos vectoriales\n\n. . .\n\nDatos raster"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#contenidos",
+    "href": "Unidad1/02_datos_espaciales_R.html#contenidos",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "",
+    "text": "Datos Espaciales en R\n. . .\n\nDatos vectoriales\n\n. . .\n\nDatos raster"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-en-r",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-en-r",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "1. Datos espaciales en R",
+    "text": "1. Datos espaciales en R\nTipos de dato espaciales\n\nDiscretos : datos vectoriales\nContinuos : datos raster\n\nSimple representación de datos espaciales\n\nname &lt;- LETTERS[1:10]\nlongitude &lt;- c(-116.7, -120.4, -116.7, -113.5, -115.5,\n               -120.8, -119.5, -113.7, -113.7, -110.7)\nlatitude &lt;- c(45.3, 42.6, 38.9, 42.1, 35.7, 38.9,\n              36.2, 39, 41.6, 36.9)\nstations &lt;- cbind(longitude, latitude)\n# Simulated rainfall data\nset.seed(0)\nprecip &lt;- round((runif(length(latitude))*10)^3)"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "1. Datos espaciales",
+    "text": "1. Datos espaciales\nSimple representación de datos espaciales\n\npsize &lt;- 1 + precip/500\nplot(stations, cex=psize, pch=20, col='red', main='Precipitation')\n# add names to plot\ntext(stations, name, pos=4)\n# add a legend\nbreaks &lt;- c(100, 250, 500, 1000)\nlegend.psize &lt;- 1+breaks/500\nlegend(\"topright\", legend=breaks, pch=20, pt.cex=legend.psize, col='red', bg='gray')"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-1",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-1",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "1. Datos espaciales",
+    "text": "1. Datos espaciales\n\nSimple representación de datos espaciales"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-2",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-2",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "1. Datos espaciales",
+    "text": "1. Datos espaciales\nSimple representación de datos espaciales\n\n#|eval: false\n#|echo: true\nlon &lt;- c(-116.8, -114.2, -112.9, -111.9, -114.2, -115.4, -117.7)\nlat &lt;- c(41.3, 42.9, 42.4, 39.8, 37.6, 38.3, 37.6)\nx &lt;- cbind(lon, lat)\nplot(stations, main='Precipitation')\npolygon(x, col='blue', border='light blue')\nlines(stations, lwd=3, col='red')\npoints(x, cex=2, pch=20)\npoints(stations, cex=psize, pch=20, col='red', main='Precipitation')"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-3",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-3",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "1. Datos espaciales",
+    "text": "1. Datos espaciales\nSimple representación de datos espaciales"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-4",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-4",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "1. Datos espaciales",
+    "text": "1. Datos espaciales\nSimple representación de datos espaciales\nPodemos almacenar datos espaciales en un data.frame\n\nwst &lt;- data.frame(longitude, latitude, name, precip)\nwst\n\n   longitude latitude name precip\n1     -116.7     45.3    A    721\n2     -120.4     42.6    B     19\n3     -116.7     38.9    C     52\n4     -113.5     42.1    D    188\n5     -115.5     35.7    E    749\n6     -120.8     38.9    F      8\n7     -119.5     36.2    G    725\n8     -113.7     39.0    H    843\n9     -113.7     41.6    I    289\n10    -110.7     36.9    J    249"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}\n\nUtilizaremos {sf}\nTener cuidado ya que el más utilizado por mucho tiempo fue {sp} (mas antiguo)\nMuchos ejemplos o incluso usos que vean por ahí estarán con los tipos de datos definidos por {sp}\n{sp} está siendo (o ya fue) reemplazado por {sf}\n\n\nSimple Feature: se refiere a un estándar formal (ISO 19125-1: 2004) que describe cómo los objetos en el mundo real se pueden representar en computadoras, con énfasis en la geometría espacial de estos objetos.\n\nhttps://github.com/r-spatial/sf/"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-1",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-1",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Dimensiones\n\nTodas las geometrias (puntos, lineas, polígonos) están formadas por puntos.\n2, 3, o 4 dimensiones\nTodos los puntos en una geometría tienen la misma dimensión\nAdemas de X e Y hay dos opciones\n\ncoordenada Z para altitud\ncoordenada M medición asociada con el punto (ej, tiempo en que fue medido)"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-2",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-2",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Dimensiones\n\nCuatro casos posibles:\n\n2D (X,Y), (E, N), (Lon,Lat): XY\n3D : XYZ\n3D : XYM\n4D : XYZM"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-3",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-3",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Tipos de geometrías\n\n\n\n\n\n\n\nTipo\nDescripción\n\n\n\n\nPOINT\ngeometría dimensión cero, un punto\n\n\nLINESTRING\nvarios puntos, secuencia de puntos conectados por líneas rectas que no se intersecan; geometría unidimensional\n\n\nPOLYGON\ngeometría con un área positiva (bidimensional); la secuencia de puntos forma un anillo cerrado que no se interseca\n\n\nMULTIPOINT\ngrupo de POINT\n\n\nMULTILINESTRING\ngrupo de LINESTRING\n\n\nMULTIPOLYGON\ngrupo de POLYGON\n\n\nGEOMETRYCOLLECTION\ngrupo de geometrías de cualquier tipo"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-4",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-4",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Clases\nGeometria -&gt; list-column (tipo de dato)\nAtributos -&gt; data.frame\nComo {sf} almacena las Simple Features.\nLos tres tipos de datos utilizados para representarlos son:\n- sf: la tabla (data.frame) con los atributos y geometría de la entidad , que contiene\n- sfc : la list-colum con la geometría de cada entidad (registro), que está compuesto de\n- sfg: la geometría de la entidad de cada simple feature individual"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-5",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-5",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Clase sf\n\nlibrary(sf)\n\nLinking to GEOS 3.11.1, GDAL 3.6.2, PROJ 9.1.1; sf_use_s2() is TRUE\n\nnc &lt;- st_read(system.file(\"shape/nc.shp\", package=\"sf\"))\n\nReading layer `nc' from data source \n  `/home/francisco/R/x86_64-pc-linux-gnu-library/4.3/sf/shape/nc.shp' \n  using driver `ESRI Shapefile'\nSimple feature collection with 100 features and 14 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: -84.32385 ymin: 33.88199 xmax: -75.45698 ymax: 36.58965\nGeodetic CRS:  NAD27"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-6",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-6",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Clase sf\n\nplot(nc[1])\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-7",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-7",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Clase sf\n\nclass(nc)\n\n[1] \"sf\"         \"data.frame\""
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-8",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-8",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Clase sf\n\nlapply(attributes(nc),'head')\n\n$names\n[1] \"AREA\"      \"PERIMETER\" \"CNTY_\"     \"CNTY_ID\"   \"NAME\"      \"FIPS\"     \n\n$row.names\n[1] 1 2 3 4 5 6\n\n$class\n[1] \"sf\"         \"data.frame\"\n\n$sf_column\n[1] \"geometry\"\n\n$agr\n     AREA PERIMETER     CNTY_   CNTY_ID      NAME      FIPS \n     &lt;NA&gt;      &lt;NA&gt;      &lt;NA&gt;      &lt;NA&gt;      &lt;NA&gt;      &lt;NA&gt; \nLevels: constant aggregate identity"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-9",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-9",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Clase sf\n\nprint(nc[9:15], n = 3)\n\nSimple feature collection with 100 features and 6 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: -84.32385 ymin: 33.88199 xmax: -75.45698 ymax: 36.58965\nGeodetic CRS:  NAD27\nFirst 3 features:\n  BIR74 SID74 NWBIR74 BIR79 SID79 NWBIR79                       geometry\n1  1091     1      10  1364     0      19 MULTIPOLYGON (((-81.47276 3...\n2   487     0      10   542     3      12 MULTIPOLYGON (((-81.23989 3...\n3  3188     5     208  3616     6     260 MULTIPOLYGON (((-80.45634 3..."
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-10",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-10",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Clase sf\n\nVERDE: Simple Feature individual, atributos + geometría \nAZUL: geometría (objeto de clase sfg) \nROJO: Simple Feature list-column (sfc)"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-11",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-11",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nsfc (simple feature list-column)\nSimple Feature {sf}: Clase sfc\n\n(nc_geom &lt;- st_geometry(nc))\n\nGeometry set for 100 features \nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: -84.32385 ymin: 33.88199 xmax: -75.45698 ymax: 36.58965\nGeodetic CRS:  NAD27\nFirst 5 geometries:\n\n\nMULTIPOLYGON (((-81.47276 36.23436, -81.54084 3...\n\n\nMULTIPOLYGON (((-81.23989 36.36536, -81.24069 3...\n\n\nMULTIPOLYGON (((-80.45634 36.24256, -80.47639 3...\n\n\nMULTIPOLYGON (((-76.00897 36.3196, -76.01735 36...\n\n\nMULTIPOLYGON (((-77.21767 36.24098, -77.23461 3..."
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-12",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-12",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Clase sfc\n\nclass(nc_geom)\n\n[1] \"sfc_MULTIPOLYGON\" \"sfc\"             \n\nnc_geom[[1]]\n\nMULTIPOLYGON (((-81.47276 36.23436, -81.54084 36.27251, -81.56198 36.27359, -81.63306 36.34069, -81.74107 36.39178, -81.69828 36.47178, -81.7028 36.51934, -81.67 36.58965, -81.3453 36.57286, -81.34754 36.53791, -81.32478 36.51368, -81.31332 36.4807, -81.26624 36.43721, -81.26284 36.40504, -81.24069 36.37942, -81.23989 36.36536, -81.26424 36.35241, -81.32899 36.3635, -81.36137 36.35316, -81.36569 36.33905, -81.35413 36.29972, -81.36745 36.2787, -81.40639 36.28505, -81.41233 36.26729, -81.43104 36.26072, -81.45289 36.23959, -81.47276 36.23436)))\n\nclass(nc_geom[[1]])\n\n[1] \"XY\"           \"MULTIPOLYGON\" \"sfg\""
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-13",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-13",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Clase sfc\n\nplot(nc_geom[[1]])\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-14",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-14",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Clase sfc\n\nnames(attributes(nc_geom))\n\n[1] \"n_empty\"   \"crs\"       \"class\"     \"precision\" \"bbox\"     \n\nattr(nc_geom,'crs')\n\nCoordinate Reference System:\n  User input: NAD27 \n  wkt:\nGEOGCRS[\"NAD27\",\n    DATUM[\"North American Datum 1927\",\n        ELLIPSOID[\"Clarke 1866\",6378206.4,294.978698213898,\n            LENGTHUNIT[\"metre\",1]]],\n    PRIMEM[\"Greenwich\",0,\n        ANGLEUNIT[\"degree\",0.0174532925199433]],\n    CS[ellipsoidal,2],\n        AXIS[\"latitude\",north,\n            ORDER[1],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n        AXIS[\"longitude\",east,\n            ORDER[2],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n    ID[\"EPSG\",4267]]"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-15",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-15",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Clase sfg\nsfg (simple feature geometry) guarda la geometría de un a entidad individual, ej. un punto, una linea o polígono\nEstá implementada en en tipos de datos nativos de R (numeric, matrix, list), siguiendo la siguiente regla:\n\nun POINT es unj vector numérico\nun grupo de puntos, e.j. un LINESTRING o un anillo de un POLYGON es un matrix y cada fila de la matrix es un POINT\ncualquier otro grupo es un list"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-16",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-16",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Clase sfg\n\n(x &lt;- st_point(c(1,2)))\n\nPOINT (1 2)\n\nstr(x)\n\n 'XY' num [1:2] 1 2\n\n(x &lt;- st_point(c(1,2,3)))\n\nPOINT Z (1 2 3)\n\nstr(x)\n\n 'XYZ' num [1:3] 1 2 3"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-17",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-17",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Clase sfg\n\n(x &lt;- st_point(c(1,2,3), \"XYM\"))\n\nPOINT M (1 2 3)\n\nstr(x)\n\n 'XYM' num [1:3] 1 2 3\n\n(x &lt;- st_point(c(1,2,3,4)))\n\nPOINT ZM (1 2 3 4)\n\nstr(x)\n\n 'XYZM' num [1:4] 1 2 3 4"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-18",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-18",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Clase sfg\n\nst_zm(x, drop = TRUE, what = \"ZM\")\n\nPOINT (1 2)"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-19",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-19",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Clase sfg\n\np &lt;- rbind(c(3.2,4), c(3,4.6), c(3.8,4.4), c(3.5,3.8), c(3.4,3.6), c(3.9,4.5))\n(mp &lt;- st_multipoint(p))\n\nMULTIPOINT ((3.2 4), (3 4.6), (3.8 4.4), (3.5 3.8), (3.4 3.6), (3.9 4.5))\n\ns1 &lt;- rbind(c(0,3),c(0,4),c(1,5),c(2,5))\n(ls &lt;- st_linestring(s1))\n\nLINESTRING (0 3, 0 4, 1 5, 2 5)\n\ns2 &lt;- rbind(c(0.2,3), c(0.2,4), c(1,4.8), c(2,4.8))\ns3 &lt;- rbind(c(0,4.4), c(0.6,5))\n(mls &lt;- st_multilinestring(list(s1,s2,s3)))\n\nMULTILINESTRING ((0 3, 0 4, 1 5, 2 5), (0.2 3, 0.2 4, 1 4.8, 2 4.8), (0 4.4, 0.6 5))"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-20",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-20",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Clase sfg\n\np1 &lt;- rbind(c(0,0), c(1,0), c(3,2), c(2,4), c(1,4), c(0,0))\np2 &lt;- rbind(c(1,1), c(1,2), c(2,2), c(1,1))\npol &lt;-st_polygon(list(p1,p2))\np3 &lt;- rbind(c(3,0), c(4,0), c(4,1), c(3,1), c(3,0))\np4 &lt;- rbind(c(3.3,0.3), c(3.8,0.3), c(3.8,0.8), c(3.3,0.8), c(3.3,0.3))[5:1,]\np5 &lt;- rbind(c(3,3), c(4,2), c(4,3), c(3,3))\n(mpol &lt;- st_multipolygon(list(list(p1,p2), list(p3,p4), list(p5))))\n\nMULTIPOLYGON (((0 0, 1 0, 3 2, 2 4, 1 4, 0 0), (1 1, 1 2, 2 2, 1 1)), ((3 0, 4 0, 4 1, 3 1, 3 0), (3.3 0.3, 3.3 0.8, 3.8 0.8, 3.8 0.3, 3.3 0.3)), ((3 3, 4 2, 4 3, 3 3)))\n\n(gc &lt;- st_geometrycollection(list(mp, mpol, ls)))\n\nGEOMETRYCOLLECTION (MULTIPOINT ((3.2 4), (3 4.6), (3.8 4.4), (3.5 3.8), (3.4 3.6), (3.9 4.5)), MULTIPOLYGON (((0 0, 1 0, 3 2, 2 4, 1 4, 0 0), (1 1, 1 2, 2 2, 1 1)), ((3 0, 4 0, 4 1, 3 1, 3 0), (3.3 0.3, 3.3 0.8, 3.8 0.8, 3.8 0.3, 3.3 0.3)), ((3 3, 4 2, 4 3, 3 3))), LINESTRING (0 3, 0 4, 1 5, 2 5))"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-21",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-21",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Clase sfg\n\npar(mfrow=c(2,3))\nplot(mp,col='red',main = 'MULTIPOINT')\nplot(ls,col='red',main = 'LINESTRING')\nplot(mls,col='red',main = 'MULTILINESTRING')\nplot(pol,col = 'gray',border='red',main = 'POLIGON')\nplot(mpol,col = 'gray',border='red',main = 'MULTIPOLIGON')\nplot(gc,col = 'gray',border='red',main = 'GEOMETRY')"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-22",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-vectoriales-22",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos espaciales vectoriales",
+    "text": "2. Datos espaciales vectoriales\nSimple Feature {sf}: Clase sfg\n\n\nWarning in polypath(p_bind(x[[i]]), border = border[i], lty = lty[i], lwd =\nlwd[i], : Path drawing not available for this device\n\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device\n\nWarning in polypath(p_bind(L), border = border[i], lty = lty[i], lwd = lwd[i],\n: Path drawing not available for this device"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-raster",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-raster",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "3. Datos espaciales raster",
+    "text": "3. Datos espaciales raster\n\nVamos a utilizar el paquete {terra}\n{terra} está reemplazando a {raster}, ya que es más simple y rapido\n{terra} es nuevo, fue lanzado el 2020:\n\n\nYa hay documentación y ejemplos\nOtros paquetes que utilizan datos espaciales se están actualizando para dar soporte a {terra}\nEl paso de {raster} a {terra} no es complicado\nlas funciones son muy similares a {raster}."
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-raster-1",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-raster-1",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "3. Datos espaciales raster",
+    "text": "3. Datos espaciales raster\nEl paquete {terra} tiene funciones para crear, leer, manipular y guardar datos raster y vectoriales.\nLas clases definidas por {terra} son:\n- SpatRaster\n- SpatVector"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-raster-2",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-raster-2",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "3. Datos espaciales raster",
+    "text": "3. Datos espaciales raster\nTipos de datos: spatRaster\n\nRepresenta bandas de información.\nGuarda información número de columnas y filas, extensión espacial, el sistema de referencia de coordenadas, extensión.\n\n\nlibrary(terra)\n\nterra 1.7.65\n\n(r &lt;- rast(ncol=10, nrow=10, xmax=-80, xmin=-150, ymin=20, ymax=60))\n\nclass       : SpatRaster \ndimensions  : 10, 10, 1  (nrow, ncol, nlyr)\nresolution  : 7, 4  (x, y)\nextent      : -150, -80, 20, 60  (xmin, xmax, ymin, ymax)\ncoord. ref. : lon/lat WGS 84"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-raster-3",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-raster-3",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "3. Datos espaciales raster",
+    "text": "3. Datos espaciales raster\nTipos de datos: spatRaster\nEl objeto r solo tiene el esqueleto del raster, pero aún no tiene valores\n\n#echo: true\nvalues(r) &lt;- 1:100\nr\n\nclass       : SpatRaster \ndimensions  : 10, 10, 1  (nrow, ncol, nlyr)\nresolution  : 7, 4  (x, y)\nextent      : -150, -80, 20, 60  (xmin, xmax, ymin, ymax)\ncoord. ref. : lon/lat WGS 84 \nsource(s)   : memory\nname        : lyr.1 \nmin value   :     1 \nmax value   :   100"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-raster-4",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-raster-4",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "3. Datos espaciales raster",
+    "text": "3. Datos espaciales raster\nTipos de datos: spatRaster\n\nplot(r)\ntext(r)"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-raster-5",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-raster-5",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "3. Datos espaciales raster",
+    "text": "3. Datos espaciales raster\nTipos de datos:spatRaster multicapa\n\nPuede trabajar con un archvivo raster de mutiples capas (Ej, imagen satelital)\nPuede trabajar con datos raster desde diferentes archivos (Ej., series de tiempos guardados en archivos independientes."
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-raster-6",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-raster-6",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "3. Datos espaciales raster",
+    "text": "3. Datos espaciales raster\nTipos de datos: spatRaster multicapa\n\nr2 &lt;- r * r\nr3  &lt;- sqrt(r)\n(s &lt;- c(r, r2, r3))\n\nclass       : SpatRaster \ndimensions  : 10, 10, 3  (nrow, ncol, nlyr)\nresolution  : 7, 4  (x, y)\nextent      : -150, -80, 20, 60  (xmin, xmax, ymin, ymax)\ncoord. ref. : lon/lat WGS 84 \nsource(s)   : memory\nnames       : lyr.1, lyr.1, lyr.1 \nmin values  :     1,     1,     1 \nmax values  :   100, 10000,    10"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-raster-7",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-espaciales-raster-7",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "3. Datos espaciales raster",
+    "text": "3. Datos espaciales raster\nTipos de datos: spatRaster multicapa"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#manejo-de-crs-en-r",
+    "href": "Unidad1/02_datos_espaciales_R.html#manejo-de-crs-en-r",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "4. Manejo de CRS en R",
+    "text": "4. Manejo de CRS en R\n\nCoordenadas geográficas: esféricas\n\nCoordenadas proyectadas: cónica, cilíndrica y planas\n\nPara manejar CRS R utiliza la librería PROJ\nPROJ.4 fue usado por más de 30 años, luego mutó a \\(PR \\phi J\\), dando paso a PROJ5, PROJ6 y ahora PROJ7. PROJ8 en 2021.\nAsí, hay tres formatos para manejar los CRS\n\nproj.4\nEPSG\nWell-known Text (wkt)\n\n{sf} usa wkt (well-known text) o EPSG\n{terra} usa PROJ.4, wkt o EPSG"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-vectoriales-sf",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-vectoriales-sf",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "5. Datos vectoriales: {sf}",
+    "text": "5. Datos vectoriales: {sf}\nVersiones anteriores de {sf} (&lt;0.9) ~"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-vectoriales-sf-1",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-vectoriales-sf-1",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "2. Datos vectoriales: {sf}",
+    "text": "2. Datos vectoriales: {sf}\nAhora\n\nst_crs(4326)\n\nCoordinate Reference System:\n  User input: EPSG:4326 \n  wkt:\nGEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic System 1984 (Transit)\"],\n        MEMBER[\"World Geodetic System 1984 (G730)\"],\n        MEMBER[\"World Geodetic System 1984 (G873)\"],\n        MEMBER[\"World Geodetic System 1984 (G1150)\"],\n        MEMBER[\"World Geodetic System 1984 (G1674)\"],\n        MEMBER[\"World Geodetic System 1984 (G1762)\"],\n        MEMBER[\"World Geodetic System 1984 (G2139)\"],\n        ELLIPSOID[\"WGS 84\",6378137,298.257223563,\n            LENGTHUNIT[\"metre\",1]],\n        ENSEMBLEACCURACY[2.0]],\n    PRIMEM[\"Greenwich\",0,\n        ANGLEUNIT[\"degree\",0.0174532925199433]],\n    CS[ellipsoidal,2],\n        AXIS[\"geodetic latitude (Lat)\",north,\n            ORDER[1],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n        AXIS[\"geodetic longitude (Lon)\",east,\n            ORDER[2],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n    USAGE[\n        SCOPE[\"Horizontal component of 3D system.\"],\n        AREA[\"World.\"],\n        BBOX[-90,-180,90,180]],\n    ID[\"EPSG\",4326]]"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-vectoriales-sf-2",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-vectoriales-sf-2",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "5. Datos vectoriales: {sf}",
+    "text": "5. Datos vectoriales: {sf}\nRecomendación utilizar EPSG (European Petroleum Survey Group) y wkt para identificar el CRS, cuando sea posible. No se aconseja el uso de proj4.\nTransformar de un CRS a otro con la función st_transform\n\nst_geometry(nc)[[4]][[2]][[1]][1:3,]\n\n          [,1]     [,2]\n[1,] -76.02717 36.55672\n[2,] -75.99866 36.55665\n[3,] -75.91192 36.54253\n\nnc.web_mercator &lt;- st_transform(nc, 3857)\nst_geometry(nc.web_mercator)[[4]][[2]][[1]][1:3,]\n\n         [,1]    [,2]\n[1,] -8463267 4377507\n[2,] -8460094 4377498\n[3,] -8450437 4375541"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-raster-terra",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-raster-terra",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "6. Datos raster: {terra}",
+    "text": "6. Datos raster: {terra}\nAsignar un CRS a un raster. Utilce EPSG o wkt\n\ncrs(r) &lt;- NA\ncrs(r)\n\n[1] \"\"\n\n(crs(r) &lt;- crs(\"+init=epsg:4326\")) |&gt; cat()\n\nWarning in new_CppObject_xp(fields$.module, fields$.pointer, ...): GDAL Message\n1: +init=epsg:XXXX syntax is deprecated. It might return a CRS with a non-EPSG\ncompliant axis order.\n\n\nGEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic System 1984 (Transit)\",\n            ID[\"EPSG\",1166]],\n        MEMBER[\"World Geodetic System 1984 (G730)\",\n            ID[\"EPSG\",1152]],\n        MEMBER[\"World Geodetic System 1984 (G873)\",\n            ID[\"EPSG\",1153]],\n        MEMBER[\"World Geodetic System 1984 (G1150)\",\n            ID[\"EPSG\",1154]],\n        MEMBER[\"World Geodetic System 1984 (G1674)\",\n            ID[\"EPSG\",1155]],\n        MEMBER[\"World Geodetic System 1984 (G1762)\",\n            ID[\"EPSG\",1156]],\n        MEMBER[\"World Geodetic System 1984 (G2139)\",\n            ID[\"EPSG\",1309]],\n        ELLIPSOID[\"WGS 84\",6378137,298.257223563,\n            LENGTHUNIT[\"metre\",1],\n            ID[\"EPSG\",7030]],\n        ENSEMBLEACCURACY[2.0],\n        ID[\"EPSG\",6326]],\n    PRIMEM[\"Greenwich\",0,\n        ANGLEUNIT[\"degree\",0.0174532925199433],\n        ID[\"EPSG\",8901]],\n    CS[ellipsoidal,2],\n        AXIS[\"longitude\",east,\n            ORDER[1],\n            ANGLEUNIT[\"degree\",0.0174532925199433,\n                ID[\"EPSG\",9122]]],\n        AXIS[\"latitude\",north,\n            ORDER[2],\n            ANGLEUNIT[\"degree\",0.0174532925199433,\n                ID[\"EPSG\",9122]]],\n    USAGE[\n        SCOPE[\"unknown\"],\n        AREA[\"World.\"],\n        BBOX[-90,-180,90,180]]]"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-raster-terra-1",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-raster-terra-1",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "6. Datos raster: {terra}",
+    "text": "6. Datos raster: {terra}\nReproyectar\n\nr &lt;- rast(xmin=-72, xmax=-71, ymin=-37, ymax=-36, ncols=40, nrows=40)\nvalues(r) &lt;- 1:ncell(r)\nplot(r)"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-raster-terra-2",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-raster-terra-2",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "6. Datos raster: {terra}",
+    "text": "6. Datos raster: {terra}\nReproyectar\n\ncrs(r) &lt;- crs('EPSG:4326')\n(newr &lt;- project(r,y=crs('EPSG:32719')))\n\nclass       : SpatRaster \ndimensions  : 45, 37, 1  (nrow, ncol, nlyr)\nresolution  : 2521.73, 2521.73  (x, y)\nextent      : 229578.6, 322882.7, 5900724, 6014202  (xmin, xmax, ymin, ymax)\ncoord. ref. : WGS 84 / UTM zone 19S (EPSG:32719) \nsource(s)   : memory\nname        :      lyr.1 \nmin value   :    2.82134 \nmax value   : 1600.00000"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#datos-raster-terra-3",
+    "href": "Unidad1/02_datos_espaciales_R.html#datos-raster-terra-3",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "6. Datos raster: {terra}",
+    "text": "6. Datos raster: {terra}\nReproyectar\n\nplot(newr)"
+  },
+  {
+    "objectID": "Unidad1/02_datos_espaciales_R.html#conversion-entre-crsterra-y-crssf",
+    "href": "Unidad1/02_datos_espaciales_R.html#conversion-entre-crsterra-y-crssf",
+    "title": "Análisis Espacial con R (METE133)",
+    "section": "6. Conversion entre CRS({terra}) y crs({sf})",
+    "text": "6. Conversion entre CRS({terra}) y crs({sf})\nDe sf a terra\n\nnew_crs &lt;- crs(st_crs(32719)$wkt)\nclass(new_crs)\n\n[1] \"character\"\n\n\nDe terra a sf\n\nnew_crs2 &lt;- st_crs(crs(\"EPSG:32719\"))\nclass(new_crs2)\n\n[1] \"crs\""
+  }
+]

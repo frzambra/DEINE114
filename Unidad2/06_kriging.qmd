@@ -1,0 +1,495 @@
+---
+title: "Kriging"
+subtitle: "Análisis espacial con R"
+author: "Dr. Francisco Zambrano"
+format: 
+  revealjs:
+    slide-number: true
+    logo: ../imgs/logo_hemera_2024.png
+    css: ../logo.css
+revealjs-plugins:
+  - drop
+drop:
+  shortcut: "]"
+editor: source
+---
+
+# El mejor predictor lineal no sesgado (BLUP) {background-color='orange'}
+
+## BLUP {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Modelo Universal de Variación
+
+$$Z(s) = m(s) + \epsilon'(s)+ \epsilon''$$
+
+![](figs/blup_plot.png){fig-align:"center"}
+
+## BLUP {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Modelo Universal de Variación
+
+$$\hat z(s_0) = \hat m(s_0) + \hat e(s_0)$$
+$$\hat z(s_0) = \sum_{k=0 }^p\hat \beta_k\cdot q_k(s_0)+\sum_{i=1}^n \lambda_i\cdot [z(s_0)-q_k(s_0)\cdot \hat\beta_k]$$
+
+* Los métodos de predicción espacial geoestadísticos son derivados del modelo universal de variación.
+  - Universal kriging (regresion-kriging)
+  - Simple Kriging
+  - Ordinary kriging
+  
+## BLUP {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Derivación
+
+* Todos los predictores lineales estadísticos comparten el mismo objetivo.
+  - Minimizar el error de la varianza $\hat \sigma^2_E(s_0)$
+  - Con la restricción de no tener sesgo
+
+* En términos matemáticos el error de estimación es:
+
+$$\hat \sigma^2_E(s_0)=E\left[(\hat z(s_0)-z(s_0))\cdot (\hat z(s_0)-z(s_0))^T\right]$$
+
+* El que es minimizado bajo la restricción de no sesgo
+
+$$E[\hat z(s_0)-z(s_0)]=0$$
+
+## BLUP {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Derivación
+
+::: {.columns}
+::: {.column width=50%}
+* De acuerdo al modelo universal de variación podemos definir un modelo de regresión lineal
+
+$$z(s)=q^T\cdot \beta+\epsilon(s)$$
+$$E[\epsilon(s)]=0$$
+$$E[\epsilon\cdot \epsilon^T(s)]=C$$
+
+:::
+::: {.column width=50%}
+* Lo que se puede leer como:
+  1. La respuesta (lo que quiero estimar) es función de una parte determinística y una parte residual.
+  2. El mejor estimador de los residuos es 0.
+  3. el mejor estimador de la estructura de correlación de los residuos es la matriz de varianza-covarianza.
+:::
+:::
+
+## BLUP {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Derivación
+
+* Ahora que tenemos definido el modelo estadístico y el criterio de minimización, podemos derivar el `BLUP`
+
+$$\hat z(s_0) = q_0^T\cdot\hat \beta + \hat \lambda_0^T\cdot(z-q\cdot \beta)$$
+
+$$\hat \beta =(q^T\cdot C^{-1}\cdot q)^{-1}\cdot q^T\cdot C^{-1}\cdot z$$
+$$\hat \lambda_0=C^{-1}\cdot c_0$$
+O en forma simplificada
+
+$$\hat z(s_0) = \mu + \hat \lambda^T\cdot(z-\mu)$$
+
+## BLUP {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Derivación
+
+Bajo los supuestos:
+
+- Estacionaridad de primer orden
+  - $E[z(s)]=\mu$, $\forall s \in \mathbb A$
+
+- Estacionaridad de segundo orden
+  - La autocorrelación espacial es igual en todo el dominio
+  
+- Normalidad de los residuos/variable-respuesta
+
+
+## BLUP {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Clarificación de conceptos
+
+* Son prácticamente lo mismo: 
+  - Universal Kriging 
+  - Kriging with external drift 
+  - Regression-Kriging
+
+* Se diferencian en el método de resolver el problema pero no en los resultados.
+
+* Predicción espacial se basa en la estimación de valores desconocido $z(s_0)$ basado en datos conocidos $Z(s_i)$
+
+* $Z_{s_i}$ estará compuesto por una parte determinística (tendencia, ej, OLS, GLS) y la variación de la correlación espacial (variograma)
+
+# Kriging {background-color='darkblue'}
+
+## Generalidades {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+* Los métodos de predicción espacial geoestadísticos son derivados del BLUP.
+
+* Son casos particulares en donde se considera o no la parte determinística $(\mu)$.
+
+* Los modelos de predicción espacial se basan en la autocorrelación espacial y utilizan el modelo de variograma para el cálculo de la covarianza espacial.
+
+
+## Kriging {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+* Por decadas **Kriging** ha sido sinónimo de interpolación geoestadística.
+
+* Tiene su origen en la industria minera en los años cincuenta.
+
+* La idea original viene del ingeniero minero D.G. Krige y del estadístico H.S. Sichel.
+
+* Primera vez publicada en 1951.
+
+* Pero tomo casí una decada hasta que el matemático `Frances G. Matheron` derivara las formulas y estableciera todo el campo de geoestadística lineal.
+
+## Kriging Ordinario {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+* Una versión estandar de Kriging es Kriging Ordinario
+
+* Un caso particular del modelo universal de variación donde solo considera la variación de la correlación espacial.
+
+* Por lo tanto no tenemos coeficientes de regresión y $\beta = 0$
+
+
+$$\hat z(s_0) = q_0^T\cdot\hat \beta + \hat \lambda_0^T\cdot(z-q\cdot \beta)$$
+
+$$\hat z_{OK}(s_0) =  \hat \lambda_0^T\cdot z$$
+
+* De alguna manera podriamos ver a Kriging como una sofisticación del método de inverso de la distancia (IDW).
+
+* $\hat \lambda_0$ son los pesos de kriging.
+
+* Los pesos reflejan la verdadera estructura de autocorrelación espacial (variograma).
+
+## Kriging Ordinario {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+* La variable respuesta se dice estacionaría si varios variogramas experimentales son similares.
+  - Estacionaridad de segundo orden.
+  
+* Tres requerimientos importantes para kriging ordinario:
+  - Los valores de la variable respuesta son  $E[z] = \mu$ en toda la población.
+  - El variograma es constante en toda el área de interes
+  - La variable respuesta sigue aproximadamente distribución normal
+
+$$\lambda_0=C^{-1}\cdot c_0; \: C(|h|=0)=C_0+C_1$$
+
+## Kriging Ordinario {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+* Las salidas de cualquier modelo de predicción estadística son dos mapas:
+  - las predicciones
+  - la varianza de las predicciones
+  
+* El promedio de la varianza de todos los puntos es la varianza global
+
+* La varianza global nos sirve para evaluar la precisión
+  - Si la varianza global de la predicción se aproxima a la varianza global, entonces el mapa es totalmente impreciso.
+  - Si la varianza global de la predicción tiende a 0, entonces el mapa es 100% preciso.
+  
+$$\hat \sigma^2_{OK}(s_0) = C_0+C_1-\sum_{i=1}^n w_i(s_0)\cdot C(s_0,s_i) + \phi$$
+
+## Kriging Ordinario {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+![](figs/semivariance-covariance.png){fig-align='center'}
+
+## Kriging Ordinario {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+* En R utilizando `{gstat}`
+
+```{r echo=TRUE}
+library(gstat)
+library(sp)
+library(sf)
+library(stars)
+data(meuse)
+meuse_sf <- st_as_sf(meuse,coords = c('x','y'),crs = 28992)
+data(meuse.grid)
+meuse_grid_st <- meuse.grid |> st_as_stars() |> st_set_crs(28992)
+
+zinc.ok <- krige(log(zinc)~1, meuse_sf, meuse_grid_st, model=vgm(psill=0.714, "Exp", range=449, nugget=0))
+```
+
+## Kriging Ordinario {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+* En R utilizando `{gstat}`
+
+```{r echo=TRUE,fig.width=10,fig.height=5}
+library(terra)
+res <- rast(zinc.ok)
+plot(res)
+```
+
+## Simulaciones Geoestadísticas {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+* Para evaluar la incertidumbre de las predicciones espaciales.
+* Ordinary Kriging estima el BLUP, pero hay más opciones 
+* `{gstat}` utiliza simulaciones sequenciales por defecto
+
+Este es un algoritmo simple que recorre aleatoriamente las ubicaciones de predicción y en cada ubicación:
+
++ lleva a cabo una predicción kriging
++ extrae una variable aleatoria de la distribución normal con media y varianza iguales a la varianza kriging
++ agrega este valor al conjunto de datos de acondicionamiento
++ encuentra una nueva ubicación de simulación aleatoria
+
+## Simulaciones Geoestadísticas {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r}
+#| eval: false
+zinc.ok_sims <- krige(log(zinc)~1, meuse_sf, meuse_grid_st, model=vgm(psill=0.714, "Exp", range=449, nugget=0),nsim = 6)
+plot(rast(zink.ok_sims))
+```
+```{r}
+#| echo: false
+zink.ok_sims <- rast('data/meuse_simulations.tif')
+plot(zink.ok_sims)
+```
+
+
+
+## Regression-Kriging {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+![](figs/blup_plot.png){fig-align='center'}
+
+## Regression-Kriging {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+$$\hat z_{RK}(s_0) = \sum_{k=0 }^p\hat \beta_k\cdot q_k(s_0)+\sum_{i=1}^n \lambda_i\cdot [z(s_0)-q_k(s_0)\cdot \hat\beta_k]$$
+
+.center[<img src="figs/r-square_regresion-kriging.png" width="700">]
+
+## Regression-Kriging  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+* Lo que modelamos geoestadísticamente son los residuos $e(s_i) = z(s_0)-\hat z_{OLS/GLS}(s_0)$
+
+* Obtenemos el variograma de los residuos.
+
+* Aplicamos Kriging ordinario para espacializar los residuos.
+
+* Luego sumamos la parte deterministica con los resiudos interpolados
+
+## Regression-Kriging  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Un ejemplo simple
+
+![](figs/RK-example.png){fig-align='center')
+
+## Regression-Kriging  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Un ejemplo simple
+
+1. Determinar un modelo de regresión lineal: $z=6.64-0.195\cdot q$
+
+2. Derivar los residuos en todos los puntos observados: $e^*(s_i)=z(s_i)-[b_0+b_1\cdot q(s_i)]$
+
+3. Model la estructura de la covarianz de los residuos (variograma):
+  - modelo: Esférico
+  - nugget $C_0=2.5$
+  - sill $C_1=7.5$
+  - range $R=10$
+
+4. Interpolar los residuos utilizando Kriging Ordinario: $z(5,5)=-0.081$
+
+## Regression-Kriging {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Un ejemplo simple
+
+(5. Sumar el residuo interpolado con el estimado de la regresión lineal:
+
+  $$\hat z(5,5)=\beta_0+\beta_1\cdot q_i+\sum_{i=1}^n \lambda_i(s_0)\cdot e(s_i)$$
+  
+  $$\hat z(5,5)=6.68-0.199\cdot 12-.081=4.21$$
+  
+En este caso específico un poco diferente del resultado obtenido con $\hat z_{OK}=4.30$
+
+## Regression-Kriging  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+En R
+
+```{r echo=TRUE,fig.width=10,fig.height=4}
+zinc.rk <- krige(log1p(zinc)~dist+soil, meuse_sf, meuse_grid_st,
+                 model=vgm(psill=0.151, "Exp", range=374, nugget=0.055))
+plot(rast(zinc.rk))
+```
+
+## Seleccionar la técnica de interpolación apropiada  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+* Entonces, para predicción espacial hemos visto diferentes modelos de espacialización.
+
+  - Inverso de la distancia
+  - Regresión en coordenadas
+  - Modelo de regresión lineal
+  - Kriging Ordinario
+  - Regression-Kriging
+  
+* ¿Cómo sabemos que modelo de predicción aplicar?
+
+## Seleccionar la técnica de interpolación apropiada  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+![](figs/seleccion_metodo_interpolacion.png){fig-align='center')
+
+## Validación de los modelos de predicción  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+* La varianza de estimación de `OK` o los modelos de regresión es la estimación estadística de la incerteza del modelo.
+
+* Pero el `verdadero` poder de predicción solo puede ser evaluado utilizando un set de datos de control independiente.
+
+* Así, el error de predicción es denominado como la precisión de la predicción.
+
+* La verdadera calidad de una predicción espacial puede ser evaluada de mejor forma al comparar valores estimado $(\hat z)$ con valores observados en punto de validación $(z^*)$.
+
+## Validación de los modelos de predicción  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Validación cruzada
+
+* Debido a que la recolección de datos independientes es muchas veces impracticable y costoso, la validación se hace mediante `validación cruzada`.
+
+* `Validación cruzada`: se separa el set de datos original en dos set de datos
+  - datos para calibración
+  - datos para validación
+ 
+## Validación de los modelos de predicción  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Validación cruzada
+
+* Hay varios tipos de estrategia de validación cruzada:
+  - k-fold: el set original de datos es separado en `k` grupos iguales y cada uno es usado para validación cruzada.
+  
+  - leave-one-out  `(LOO)`: cada punto es usado para validación cruzada.
+  
+  - Jackknifing: similar a `LOO` pero es utilizada para evaluar el sesgo del análisis estadístico y no de las predicciones.
+  
+## Validación de los modelos de predicción {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Validación cruzada
+
+`LOOCV`
+
+![](figs/LOOCV.gif){fig-align='center'}
+
+
+## Validación de los modelos de predicción {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Validación cruzada
+
+`K-FOLD`
+
+![](figs/KfoldCV.gif){fig-align='center')
+
+## Validación de los modelos de predicción  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Validación cruzada
+
+* Generalmente calculamos las siguientes indicadores de calidad en `CV`
+
+  - El error promedio de predicción (ME)
+
+$$ME=\frac{1}{l}\cdot \sum_{j=1}^l\left[\hat z(s_j)-z^*(s_j)\right];\: E[ME]=0$$
+  - La raiz cuadrada del error cuadrático medio (RMSE)
+
+$$RMSE = \sqrt{\frac{1}{l}\cdot \sum_{j=1}^l \left[ \hat z(s_j)-z^*(s_j)\right]^2};\: E[RMSE]=0$$
+
+## Validación de los modelos de predicción  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Validación cruzada
+
+O en forma estandarizada lo podemos escribir como:
+
+$$RMSE_r = \frac{RMSE}{\sigma}$$
+
+## Validación de los modelos de predicción   {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Validación cruzada
+
+- El $R^2$ para saber cuanto de la variabilidad es explicada por el modelo.
+
+$$R^2=1-\frac{\sum_{j=1}^l [\hat z(s_j) - z^*(s_j)]^2}{\sum_{j=1}^l [z^*(s_j)-\bar z^*(s_j)]^2}$$
+
+## Validación de los modelos de predicción  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Validación cruzada
+
+Ejemplo En R. Dejamos 100 datos para modelar y 55 para validar
+
+```{r echo=TRUE}
+sel100 <- sample(1:155,100)
+m.model <- meuse_sf[sel100,]
+m.valid <- meuse_sf[-sel100,]
+v100.fit <- fit.variogram(variogram(log(zinc)~1,m.model),
+                          vgm(1,'Sph',800,1))
+m.valid.pr <- krige(log(zinc)~1,m.model,m.valid,v100.fit)
+```
+
+## Validación de los modelos de predicción   {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Validación cruzada
+
+Calculamos el $R^2$ utilizando los valores cross-validados
+
+```{r echo=TRUE}
+resid.kr <- log(m.valid$zinc)-m.valid.pr$var1.pred
+summary(resid.kr)
+
+resid.mean <- log(m.valid$zinc)-mean(log(m.valid$zinc))
+
+(R2 <- 1 - sum(resid.kr^2)/sum(resid.mean^2))
+```
+
+## Validación de los modelos de predicción {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Validación cruzada
+
+En R `{gstat}` tiene la función `krige.cv` quwe permite realizar `CV` utilizando `LOO` o `k-fold`
+
+```{r echo=TRUE}
+v.fit <- vgm(0.59,"Sph",874,0.04)
+cv155 <- krige.cv(log(zinc)~1,meuse_sf,v.fit,nfold=10)
+
+(r2 <- 1- sum(cv155$residual^2)/sum((cv155$observed-mean(cv155$observed))^2))
+```
+
+## Validación de los modelos de predicción   {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Validación cruzada
+
+Si vemos los puntos en el mapa
+
+```{r echo=TRUE,warning=FALSE,message=FALSE}
+library(tmap)
+tmap_mode('view')
+cv155.sf <- st_as_sf(cv155)
+st_crs(cv155.sf) <- 28992
+cv155.sf$fold <- as.factor(cv155.sf$fold)
+```
+
+## Validación de los modelos de predicción  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Validación cruzada
+
+Si vemos los puntos en el mapa
+
+```{r echo=TRUE,warning=FALSE,message=FALSE,fig.height=5}
+tm_shape(cv155.sf) + 
+  tm_dots(col='fold',style='cat')
+```
+
+## Validación de los modelos de predicción  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Validación cruzada
+
+Si vemos los puntos en el mapa
+
+```{r echo=TRUE,warning=FALSE,message=FALSE,fig.height=5}
+tm_shape(cv155.sf) + 
+  tm_dots(col='residual')
+```
+
+## Validación de los modelos de predicción  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Validación cruzada
+
+Si vemos los puntos en el mapa
+
+```{r echo=FALSE,warning=FALSE,message=FALSE,fig.height=5}
+library(tmap)
+tmap_mode('view')
+tm_shape(cv155.sf) + 
+  tm_dots(col='zscore')
+
+```

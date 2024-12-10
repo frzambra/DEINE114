@@ -1,0 +1,631 @@
+---
+title: "Autocorrelación espacial"
+subtitle: "Análisis espacial con R"
+author: "Dr. Francisco Zambrano"
+format: 
+  revealjs:
+    slide-number: true
+    logo: ../imgs/logo_hemera_2024.png
+    css: ../logo.css
+revealjs-plugins:
+  - drop
+drop:
+  shortcut: "]"
+editor: source
+---
+
+## Introducción  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+* La autocorrelación espacial es un concepto clave en estadística espacial.
+
+* Es tanto una molestía, por que complica los test estadísticos, y una ventaja ya que permite la interpolación espacial.
+
+* La autocorrelación (sea espacial o no) es una medida de similaridad (correlación) entre observaciones cercanas.
+
+* Para entender autocorrelación espacial, ayuda primero considerar la autocorrelación temporal.
+
+## Temporal autocorrelation  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+* Si mides algo sobre un objeto en el tiempo, por ejemplo el peso de una persona, es probable que dos observaciones que están cerca tiene valores similares.
+
+* Digamos que tu peso en algunos años varió de 50kg a 80kg.
+
+* Es poco probable que fue de 50kg un día y al día siguiente 80kg.
+
+* El proceso debe haber sido gradual.
+
+* Para medir el grado de asociación en el tiempo, podemos calcular la correlación de cada observación con respecto a la siguiente.
+
+## Autocorrelación temporal  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Un ejemplo
+
+Sea `d` un vector de observaciones diarias
+
+```{r echo=TRUE}
+set.seed(0)
+(d <- sample(100, 10))
+```
+
+## Autocorrelación temporal  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Un ejemplo
+
+Calculamos la autocorrelación con desfase de un día
+
+```{r echo=TRUE, fig.height=4}
+a <- d[-length(d)]
+b <- d[-1]
+plot(a, b, xlab='t', ylab='t-1')
+```
+
+## Autocorrelación temporal  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Un ejemplo
+
+* La autocorrelación es muy baja. 
+
+```{r echo=TRUE, fig.height=4}
+cor(a,b)
+```
+
+* Pero es una muestra aleatoria
+
+* Calculamos la autocorrelación con un desfase de 1, para los valores inmediatamente próximos.
+
+## Autocorrelación temporal  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Un ejemplo
+
+Si ordenamos los datos mejoramos la autocorrelación.
+
+```{r echo=TRUE, fig.height=4}
+(d <- sort(d))
+a <- d[-length(d)]
+b <- d[-1]
+```
+
+## Autocorrelación temporal  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Un ejemplo
+
+Si ordenamos los datos mejoramos la autocorrelación.
+
+```{r echo=TRUE, fig.height=4}
+cor(a,b)
+plot(a, b, xlab='t', ylab='t-1')
+```
+
+## Autocorrelación temporal  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Un ejemplo
+
+La función `acf` muestra la autocorrelación para diferentes desfases.
+
+```{r echo=TRUE, fig.height=4}
+acf(d)
+```
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+* El concepto de autocorrelación espacial es una extensión del de autocorrelación temporal.
+
+* Es un poco más complicado
+  - El tiempo tiene una dimensión
+  - Objetos espaciales tiene al menos dos dimensiones
+
+* Las mediciones de autocorrelación espacial describe el grado al cual dos observaciones en ubicaciones espaciales (sea puntos, áreas, raster) son similares.
+
+* Necesitamos observaciones y sus ubicaciones
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+* Puede ser exógena: causada por algun otra variable autocorrelacionada
+
+* Puede ser endogena: causada por el mismo proceso (ej, covid-19)
+
+* Un estadístico usado para describir la autocorrelación espacial es el índice de Moran.
+
+* Otros son `Geary` y semivariograma
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Un ejemplo
+
+```{r echo=TRUE, fig.height=4}
+library(terra)
+p <- vect(system.file("external/lux.shp", package="raster"))
+p <- p[p$NAME_1=="Diekirch", ]
+#p$value <- c(10, 6, 4, 11, 6)
+data.frame(p)
+```
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Un ejemplo con polígonos
+
+Calcular la autocorrelación de la variable `AREA`
+
+```{r echo=TRUE, fig.height=4}
+par(mai=c(0,0,0,0))
+plot(p, col=2:7)
+xy <- centroids(p)
+points(xy, cex=6, pch=20, col='white')
+text(p, 'ID_2', cex=1.5)
+```
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Polígonos adyacentes
+
+* Debemos determinar que polígonos están cerca.
+
+* Utilizaremos adyacencia con el paquete `{spdep}`.
+
+```{r echo=TRUE,message=FALSE}
+library(spdep)
+w <- adjacent(p, symmetrical = TRUE)
+class(w)
+## [1] "nb"
+```
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Polígonos adyacentes
+
+```{r echo=TRUE,message=FALSE}
+summary(w)
+```
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Polígonos adyacentes
+
+Conección entre polígonos
+
+```{r echo=TRUE,message=FALSE,fig.height=4}
+plot(p, col='gray', border='blue', lwd=2)
+p1 <- xy[w[,1],]
+p2 <- xy[w[,2],]
+lines(p1,p2,col = 'red', lwd = 2)
+```
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Polígonos adyacentes
+
+* Ahora podemos transforma `w` a una matriz de pesos espaciales. 
+
+* La matriz de pesos refleja la intensidad de la relación entre las observaciones.
+
+```{r echo=TRUE,message=FALSE}
+(wm <- adjacent(p, pairs=FALSE))
+```
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+$$I = \frac{n}{\sum_{i=1}^n (y_i - \bar{y})^2} \frac{\sum_{i=1}^n \sum_{j=1}^n w_{ij}(y_i - \bar{y})(y_j - \bar{y})}{\sum_{i=1}^n \sum_{j=1}^n w_{ij}}$$
+
+* Parecida a la ecuación de calculo de correlación lineal
+
+* La mayor diferencia es que agrega la matriz de pesos.
+
+El número de observaciones
+
+```{r echo=TRUE}
+(n <- length(p))
+```
+Obtenemos $y$ e $\bar y$
+
+```{r echo=TRUE}
+y <- p$AREA
+ybar <- mean(y)
+```
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+Ahora necesitamos $(y_i - \bar{y})(y_j - \bar{y})$
+
+```{r echo=TRUE}
+dy <- y - ybar
+g <- expand.grid(dy, dy)
+yiyj <- g[,1] * g[,2]
+```
+
+Creamos la matriz con pares multiplicados
+
+```{r echo=TRUE}
+pm <- matrix(yiyj, ncol=n)
+```
+
+Multiplicamos la matríz por la matriz de pesos
+
+```{r echo=TRUE}
+pmw <- pm * wm 
+```
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+Ahora sumamos los valores para obtener
+
+$$\sum_{i=1}^n \sum_{j=1}^n w_{ij}(y_i - \bar{y})(y_j - \bar{y})$$
+
+```{r echo=TRUE}
+spmw <- sum(pmw)
+```
+
+El siguiente paso es dividir este valor por la suma de pesos
+
+```{r echo=TRUE}
+smw <- sum(wm)
+sw  <- spmw / smw
+```
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+Y el inverso de la varianza
+
+```{r echo=TRUE}
+(vr <- n / sum(dy^2))
+```
+
+El valor del índice de Moran es
+
+```{r echo=TRUE}
+(MI <- vr*sw)
+```
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+El valor esperado en ausencia de autocorrelación espacial.
+
+$$E(I) = \frac{-1}{n-1}$$
+
+Valores $< E(I)$  indican autocorrelación espacial negativa  
+Valores $> E(I)$  indican autocorrelación espacial positiva
+
+En nuestro ejemplo tenemos
+
+```{r echo=TRUE}
+(EI <- -1/(n-1))
+```
+
+Y el valor del indice de Moran fue de `r round(MI,2)` 
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+* Pero, tenemos la función `autocor` en el paquete `terra`
+* Creamos una matriz de pesos con`adjacent`.
+
+```{r echo=TRUE}
+(ww <-  adjacent(p, "queen", pairs = FALSE))
+```
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+* Pero, tenemos la función `autocor` en el paquete `terra`
+
+
+```{r echo=TRUE}
+autocor(p$AREA, ww, "moran")
+```
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+Podemos correr un análisis de significancia utilizando `montecarlo/bootstraping`
+
+```{r echo=TRUE, fig.height=4}
+m <- sapply(1:99, function(i) {
+    autocor(sample(p$AREA), ww, "moran")
+})
+hist(m)
+```
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+Graficamos para ver la autocorrelación espacial
+
+```{r echo=TRUE}
+n <- length(p)
+(ms <- cbind(id=rep(1:n, each=n), y=rep(y, each=n), value=as.vector(wm * y)))
+```
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+Graficamos para ver la autocorrelación espacial
+
+El promedio en cada vecindario
+
+```{r echo=TRUE}
+ms <- ms[ms[,3] > 0, ]
+ams <- aggregate(ms[,2:3], list(ms[,1]), FUN=mean)
+ams <- ams[,-1]
+colnames(ams) <- c('y', 'spatially lagged y')
+head(ams)
+```
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+El promedio en cada vecindario
+
+Finalmente, el gráfico.
+
+```{r echo=TRUE,eval=FALSE,fig.width=8,fig.height=3}
+plot(ams)
+reg <- lm(ams[,2] ~ ams[,1])
+abline(reg, lwd=2)
+abline(h=mean(ams[,2]), lt=2)
+abline(v=ybar, lt=2)
+```
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+El promedio en cada vecindario
+
+Finalmente, el gráfico.
+
+```{r echo=FALSE,eval=TRUE,fig.width=8,fig.height=3}
+plot(ams)
+reg <- lm(ams[,2] ~ ams[,1])
+abline(reg, lwd=2)
+abline(h=mean(ams[,2]), lt=2)
+abline(v=ybar, lt=2)
+```
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+La pendiente 
+
+```{r echo=FALSE,fig.width=8,fig.height=4}
+coefficients(reg)[2]
+```
+
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+Otro ejemplo para clarificar 
+
+::: {.columns}
+::: {.column width=50%}
+![](figs/grid_clusteredCartogramNewFrame.png){width=400}
+:::
+::: {.column width=50%}
+![](figs/grid_randomCartogramNewFrame.png){width=400}
+:::
+:::
+
+## Autocorrelación espacial  {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+¿Cómo será el índice de Moran en cada caso?
+
+::: {.columns}
+::: {.column width=50%}
+![](figs/grid_clusteredLisaScatterPlotFrame.png){width=300}
+:::
+::: {.column width=50%}
+![](figs/grid_randomLisaScatterPlotFrame.png){width=300}
+:::
+:::
+
+## Autocorrelación espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Si miramos en los puntos de algunos de los cluster
+
+::: {.columns}
+::: {.column width=50%}
+![](figs/moran_clust1IZ.png){width=300}
+:::
+::: {.column width=50%}
+![](figs/moran_clust1DE.png){width=400}
+:::
+:::
+
+## Autocorrelación espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Si miramos en los puntos de algunos de los cluster
+
+::: {.columns}
+::: {.column width=50%}
+![](figs/moran_clust2IZ.png){width=300}
+:::
+::: {.column width=50%}
+![](figs/moran_clust2DE.png){width=400}
+:::
+:::
+
+## Autocorrelación espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+Si miramos en los datos `meuse` en la variable de concentración de `copper`
+
+```{r echo=TRUE}
+library(spdep)
+library(sp)
+data(meuse)
+meuse.sf <- st_as_sf(meuse,coords=c('x','y'))
+w <- 1/as.matrix(st_distance(meuse.sf))
+diag(w) <- 0
+w <- mat2listw(w)
+moran(meuse$copper,w,n=length(w$neighbours),S0=Szero(w))
+```
+
+## Autocorrelación espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+
+### Indice de Moran
+
+Si miramos en los datos `meuse` en la variable de concentración de `copper`
+
+```{r echo=TRUE}
+moran.mc(meuse$copper,w,nsim=10000)
+```
+
+## Autocorrelación espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+
+### Indice de Moran
+
+Si miramos en los datos `meuse` en la variable de concentración de `copper`
+
+```{r echo=TRUE,fig.width=10,fig.height=5}
+moran.plot(meuse$copper,w)
+```
+
+## Autocorrelación espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+Si miramos en los datos `meuse` en la variable de concentración de `zinc`
+
+```{r echo=TRUE}
+moran.mc(meuse$zinc,w,nsim=10000)
+```
+
+## Autocorrelación espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+Si miramos en los datos `meuse` en la variable de concentración de `zinc`
+
+```{r echo=TRUE,fig.width=10,fig.height=5}
+moran.plot(meuse$zinc,w)
+```
+
+## Autocorrelación espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+Si miramos en los datos `meuse` en la variable de concentración de `cadmium`
+
+```{r echo=TRUE}
+moran.mc(meuse$cadmium,w,nsim=10000)
+```
+
+## Autocorrelación espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran
+
+Si miramos en los datos `meuse` en la variable de concentración de `cadmium`
+
+```{r echo=TRUE,fig.width=10,fig.height=5}
+moran.plot(meuse$cadmium,w)
+```
+
+## Autocorrelación espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran local
+
+Generalmente hay interés en proporcionar medidas de autocorrelación local. Ej. para ver como se comporta una observación respecto a su entorno.
+
+Local Indicators of Spatial Association (LISA)
+
+```{r}
+#| echo: true
+lmoran <- localmoran(meuse$zinc, w, alternative = "greater")
+head(lmoran)
+```
+
+## Autocorrelación espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran local
+
+```{r}
+#| echo: true
+meuse_sf <- st_as_sf(meuse[c('x','y','zinc')],coords = c('x','y'),crs = 28992)
+meuse_sf$Ii <- lmoran[,'Ii']
+meuse_sf$Z <- lmoran[,'Z.Ii']
+meuse_sf$Pr <- lmoran[, "Pr(z > E(Ii))"]
+
+library(tmap)
+p1 <- tm_shape(meuse_sf) +
+  tm_dots(col = "zinc", title = "Zinc", style = "quantile") +
+  tm_layout(legend.outside = TRUE)
+
+p2 <- tm_shape(meuse_sf) +
+  tm_dots(col = "Ii", title = "Índice de Moran Local",
+              style = "quantile") +
+  tm_layout(legend.outside = TRUE)
+
+p3 <- tm_shape(meuse_sf) +
+  tm_dots(col = "Z", title = "Z-score",
+              breaks = c(-Inf, 1.65, Inf)) +
+  tm_layout(legend.outside = TRUE)
+
+p4 <- tm_shape(meuse_sf) +
+  tm_dots(col = "Pr", title = "p-value",
+              breaks = c(-Inf, 0.05, Inf)) +
+  tm_layout(legend.outside = TRUE)
+```
+
+## Autocorrelación espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran local
+
+```{r}
+#| echo: true
+tmap_mode('view')
+tmap_arrange(p1,p2,p3,p4)
+```
+## Autocorrelación espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran local
+
+```{r}
+#| echo: true
+quad <- attr(lmoran,'quadr') 
+head(quad)
+```
+
+## Autocorrelación espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran local
+
+```{r}
+#| echo: true
+#| message: false
+library(dplyr)
+meuse_sf <- meuse_sf |> 
+  bind_cols(quad = quad$median) |>
+  mutate(quad = case_when(
+    Pr < 0.05 ~ quad,
+    .default = 'No Significativo')) 
+```
+
+## Autocorrelación espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Indice de Moran local
+
+```{r}
+tm_shape(meuse_sf) + 
+  tm_dots(col='quad') 
+```
+

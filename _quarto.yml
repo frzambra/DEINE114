@@ -1,0 +1,79 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "DEINE114"
+  favicon: /imgs/R_logo.png
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: "Unidad 1: Datos espaciales con R"
+        menu:
+          - text: "Presentación"
+            href: Unidad1/00_presentacion_profesor_curso.qmd
+          - text: "Introducción a R"
+            href: Unidad1/01_intro_R.qmd
+          - text: "Manejo de datos con {tidyverse}"
+            href: Unidad1/02_manejo_datos_tidyverse.qmd
+      #     - text: "Datos espaciales con R"
+      #       href: Unidad1/03_datos_espaciales_R.qmd
+      #   
+      #     - text: "Mapas con {tmap}"
+      #       href: Unidad1/04_mapas_con_tmap.qmd
+      # - text: "Unidad 2: Predicción espacial"
+      #   menu:
+      #     - text: "Conceptos básicos geoestadística"
+      #       href: Unidad2/01_conceptos_geoestadistica.qmd
+      #     - text: "Métodos determinísticos"
+      #       href: Unidad2/02_metodos_deterministicos.qmd
+      #     - text: "Métodos regresión ambiental"
+      #       href: Unidad2/03_modelos_regresion_ambiental.qmd
+      #     - text: "Autocorrelación espacial"
+      #       href: Unidad2/04_autocorrelacion_espacial.qmd
+      #     - text: "Variograma"
+      #       href: Unidad2/05_variograma.qmd
+      #     - text: "Kriging"
+      #       href: Unidad2/06_kriging.qmd
+      #     - text: "Random Forest con {tidymodels}"
+      #       href: Unidad2/07_random_forest_tidymodels.qmd
+      # - text: "Talleres"
+      #   menu: 
+      #     - text: "Datos extra de temperatura"
+      #       href: "https://drive.google.com/file/d/1AtzP-JPmLcAwd2H6IHLhqkdkesWKKzIr/view?usp=sharing"
+      #     - text: "Taller 1: Preparación de datos"
+      #       href: Talleres/Taller1.html
+      #     - text: "Taller 1: Ejemplo"
+      #       href: Talleres/Taller1_ejemplo.html
+      #     - text: "Taller 2: Predicción espacial no geoestadística"
+      #       href: Talleres/Taller2.html
+      #     - text: "Taller 3: Análisis de autocorrelación espacial"
+      #       href: Talleres/Taller3.html
+      #     - text: "Taller 4: Interpolación espacial con Kriging"
+      #       href: Talleres/Taller4.html
+      #     - text: "Taller 5: Predicción espacial con Random Forest"
+      #       href: Talleres/Taller5.html
+      - text: Ejercicios
+        href: ejercicios.qmd
+      - text: Acerca
+        href: about.qmd
+    right:
+        - icon: linkedin
+          href: https://linkedin.com/in/frzambra
+        - icon: github
+          href: https://github.com/frzambra/METE133-2024
+
+format:
+  html:
+    theme: spacelab
+    css: styles.css
+    toc: true
+
+filters:
+  - r-wasm/drop
+
+margin-header: |
+  ![](/imgs/logo_hemera_2024.png)
+editor: visual
+

@@ -1,0 +1,10 @@
+---
+title: "Acerca"
+lang: es
+---
+
+Este repositorio ha sido creado por Francisco Zambrano para el curso de `Análisis Espacial en R con aplicaciones a Ecología del Paisaje`. Este curso está siendo impartido durante los meses de diciembre 2024 y enero 2025.
+
+El curso es parte del programa de Doctorado en Ecología Integrativa de la Universidad Mayor. Para mayor información sobre el programa hacer clic en el [link](https://vri.umayor.cl/doctorados/doctorado-en-ecologia-integrativa).
+
+Este programa es coordinado por el Centro GEMA de la Universidad Mayor. Para conocer más sobre las actividades del centro puedes hacer clic en el [link](https://gema.umayor.cl/).

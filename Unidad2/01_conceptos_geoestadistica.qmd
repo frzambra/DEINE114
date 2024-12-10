@@ -1,0 +1,361 @@
+---
+title: "Conceptos básicos"
+subtitle: "Análisis espacial con R"
+author: "Dr. Francisco Zambrano"
+format: 
+  revealjs:
+    slide-number: true
+    logo: ../imgs/logo_hemera_2024.png
+    css: ../logo.css
+    revealjs-plugins:
+      - drop
+    drop:
+      shortcut: "]"
+editor: source
+---
+
+## Geoestadística {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+-   Se puede ver como un subconjunto de la estadística
+
+-   Se preocupa del análisis e interpretación de datos `geográficamente referenciados`.
+
+::::: columns
+::: {.column width="50%"}
+-   Es uno de los tres principales campos especializados en el análisis de datos espaciales.
+    -   Geostadistica
+    -   Poitn Pattern Analysis
+    -   Lattice Statistics
+:::
+
+::: {.column width="50%"}
+![](figs/spatial_analysis.png){width="100%"}
+:::
+:::::
+
+## Geoestadística {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Preguntas típicas de un análisis geoestadístico
+
+-   ¿Cómo la variable varía en el espacio?
+
+-   ¿Qué controla su variación?
+
+-   ¿Dónde ubicar las muestras para describir la variación espacial?
+
+-   ¿Cuántas muestras son necesarias para representar la variación espacial.
+
+-   ¿Cuál es el valor de la variable en una nueva ubicación?
+
+-   ¿Cuál es la incerteza de los valores estimados?
+
+## Geoestadística {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+La podemos definir como `una producción analítica de mapas usando observaciones de campo, información explicativa en un software computacional que calcula los valores en las posiciones de interés`.
+
+Generalmente involucra:
+
+-   diseño del plan de muestreo y el workflow computacional
+-   toma de datos y análisis de laboratorio
+-   estimación del modelo usando los datos de muestreo puntuales (calibración)
+-   implementación del modelo (predicción)
+-   evaluación de modelo usando datos de validación
+-   producción final y distribución de los mapas con los valores estimados.
+
+## Variables ambientales {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+-   Son medidas cuantitativas o descriptivas de características ambientales.
+-   Pueden pertenecer a diferentes dominios: biología, suelo, vegetación,climatológica, hidrológica, ...
+-   Son comunmente recolectadas por medio de mediciones de campo (con ayuda de remote sensing).
+-   Las muestras luego son usadas para generar mapas que muestran su distribución en un área.
+-   El muestreo es generalmente la parte más costosa.
+    -   Por lo que generalmente se toma un número limitado de muestras.
+    -   Con lo que se genera modelos que tienen una limitada calidad.
+
+## Variabilidad espacial: aspectos y fuentes {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+::::: columns
+::: {.column width="50%"}
+Modelo universal de variación
+
+$$Z(s) = z^*(s)+\epsilon'(s)+\epsilon''$$
+
+$z^*(s)$ : parte determinística\
+$\epsilon'(s)$ : componente espacial correlacionado\
+$\epsilon''$ : error gausiano (incerteza)
+:::
+::: {.column width="50%"}
+![](figs/grid_meuse.png){fig-width="3"}
+:::
+:::::
+
+## Modelos de predicción espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+-   En una situación **ideal** la variabilidad de una variable ambiental es determinada por una limitada cantidad de inputs/predictores que siguen una conocida ley física.
+
+-   Si la ecuación física es conocida podemos predecir exactamente la variable objetivo/salida.
+
+-   En la realidad la relación entre la variable y las condiciones ambientales es demasiado compleja que no la podemos modelar excatamente.
+
+## Modelos de predicción espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Notación**
+
+Variable objetivo
+
+$Z$ denotada como $z(s_1),z(s_2),...,(zs_n)$
+
+Donde $s_i = (x_i,y_i)$
+
+Dominio $\mathbb{A}$
+
+$$Z = {Z(s),\forall s \in \mathbb{A}} $$
+
+![](figs/spatial_prediction_process.png){width="100%"}
+
+## Modelos de predicción espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+-   El dominio geográfico de interés es una matriz rectangular
+
+-   Un arreglo de filas x columnas sobre el dominio de interés
+
+$$z = {z(s_j),j=1,...,m}$$
+
+$$s_j \in \mathbb{A}$$
+
+![](figs/spatial_prediction_grid.png){fig-width="100%" fig-align="center"}
+
+## Modelos de predicción espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+-   Hay muchos métodos de predicción espacial.
+
+-   En un principio es díficil saber cual utilizar y por qué.
+
+Los podemos agrupar en:
+
+-   `Métodos determinísticos`: parámetros determinados de forma empírica. No se hace estimación del error.
+    -   Polígonos de Thiessen, Inverso de la distancia, regresión en coordenadas, vecino más próximo, splines,...
+-   `Modelos estadísticos lineales`: los parámetros se estiman de forma objetiva siguiendo la teoría de probabilidades.
+    -   Kriging, correlación ambiental (regresión),modelos bayesianos, modelos híbridos,
+-   `Sistemas expertos`
+    -   Machine learning
+
+## Escala y distancia {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+-   El término escala es un poco confuso
+
+    -   gran escala -\> mayor resolución
+    -   escala pequeña -\> menor resolución
+    -   Pero es común que se entienda al revés.
+
+-   ¿Por qué la escala/resolución importa?
+
+    -   Diferentes procesos tienen diferentes escalas a las que funcionan.
+    -   Procesos que operan en un gran extensión (ej, bosques) se pueden estudiar a resoluciones más gruesas.
+    -   Procesos que operana en una menor extensión (ej, árboles) se pueden estudiar a mayores resoluciones (ej, hoja).
+    -   Afecta nuestra estimación de longitud y tamaño.
+
+## Escala y distancia {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Zonificación
+
+-   Datos geográficos usualmente son agregados por zona.
+-   Siempre queremos tener datos de alto nivel de detalle.
+-   La realidad es que usalmente solo podemos obtener datos agregados.
+-   Ejemplo: censo agropecuarios
+
+Ilustremos con un ejemplo: simulación de 1000 hogares de los cuales sabemos su ingreso anual.
+
+```{r echo = TRUE}
+set.seed(0)
+xy <- cbind(x=runif(1000, 0, 100), y=runif(1000, 0, 100))
+income <- (runif(1000) * abs((xy[,1] - 50) * (xy[,2] - 50))) / 500
+```
+
+## Escala y distancia {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Zonificación
+
+```{r echo = TRUE,fig.width=10,fig.height=4}
+par(mfrow=c(1,3), las=1)
+plot(sort(income), col=rev(terrain.colors(1000)), pch=20, cex=.75, ylab='income')
+hist(income, main='', col=rev(terrain.colors(10)),  xlim=c(0,5), breaks=seq(0,5,0.5))
+plot(xy, xlim=c(0,100), ylim=c(0,100), cex=income, col=rev(terrain.colors(50))[10*(income+1)])
+```
+
+## Escala y distancia {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Zonificación
+
+Usando el índice de GINI
+
+```{r echo = TRUE,fig.width=10,fig.height=4}
+n <- length(income)
+(G <- (2 * sum(sort(income) * 1:n)/sum(income) - (n + 1)) / n)
+```
+
+## Escala y distancia {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Zonificación
+
+Ahora realicemos diferentes agregaciones
+
+```{r echo = FALSE,message = FALSE,fig.width=10,fig.height=5}
+library(terra)
+r1 <- rast(ncol=1, nrow=4, xmin=0, xmax=100, ymin=0, ymax=100, crs=NA)
+r1 <- rasterize(xy, r1, income, mean)
+r2 <- rast(ncol=4, nrow=1, xmin=0, xmax=100, ymin=0, ymax=100, crs=NA)
+r2 <- rasterize(xy, r2, income, mean)
+r3 <- rast(ncol=2, nrow=2, xmin=0, xmax=100, ymin=0, ymax=100, crs=NA)
+r3 <- rasterize(xy, r3, income, mean)
+r4 <- rast(ncol=3, nrow=3, xmin=0, xmax=100, ymin=0, ymax=100, crs=NA)
+r4 <- rasterize(xy, r4, income, mean)
+r5 <- rast(ncol=5, nrow=5, xmin=0, xmax=100, ymin=0, ymax=100, crs=NA)
+r5 <- rasterize(xy, r5, income, mean)
+r6 <- rast(ncol=10, nrow=10, xmin=0, xmax=100, ymin=0, ymax=100, crs=NA)
+r6 <- rasterize(xy, r6, income, mean)
+par(mfrow=c(2,3), las=1)
+plot(r1); plot(r2); plot(r3); plot(r4); plot(r5); plot(r6)
+```
+
+## Escala y distancia {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Zonificación
+
+-   No es sorprendente ver que regiones de menor tamaño se acercan más al patrón real.
+-   Pero si comparamos los histogramas nos damos cuenta que ninguno captura la distribución de ingresos de los datos originales.
+
+```{r echo = FALSE,message = FALSE,fig.width=10,fig.height=4}
+par(mfrow=c(1,3), las=1)
+hist(r4, main='', col=rev(terrain.colors(10)), xlim=c(0,5), breaks=seq(0, 5, 0.5))
+hist(r5, main='', col=rev(terrain.colors(10)), xlim=c(0,5), breaks=seq(0, 5, 0.5))
+hist(r6, main='', col=rev(terrain.colors(10)), xlim=c(0,5), breaks=seq(0, 5, 0.5))
+```
+
+## Escala y distancia {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Distancia
+
+-   Es el concepto más fundamental en geografía.
+
+-   Primera ley de la geografía
+
+> everything is related to everything else, but near things are more related than distant things - Waldo Tobler
+
+-   La distancia generalmente se describen como una `matriz de distancias`
+
+-   En la `matriz de distancias` tenemos la distancia entre todos los objetos de interés.
+
+## Escala y distancia {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Distancia
+
+Creemos una matriz de distancia
+
+```{r echo=TRUE}
+A <- c(-70.3, -33.1)
+B <- c(-71.2, -32.9)
+C <- c(-71.3, -33.4)
+D <- c(-70.1, -33.5)
+E <- c(-70.7, -33.2)
+F <- c(-70.4, -32.5)
+(pts <- rbind(A, B, C, D, E, F))
+```
+
+## Escala y distancia {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Distancia
+
+Grafiquemos
+
+```{r echo = FALSE,message = FALSE,fig.width=10,fig.height=4}
+plot(pts, xlim=c(-71.5,-70), ylim=c(-34,-32), pch=20, cex=2, col='red', xlab='X', ylab='Y', las=1)
+text(pts+5, LETTERS[1:6])
+```
+
+## Escala y distancia {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Distancia
+
+```{r echo=TRUE}
+(dis <- dist(pts))
+```
+
+Podemos convertirla a una matriz
+
+```{r echo=TRUE}
+(D <- as.matrix(dis))
+```
+
+## Escala y distancia {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Distancia con coordenas lat/lon
+
+-   Si la distancia estuviera en coordenads geográfica el calculo de distancia sería incorrecto con `dist`.
+
+-   Pero podemos usar {sf}
+
+```{r echo=TRUE,message=FALSE}
+library(sf)
+pts <- data.frame(x=pts[,1],y=pts[,2])
+ptsSF <- st_as_sf(pts,coords = c('x','y'),crs=4326)
+st_distance(ptsSF)
+```
+
+## Influencia espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+-   Un paso importante en estadistica espacial y modelado es obtener una métrica de la influencia espacial entre objetos geográficos.
+
+-   Se puede expresar como función de adyacencia (póligonos)
+
+-   En general es expresada como una matriz espacial de pesos
+
+-   Esta influencia en realidad es muy compleja y no la podemos calcular.
+
+-   Pero la podemos estimar de varias formas.
+
+## Influencia espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Matriz de pesos
+
+-   Es comun utilizar el inverso de la distancia
+
+```{r echo=TRUE}
+W <- 1 / D
+(round(W,4))
+```
+
+## Influencia espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Matriz de pesos
+
+-   La matriz de "pesos espaciales" comunmente se normalizada por fila.
+
+```{r echo=TRUE}
+W[!is.finite(W)] <- NA
+rowSums(W, na.rm=TRUE)
+```
+
+Podemos hacerlo dividiendo por la suma total.
+
+```{r echo=TRUE}
+rtot <- rowSums(W, na.rm=TRUE)
+W <- W / rtot
+rowSums(W, na.rm=TRUE)
+```
+
+## Influencia espacial {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r}
+ptsSF_utm <- st_transform(ptsSF,32719)
+bb <- st_buffer(ptsSF_utm,5000) |> st_bbox()
+r <- rast(xmin=bb[1],xmax=bb[3],ymin=bb[2],ymax=bb[4],res=10000)
+xy <- xyFromCell(r,1:ncell(r)) |> 
+  vect()
+
+values(r) <- 1:ncell(r)
+grid <- as.polygons(r)
+plot(grid)
+plot(vect(ptsSF_utm),col='red',add=TRUE)
+plot(xy,col='blue',add = TRUE)
+```

@@ -1,0 +1,4 @@
+/.quarto/
+.Rproj.user
+Talleres/data/raw/
+Talleres/data/procesada/predictores_espaciales.tif

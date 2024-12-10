@@ -1,0 +1,108 @@
+---
+title: "Taller 1"
+subtitle: "Preparación de los datos"
+author: "Dr. Francisco Zambrano"
+number-sections: true
+lang: es
+---
+
+::: {.callout-important}
+## Fecha de entrega
+25 de Septiembre hasta las 18:30
+:::
+
+# Descripción
+
+El objetivo final del curso es probar diferentes métodos de predicción espacial para espacializar la temperatura mensual para un mes en cada estación, en una región de Chile para el año 2023. Por lo que durante el curso se realizarán múltiples talleres para poder lograr este objetivo. La predicción se realizará a partir de mediciones in-situ de temperatura, que será obtenida desde la red de estaciones agrometeorológicas del Ministerio de Agricultura ([AGROMET](https://www.agromet.cl/)). Además, se utilizarán como variables predictoras datos raster de elevación, índice NDVI (vigor de la vegetación), distancia a la costa; además de cualquier otra variable que pueda ayudar a obtener una mejor precisión en la predicción de la temperatura mensual.
+
+# Objetivo del taller
+
+* Realizar la preparación (preprocesamiento) de los datos tabulados y raster necesarios para la predicción espacial de la temperatura mensual.
+
+* Realizar el análisis exploratorio básico de los datos tabulados y raster. Gráficos y estadística de resumen (ej, histograms, boxplot, resumenes, etc).
+
+# Datos
+
+## Datos tabulados
+
+Los datos de temperatura los puede descargar utilizando el paquete [{agrometR}](https://github.com/ODES-Chile/agrometR). Este es un paquete que no se encuentra publicado en el [CRAN](https://cran.r-project.org/), por lo que lo debe instalar desde [github](https://www.github.com/) así:
+
+```{r}
+#| eval: false
+#install.packages('remotes') #instalar si no está instalado
+remotes::install_github('ODES-Chile/agrometR')
+```
+
+Luego puede acceder a la lista de estaciones disponibles con:
+
+```{r}
+#| message: false
+library(agrometR)
+library(dplyr)
+estaciones_agromet |> glimpse()
+```
+
+Debe identificar las estaciones que corresponden a su región.
+
+```{r}
+ids <- estaciones_agromet |> 
+  filter(region == 'Magallanes') |> 
+  pull(ema)
+```
+Luego puede descargar los datos:
+
+```{r}
+#| eval: false
+data <- get_agro_data(ids,date_start = "2023-01-01",date_end = "2023-12-31")
+```
+
+::: {.callout-note}
+## Opción descarga datos agromet
+Datos disponibles para el año 2023  
+[Descargar datos 2023 Agromet](https://drive.google.com/file/d/1DryIUKo_32Y3kM_cZwBFAZXY7SYtyhf_/view?usp=sharing)
+:::
+
+## Datos rasters
+
+1. Para la descarga de datos de elevación puede utilizar la función `elevation_30s` del paquete `{geodata}`.
+
+2. Utilizando los datos de elevación debe calcular el aspecto y la pendiente.
+
+3. Como fuente para los datos grillados de NDVI y temperatura superficial de suelo (LST) se utilizarán los obtenidos por el sensor MODIS. Estos datos los puede descargar por medio del paquete de R `{MODIStsp}`.
+
+4. Los datos raster de distancia a la costa los deberá generar usted, considerando una resolución espacial de 500m.
+
+# Lo que deberá entregar
+
+## Archivos
+
+1. Un script reproducible en `R` que permita replicar lo hecho ("taller1_{nombre_región}.R")
+
+2. Los datos fuente que hacen posible la reproducción del script (csv, tif, etc).
+
+## Características que deben cummplir los datos.
+
+1. Deberá filtrar las estaciones que se encuentran en la región asignada a su grupo.
+
+2. Debe calcular el promedio mensual para los meses seleccionados con los datos de temperatura.
+
+3. Los datos los debe guardar con la clase `sf` y con las correspondientes coordenadas geográficas asignadas.
+
+4. El script debe guardar el set de datos filtrados para la estaciones con la temperatura promedio mensual de los meses seleccionados; en formato RDS con la función `write_rds`.
+
+5. Deberá realizar el proceso de crop y mask de los rasters para la región de interés.
+
+6. Debe crear un archivo multi capa SpatRaster el que deberá guardar en formato GeoTiff que contenga a todos los predictores raster.
+
+## Archivos de salida
+
+1. Script en R `taller1_{nombre_región}.R`
+
+2. Archivo GeoTiff `predictores_{nombre_region}.tif`, de tipo multicapa con los predictores raster.
+
+3. Archivo `RDS` `data_temp_{nombre_region}.rds` en donde estén los datos de temperatura mensual para la región asignada en formato `sf`.
+
+4. Gráficos de análisis exploratorio en donde se pueda tener una idea de la distribución estádistica de los datos. Para los datos raster y tabulados (estaciones).
+
+5. Una tabla con el resumen estadístico (min,1er Cuartil, mediana, media, promedio, 3er cuartil y maxímo) para cada mes (mayo, junio, julio). Para los datos raster y tabulados (estaciones).
+

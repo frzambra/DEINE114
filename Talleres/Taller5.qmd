@@ -1,0 +1,42 @@
+---
+title: "Taller 5: Interpolación espacial con Random Forest"
+subtitle: "Análisis Espacial con R"
+author: "Dr. Francisco Zambrano"
+format: 
+  html:
+    number-sections: true
+editor: source
+---
+
+## Descripción
+
+En el primer taller realizó el preprocesamiento de los datos raster y vectoriales que se utilizarán para realizar la predicción espacial de temperatura para la región asignada. Luego, en el segundo taller, realizó las primeras predicciones espaciales con métodos no geostadísticos. En el tercer taller trabajó en el análisis de autocorrelación espacial para los datos de temperatura. Luego en el taller 4 realizó la interpolación geoestadística utilizando los métodos de kriging ordinario y regresión kriging. En este úlitmo taller debe utilizar el modelo de machine learning de Random Forest para realizar la interpolación espacial de temperatura mensual mediante el framework {tidymodels}. Debe realizar la evaluación de la predicción utilizando la técnica de validaciión cruzada. Finalmente debe realizar la comparación de los diferentes métodos utilizados en el curso para interpolación espacial (inverso de la distancia, vecino más próximo, regresión lineal, Kriging y Random Forest).
+
+## Objetivo del taller
+
+Realizar la interpolación espacial utilizando la técnica de machine learning Random Forest, además de hacer un análisis de validación cruzada de los resultados.
+
+1) Calcular buffer de distancia (raster) entre la ubicación de las estaciones a cada uno de los pixeles del área de estudio (dominio espacial). Deberá generar tantos buffer como estaciones tenga en la región.
+
+2) Crear un stack de raster con todos los predictores espaciales. Estos son distancia a la costa, elevación, exposición, pendiente, temperatura superficial de suelo y NDVI.
+
+3) Extraer los datos de todos los predictores en la ubicación de las estaciones. Como resultado debe tener un `data.frame (tibble)` con todos los datos.
+
+4) Debe utilizar los datos del punto anterior, para entrenar un modelo de Random Forest (RF) para la temperatura de los meses asignados. Utilice el framework de tidymodels y haga una optimización de los parametros `mtry` y `n_min`.
+
+5) Realiza una evaluación de los resultados del modelo considerando: i) un remuestreo con 10 folds, 2) el set de entrenamiento, y 3) el set de testeo. Para cada uno compare las métricas de RMSE, MAE y $R^2$.
+
+6) Utilice el modelo de Random Forest para predecir la temperatura mensual en todo el dominio espacial.
+
+7) Realice una discusión de los resultados y de la comparación de las estimaciones obtenidad con lo métodos de inverso de la distancia, vecino más próximo, Krigin Ordinario (OK) y Regression Kriging (RK).
+  -   ¿Qué método obtuvo los mejores resultados?¿Por qué?
+
+## Lo que deberá entregar
+
+1)  Un documento en `Quarto` donde se detalle la metodología utilizada, incluyendo los scripts. El documento debe ser reproducible.
+
+2)  Mapas interactivos de la predicción espacial obtenida con Random Forest.
+
+3)  Gráfico y tablas que permitan comparar los valores de $R^2$, $MAE$ y $RMSE$ obtenidos para los diferentes meses utilizando: i) remuestreo, ii) set de entrenamiento, y iii) se de testeo.
+
+4)  El documento debe contener una sección de discusión. En esta sección debe profundizar en el análisis de comparación de los resultados obtenidos entre todos los métodos vistos para predicción espacial.

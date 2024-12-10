@@ -1,0 +1,40 @@
+---
+title: "Taller 4: Interpolación espacial con Kriging"
+subtitle: "Análisis Espacial con R"
+author: "Dr. Francisco Zambrano"
+format: 
+  html:
+    number-sections: true
+editor: source
+---
+
+## Descripción
+
+En el primer taller realizó el preprocesamiento de los datos raster y vectoriales que se utilizarán para realizar la predicción espacial de temperatura para la región asignada. Luego, en el segundo taller, realizó las primeras predicciones espaciales con métodos no geostadísticos. En el tercer taller trabajó en el análisis de autocorrelación espacial para los datos de temperatura. En éste taller deberá realizar la interpolación geoestadística utilizando los métodos de kriging ordinario y regresión kriging, además deberá aplicar la técnica de validación cruzada para evaluar los resultados de la interpolación espacial.
+
+## Objetivo del taller
+
+Realizar la interpolación espacial utilizando técnicas geostadísticas de kriging ordinario y regresión-kriging, además de hacer un análisis de validación cruzada de los resultados.
+
+1)  Realizar la interpolación espacial con el método de kriging ordinario (OK) para la temperatura de los meses asignados. Utilice los modelos de variogramas ajustados en el [taller 3](Taller3.qmd).
+
+2)  Cálcule la validación cruzada de los resultados obtenidos con kriging ordinario, utilizando el métodos `kfold` o `one-leave-out`.
+
+3)  Realizar la interpolación espacial con el método de regresión-kriging (RK) para la temperatura de los meses asignados. Utilicé el modelo de regresión lineal multiple con el mayor valor de $R^2$ y el menor `RMSE` del [taller 2](Taller2.qmd). Utilice los modelos de variogramas ajustados en el [taller 3](Taller3.qmd). Generé gráficos interactivos con `{tmap}` para la visualización de los valores estimados y la varianza del error de predicción.
+
+4)  Cálcule la validación cruzada de los resultados obtenidos con regresion-kriging, utilizando los métodos de `kfold` o `one-leave-out`.
+
+5)  Compare los resultados de la validación cruzada entre los métodos de kriging ordinario y regresión-kriging.
+
+-   Realice una discusión de los resultados y de la comparación de las estimaciones obtenidad con OK y RK.
+-   ¿Qué método obtuvo los mejores resultados?¿Por qué?
+
+## Lo que deberá entregar
+
+1)  Un documento en `Quarto` donde se detalle la metodología utilizada, incluyendo los scripts. El documento debe ser reproducible.
+
+2)  Mapas interactivos y estáticos de cada interpolación espacial y la varianza del error de predicción con kriging y regresión-kriging.
+
+3)  Gráfico y tabla s que permitan comparar los valores de $R^2$ y $RMSE$ para los diferentes meses y métodos de interpolación.
+
+4)  El documento debe contener una sección de discusión. En esta sección debe profundizar en el análisis de comparación de los resultados obtenidos entre los dos métodos.

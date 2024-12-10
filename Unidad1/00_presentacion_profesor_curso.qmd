@@ -1,0 +1,180 @@
+---
+title: "Análisis Espacial con R"
+subtitle: "Presentación"
+author: "Dr. Francisco Zambrano"
+format: 
+  revealjs:
+    logo: ../imgs/logo_hemera_2024.png
+    css: ../logo.css
+    slide-number: true
+editor: visual
+---
+
+## Profesor {.smaller}
+
+<!-- ::: {.columns} -->
+
+<!-- ::: {.column width="50%"} -->
+
+-   Dr. Francisco Zambrano
+-   Ingeniero Civil Agrícola (Universidad de Concepción)
+-   Dr. Ingeniería Agrícola (Universidad de Concepción)
+-   Investigador Visitante en el Centro de Sequía de los Estados Unidos, Universidad de Nebraska, Lincoln Estados Unidos. 2016. [link](https://www.itc.nl/)
+-   Investigador visitante en la Facultad de Ciencias de la Geoinformación y Observación de la Tierra, Universidad de Twente, Enschede, Paises Bajos. 2016. [link](https://drought.unl.edu/) <!-- ::: --> <!-- ::: {.column width="50%"} -->
+
+<!-- ::: -->
+
+<!-- ::: -->
+
+## Trayectoria {.smaller}
+
+-   Más de 10 años trabajando en servicios públicos en los `Ministerios de Obras Públicas` y `Agricultura` de Chile, en temas relacionados con los recursos hídricos y la agricultura.
+
+::::: columns
+::: {.column width="50%"}
+-   Instituciones:
+    -   Dirección General de Aguas (DGA)
+    -   Comisión Nacional de Riego (CNR)
+    -   Instituto de Investigaciones Agropecuarias (INIA)
+    -   Instituto de Desarrollo Agropecuario (INDAP)
+:::
+
+::: {.column width="50%"}
+-   Relacionado a:
+    -   Fiscalización de Derechos de Aprovechamiento de Aguas (DAA)
+    -   Regularización de DAA
+    -   Análisis de redes de derechos de aprovechamiento de aguas (análisis de gráfos)
+    -   Organizaciones de Usuarios de Aguas (OUAs)
+    -   Monitoreo de la sequía a lo largo de Chile.
+:::
+:::::
+
+## Lineas de Investigación {.smaller}
+
+-   Estudio de la sequía y su impacto en la vegetación en Chile (desde el año 2013)
+-   Recursos hídricos - oferta y demanda de agua
+-   Estres hídrico en especies frutales
+
+![](figs/google_scholar_fzb.png){width="80%"}
+
+## Trabajos recientes
+
+![](figs/google_scholar_2024-2023.png)
+
+## Proyectos Adjudicados (PI o Director) {.smaller}
+
+-   A multi-scale drought observatory for Chile: an early warning system to mitigate agricultural and ecological impacts. Concurso `Fondo de Investigación Estratégica en Sequía` 2021 – REC. Director. Monto 300 \$MM. [odes-chile](https://odes-chile.org)
+-   Sistema Satelital para la Optimización de Riego (SatOri). Concurso IDeA I+D 2021 – `FONDEF.` Director. Monto 200 \$MM.
+-   The impact of weather variability on wheat and maize production: an improved early warning model for agricultural drought.`FONDECYT de Iniciación` en Investigación 2019. Investigador Principal. Monto \~100 \$MM.
+
+## Otros proyectos {.smaller}
+
+-   Modeling of Epigenetic Gene Regulatory Networks in sweet cherry floral buds in response to differential seasonal. `ANILLO`. Director Alterno. Monto \~400 \$MM.
+-   Multivariate drought monitor system: biophysical modelling, remote sensing and hydroclimatic information for drought analyisis and forecasting in agriculture.`FONDECYT Regular 2021`. Investigador asociado. Monto \~162 \$MM.
+-   Assessment of current and future water availability for agriculture and terrestrial ecosystems under different land-use scenarios over the aconcagua basin: toward drought adaptation. `FONDECYT de Postdoctorado` 2023. Investigador patrocinante. Monto de \~100 \$MM.
+
+# Contenido del curso {background-color="grey"}
+
+## Unidades {.smaller}
+
+-   `Unidad 1:` Procesamiento, manejo y visualización de datos espaciales con R.
+    -   Introducción a R
+    -   Manipulación y visualización de datos utilizando `{tidyverse}` (sólo lo más necesario)
+    -   Manejo de datos espaciales raster y vectoriales con `{terra}` y `{sf}`
+    -   Visualización de datos espaciales en R `({tmap},{tidyterra},{ggplot2})`
+-   `Unidad 2:` Análisis espacial y aplicaciones en ecología del paisaje.
+    - Introducción a métricas de paisaje ({landscape metrics})
+    - Modelo de Random Forest
+    - Modelo de distribución de especies
+    
+## Clases {.smaller}
+
+- `Clase 1 (10 Diciembre):` Introducción a R.
+- `Clase 2 (17 Diciembre):` Manipulación y visualización de datos con {tidyverse}.
+- `Clase 3 (por definir):` Datos vectoriales.
+- `Clase 4  (por definir):` Datos raster.
+- `Clase 5 (7 enero):` Visualización de datos espaciales.
+- `Clase 6 (14 enero 2025):` Métricas de paisaje.
+- `Clase 7 (21 enero 2025):` Modelo de `Random Forest` para distribución de especies. 
+
+## Evaluaciones {.smaller}
+
+`Propuesta proyecto final:` Desarrollar un modelo de distribución de especies ([link](https://francisco-zambrano.cl/coleopteros/reporte/01_distribucion_frickius_modelos_rf_nb.html#mapa-clasificaci%C3%B3n))
+
+- `Taller 1:` Preparar datos in-situ y espaciales.
+- `Taller 2:` Análisis y visualización de datos in-situ y espaciales.
+- `Taller 3:` Implementar modelo de distribución de especies.
+- `Taller 4:` Reporte en [Quarto](https://quarto.org/) del modelo de distribución de especies
+
+
+## Motivación del curso {.smaller}
+
+. . .
+
+¿Por qué utilizar `R` para análisis espacial?
+
+. . .
+
+-   `R` es una herramienta potente que ha tenido un alto crecimiento, en particular para el análisis espacial.
+
+. . .
+
+-   Revolución de geodata (ej., datos satelitales).
+
+. . .
+
+-   R para entender el mundo
+
+. . .
+
+-   R es un ambiente y lenguaje de código abierto y multiplataforma para computacion estadística y gráficos.
+
+. . .
+
+-   Por todas las ventajas que tiene para análisis de datos (includios espaciales) e investigación reproducible.
+
+## Objetivo del curso {.smaller}
+
+. . .
+
+-   Nos centraremos en ver como podemos utilizar datos espaciales en `R` para desarrollar un modelo de distribución de especies (MDE).
+
+. . .
+
+-   Vamos a definir un problema de MDE que vamos a ir resolviendo a través del curso.
+
+## ¿Qué espero de los participantes? {.smaller}
+
+-   Motivación y proactividad.
+-   Hay muchos recursos en la web que facilitan la resolución de problemas
+-   Hacer buenas preguntas
+    -   [Asking R questions](https://www.r-bloggers.com/asking-r-questions/)
+    -   [How to ask good questions that prompt useful answers](https://www.r-project.org/posting-guide.html)
+-   Workflow para resolver dudas:
+    -   ChatGPT
+    -   Ayuda de R (help.search, ?)
+    -   Consultar a compañeros . . .
+    -   Buscar en google `How can I do _____ with R`
+    -   Stackoverflow, github, mailing list (R-help, R-SIG-GEO)
+    -   Si todo lo anterior falla, iterar una véz más, y otra,...,
+    -   Por último preguntar al profesor.
+
+## Recursos para aprender {.smaller}
+
+-   R
+    - [{Landscapemetrics}](https://r-spatialecology.github.io/landscapemetrics/)
+    -   [SWIRL](https://swirlstats.com/)
+    -   [Quick-R](https://www.statmethods.net/)
+
+. . .
+
+-   R-Spatial
+    -   [r-spatial](https://www.r-spatial.org/) - Edzer Pebesma
+    -   [rspatial](https://www.rspatial.org/) - Robert Hijmans
+
+. . .
+
+-   Libros R-Spatial
+    -   [Applied Spatial Data Analysis with R. Roger Bivand, Edzer Pebesma, Virgilio Gómez-Rubio.](http://gis.humboldt.edu/OLM/r/Spatial%20Analysis%20With%20R.pdf)
+    -   [Geocomputation with R. Robin Lovelace, Jakub Nowosad, Jannes Muenchow](https://geocompr.robinlovelace.net/)
+    -   [Spatial Data Science](https://keen-swartz-3146c4.netlify.app/). Edzer Pebesma y Roger Bivand. Estado: en desarrollo

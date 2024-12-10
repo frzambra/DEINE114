@@ -1,0 +1,241 @@
+---
+title: "Modelos de regresión ambiental"
+subtitle: "Análisis espacial con R"
+author: "Dr. Francisco Zambrano"
+format: 
+  revealjs:
+    slide-number: true
+    logo: ../imgs/logo_hemera_2024.png
+    css: ../logo.css
+revealjs-plugins:
+  - drop
+drop:
+  shortcut: "]"
+editor: source
+---
+  
+## Preparar datos para interpolación {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r}
+#| echo: true
+library(tidyverse)
+library(sf)
+library(tmap)
+library(terra)
+
+region <- read_rds('data/regs_utm_sf.rds')
+data_temp <- read_rds('data/data_temp_enero.rds')
+preds_ene <- rast('data/predictores_enero.tif')
+grilla <- preds_ene[[1]]
+values(grilla) <- NA
+set.seed(234)
+data_temp_mod <- data_temp |> sample_frac(0.8)
+data_temp_val <- data_temp |> filter(!(ema %in% data_temp_mod$ema))
+
+calc_met <- function(ras,object_sf,var = 'temp_enero',k=1) {
+  df_val <- terra::extract(ras,terra::vect(object_sf)) |> 
+    cbind(object_sf[,var]) 
+  rmse <- function(obs,pred) sqrt(sum((obs-pred)^2)/length(obs))
+  rmse_v <- rmse(df_val[,3],df_val[,2])
+  r2 <- cor(df_val[,3],df_val[,2])^2
+  r2_adj <- 1- (1-r2)*(dim(df_val)[1]-1)/(dim(df_val)[1]-k-1) 
+  c('rmse' = rmse_v,'rsq' = r2,'rsq_adj' = r2_adj)
+}
+```
+
+## Metricas para evaluación {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Raíz cuadrada del error cuadratico medio
+
+$$RMSE = \sqrt{\frac{\sum{(obs-est)^2}}{N}}$$
+Coeficiente de determinación R cuadrado
+
+$$R^2=1-\frac{\sum{(y-\hat{y})^2}}{\sum(y-\bar{y})^2}=1-\frac{Variación\,no\,explicada}{Variación\,total}$$
+
+
+## Regresión lineal {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+$$\hat Z(s_0) = \hat \beta_0 + \beta_1\cdot X_1(s_0) + ...+\hat \beta_p\cdot q_p(s_0) = \sum_{k=0}^p \hat \beta_k \cdot X_k(s_0)$$ 
+
+::: {.columns}
+::: {.column width=50%}
+
+Podemos ajustar el modelo de regresión utilizando la función `lm` (regresion simple), `glm` (regresión generalizada). Luego utilizar `terra::predict` para predecir en el raster.
+
+```{r echo=TRUE,message=FALSE,fig.height=5}
+
+mod_lm1 <- lm(temp_enero~dem,data_temp_mod)
+temp_lm1 <- terra::predict(preds_ene,mod_lm1,se.fit = TRUE)
+(met_lm1 <- calc_met(temp_lm1,data_temp_val))
+```
+:::
+::: {.column width=50%}
+```{r}
+#| echo: false
+#| fig-width: 5
+plot(subset(temp_lm1,1:2))
+```
+:::
+:::
+
+## Regresión lineal {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+::: {.columns}
+::: {.column width=50%}
+
+Utilizando la función `krige` de {gstat}, utiliza modelos de regresión lineal generalizada en vez de modelos de regresión simple.
+
+```{r echo=TRUE,message=FALSE,fig.height=5}
+library(stars)
+library(gstat)
+preds_ene_st <- preds_ene |> st_as_stars() |>  split('band')
+temp_lm2 <- krige(temp_enero~dem,data_temp_mod,preds_ene_st)
+temp_lm2 <- rast(temp_lm2)
+(met_lm2 <- calc_met(temp_lm2[[1]],data_temp_val))
+```
+:::
+::: {.column width=50%}
+```{r}
+#| echo: false
+#| fig-width: 5
+plot(temp_lm2)
+```
+:::
+:::
+
+## Regresión lineal {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Si incorporamos más predictores
+
+::: {.columns}
+::: {.column width=50%}
+```{r echo=TRUE,message=FALSE,fig.height=5,fig.width=10}
+temp_lm3 <- krige(temp_enero~dem+lst_ene,data_temp_mod,preds_ene_st)
+temp_lm3 <- rast(temp_lm3)
+(met_lm3 <- calc_met(temp_lm3[[1]],data_temp_val,k=2))
+```
+:::
+::: {.column width=50%}
+```{r}
+#| echo: false
+#| fig-width: 5
+plot(temp_lm3)
+```
+:::
+:::
+
+## Regresión lineal {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+... y más predictores
+
+::: {.columns}
+::: {.column width=50%}
+```{r echo=TRUE,message=FALSE,fig.height=5,fig.width=10}
+temp_lm4 <- krige(temp_enero~dem+lst_ene+dist_costa+ndvi_ene,data_temp_mod,preds_ene_st)
+temp_lm4 <- rast(temp_lm4)
+(met_lm4 <- calc_met(temp_lm4[[1]],data_temp_val,k=4))
+```
+:::
+::: {.column width=50%}
+```{r}
+#| echo: false
+#| fig-width: 5
+plot(temp_lm4)
+```
+:::
+:::
+
+## Regresión lineal {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Ahora uitilizamos los seis predictores.
+
+::: {.columns}
+::: {.column width=50%}
+```{r}
+#| echo: true
+temp_lm5 <- krige(temp_enero~dem+aspect+slope+dist_costa+ndvi_ene+lst_ene,data_temp_mod,preds_ene_st)
+temp_lm5 <- temp_lm5 |> rast()
+(met_lm5 <- calc_met(temp_lm5[[1]],data_temp_val,k=6))
+```
+:::
+::: {.column width=50%}
+```{r}
+#| fig-width: 5
+plot(temp_lm4)
+```
+:::
+:::
+
+## Evaluación de los modelos {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r}
+df_metrics <- bind_rows(met_lm1,met_lm2,met_lm3,met_lm4,met_lm5) |> 
+  mutate(nombre = paste0('MOD_',1:5),
+         modelo = c('Regresión Lineal Simple',rep('Regresión Lineal Generalizada',4)),
+         variables = c('DEM','DEM','DEM, LST','DEM,LST, Dist. Costa, NDVI','DEM, Aspect, Slope, dist. Costa, NDVI, LST'))|> 
+  relocate(modelo,.before = rmse) |> 
+  relocate(variables,.before = rmse)
+
+write_rds(df_metrics,'../Talleres/data/procesada/data_metrics_metodos_regresion.rds')
+df_metrics |> 
+  pivot_longer(-c(modelo,variables,nombre)) |> 
+  ggplot(aes(value,fct_inorder(nombre),fill = variables)) + 
+  geom_col(alpha=.7) +
+  scale_fill_brewer(palette ='Set1') +
+  geom_text(aes(label = round(value,2)),hjust=-1) +
+  facet_grid(.~name,scales = 'free') +
+  theme(axis.title = element_blank()) +
+  theme_bw()
+```
+
+## Regresión lineal {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Varianza del error**
+
+* Hay una diferencia entre los intervalos de confianza respecto a la linea de regresión en el $x_0$ y la de predicción de $y$ en el punto $x_0$. 
+* Linea $x_0$ `se`, 
+
+$$\hat \sigma\sqrt{\frac{1}{n} +  \frac{(x_0 - \bar X)^2}{\sum_{i=1}^n (X_i - \bar X)^2}}$$
+
+* Intervalos de predicción  `se` en $x_0$, 
+
+$$\hat \sigma\sqrt{1 + \frac{1}{n} + \frac{(x_0 - \bar X)^2}{\sum_{i=1}^n (X_i - \bar X)^2}}$$
+
+
+## Regresion Lineal {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Evaluación del modelo**: Validación cruzada
+
+Leave-one-out 
+
+![](figs/LOOCV.gif){fig-align='center'}
+
+## Regresion Lineal {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Evaluación del modelo**: Validación cruzada
+
+K-Folds
+
+![](figs/KfoldCV.gif){fig-align='center'}
+
+## Regresion Lineal {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Evaluación del modelo**: Validación cruzada
+
+Leave-one-out 
+
+```{r}
+#| echo: true
+(temp_lm5_loocv <- krige.cv(temp_enero~dem+aspect+slope+dist_costa+ndvi_ene+lst_ene,data_temp_mod))
+```
+
+## Regresion Lineal {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Evaluación del modelo**: Validación cruzada
+
+K-Fold
+
+```{r}
+#| echo: true
+(temp_lm5_kfoldcv <- krige.cv(temp_enero~dem+aspect+slope+dist_costa+ndvi_ene+lst_ene,data_temp_mod,nfold=10))
+```

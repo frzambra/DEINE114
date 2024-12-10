@@ -1,0 +1,56 @@
+---
+title: "Taller 3: Análisis de Autocorrelación Espacial"
+subtitle: "Análisis Espacial con R"
+author: "Dr. Francisco Zambrano"
+format: 
+  html:
+    number-sections: true
+editor: visual
+---
+
+## Descripción
+
+En el primer taller realizó el preprocesamiento de los datos raster y vectoriales que se utilizarán para realizar la predicción espacial de temperatura para la región asignada. Luego, en el segundo taller, realizó las primeras predicciones espaciales con métodos no geostadísticos. En este cuarto taller se trabajará el análisis de autocorrelación espacial global, local y mediante el análisis del variograma para los datos de temperatura.
+
+## Objetivo del taller
+
+Realizar el análisis de autocorrelación espacial para la temperatura mensual en el área de estudio.
+
+1)  Calcular el índice de moran global para la temperatura de los meses asignados; en la región correspondiente. Aplicar prueba de montecarlo e indicar si existe autocorrelación espacial global e indicar el nivel de significancia. Describa como interpreta estos resultados. Gráficar el
+
+2)  Calcular el índice de moran local para la temperatura de los meses asignados; en la región correspondiente. Creee un mapa con `{tmap}` en el que se muestre los quadrantes (high-high, high-low, low-low,low-high) para los valores del índice local de moran con un $p < 0.05$.
+
+    i)  Describa como interpreta estos resultados.
+    ii) Haga una comparación con el resultado del punto (1).
+
+3)  realice el análisis de autocorrelación espacial mediante el uso del variograma experimental para los datos de temperatura mensual.
+
+    i)  Analicé la anisotropía espacial del variograma.
+    ii) Describa como interpreta cada uno de los variogramas analizados.
+
+4)  Ajuste un modelo de variograma a los variogramas experimentales del punto anterior. Guarde estos modelos ajustados en archivos `.rds` (ver `saveRDS`)
+
+5)  Respecto a los resultados del [`Taller 2`](Taller2.qmd), eliga el modelo que tiene el menor error de predicción. Un modelo para cada mes. Utilicé ese modelo para obtener los residuos (valor observado - valor estimado).
+
+    i)  Analicé el variograma experimental de los residuos,
+    ii) Ajuste un modelo de variograma al variograma expermintal.
+    iii) Describa e interprete los resultados obtenidos en los puntos (i) y (ii)
+    iv) Guarde los modelos de variograma ajustados en archivos `.rds`
+
+6)  El análisis de autocorrelación espacial es una poderosa herramienta para análisis exploratorio de los datos. Si los análisis de autocorrelación espacial muestran algun problema con los datos, deberá identificar el problema y corregirlo.
+
+## Lo que deberá entregar
+
+1)  Un documento en `Quarto` donde se detalle la metodología utilizada, incluyendo los scripts. El documento debe ser reproducible.
+
+2)  Mapas interactivos (`tmap_mode("view")`) de cada anaĺisis de autocorrelación espacial utilizando el índice de moran local. Los mapas deben incluir las siguientes características:
+
+    i)  flecha norte
+    ii) grilla en coordenadas geográficas datum WG84 (epsg:4326)
+    iii) leyenda con respecto a escalas de colores continuas (ej. quantile, pretty, jenks)
+    iv) cada mapa lo debe exportar a formato PNG con resolución de 300px
+    v)  los nombres de las leyendas deben ser identificativos, no deben corresponder al nombre de el objeto en R.
+
+3)  Los gráficos del variograma experimental final y su modelo de variograma ajustado para los valores de temperatura mensual para los meses asignados.
+
+4)  Cada modelo de variograma ajustado debe quedar almacenado en un archivo `.rds`

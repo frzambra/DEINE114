@@ -1,0 +1,602 @@
+---
+title: "Random Forest con {tidymodels}"
+subtitle: "Análisis espacial con R"
+author: "Dr. Francisco Zambrano"
+format: 
+  revealjs:
+    slide-number: true
+    logo: ../imgs/logo_hemera_2024.png
+    css: ../logo.css
+revealjs-plugins:
+  - drop
+drop:
+  shortcut: "]"
+editor: source
+---
+
+# Random Forest {background-color='darkgreen'}
+
+## ¿Qué es machine learning? {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+![](figs/machine_learning.png){fig-align='center'}
+
+## ¿Qué es machine learning? {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+![](figs/what_is_ml.jpg){fig-align='center'}
+
+## ¿Qué es machine learning? {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+![](figs/ml_illustration.jpg)
+
+## ¿Qué es Random Forest? {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
++ `Random Forest` es un método de `Machine Learning`  que se utiliza principalmente para tareas de clasificación y regresión. 
+
++ Opera construyendo múltiples `árboles de decisión` durante el entrenamiento y fusionando sus resultados para mejorar la precisión y la solidez. 
+
++ Características clave:
+
+  + `Aprendizaje conjunto`: Random Forest combina las predicciones de numerosos `árboles de decisión` para reducir el sobreajuste y mejorar la generalización.
+  + `Bootstrap Aggregating (Bagging)`: utiliza una técnica llamada `bagging`, donde se muestrean subconjuntos aleatorios de los datos de entrenamiento con reemplazo para crear diversos árboles.
+
+## ¿Qué es Random Forest? {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
++ Características clave:
+
+  + `Aleatoriedad de predictores (features)`: al dividir nodos durante la construcción del árbol, Random Forest selecciona aleatoriamente un subconjunto de predictores, lo que contribuye aún más a la diversidad de los árboles.
+  + `Votación/Promedio:` para las tareas de clasificación, la predicción final se realiza mediante votación mayoritaria entre los árboles, mientras que para las tareas de regresión, se promedian las predicciones.
+  + `Robustez:` es menos sensible al ruido y puede manejar grandes conjuntos de datos con alta dimensionalidad de manera efectiva.
+
+## ¿Qué es Random Forest? {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Supuestos del Random Forest
+
++ `Independencia de los árboles:` los árboles de decisión del bosque deben ser independientes entre sí. Esto se logra mediante muestreo bootstrap y aleatoriedad de características.
++ `Datos suficientes:` Random Forest requiere una gran cantidad de datos para construir diversos árboles y lograr un rendimiento óptimo.
++ `Árboles equilibrados:` el algoritmo supone que los árboles individuales crecen lo suficientemente profundos como para capturar los patrones subyacentes en los datos.
++ `Manejo de datos ruidosos:` Random Forest puede manejar datos ruidosos, pero supone que el ruido se distribuye aleatoriamente y no es sistemático.
+    
+## ¿Qué es Random Forest? {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+![](figs/decisiontree_and_randomforest.png){fig-align='center'}
+
+## Árboles de decisión {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+> Los modelos basados en árboles son una clase de algoritmos no paramétricos que funcionan dividiendo el espacio de características en una serie de regiones más pequeñas (no superpuestas) con valores de respuesta similares utilizando un conjunto de reglas de división.
+
+![](figs/decision_trees_example.png){fig-align='center'}
+
+## Árboles de decisión {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Ejemplo simple**
+
+![](figs/exemplar-decision-tree.png){fig-align='center'}
+
+## Árboles de decisión {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Estructura**
+
+![](figs/decision-tree-terminology.png){fig-align='center'}
+
+## Árboles de decisión {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Se puede utilizar para:
+
+![](figs/regression-vs-classification.jpg){fig-align='center'}
+
+## Árboles de decisión {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### ¿Cómo se realiza la partición?
+
+**Regresión**
+
+CART utiliza particiones recursivas binarias (es recursiva porque cada división o regla depende de las divisiones que se encuentran sobre ella). 
+
+El objetivo en cada nodo es encontrar la "mejor" característica $(x_i)$ para dividir los datos restantes en una de dos regiones (R1 y R2) de modo que el error general entre la respuesta real $(y_i)$ y la constante predicha $(c_i)$ se minimiza.
+
+$$MSE= \sum_{i \epsilon R_1}^n(Y_i-c_1)^2 +\sum_{i \epsilon R_2}^n(Y_i-c_2)^2$$
+
+Para problemas de clasificación, la partición generalmente se realiza para maximizar la reducción de la entropía cruzada o el índice de Gini.
+
+## Árboles de decisión {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+::: {layout-ncol=2}
+![](figs/decision-stump-1.png)
+
+![](figs/decision-stump-2.png)
+:::
+
+## Árboles de decisión {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+::: {layout-ncol=2}
+![](figs/depth-3-decision-tree-1.png)
+
+![](figs/depth-3-decision-tree-2.png)
+:::
+
+## Árboles de decisión {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**¿Cuántas ramas debe tener el árbol?**
+
+Si creamos un árbol demasiado complejo como en la figura, tendemos a sobreajustar nuestros datos de entrenamiento, lo que resulta en un rendimiento de generalización deficiente.
+
+::: {layout-ncol=2}
+![](figs/deep-overfit-tree-1.png){fig-align='center'}
+
+![](figs/deep-overfit-tree-2.png){fig-align='center'}
+:::
+
+## Árboles de decisión {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**¿Cuántas ramas debe tener el árbol?**
+
+![](figs/dt-early-stopping-1.png){fig-align='center' width=70%}
+
+## Árboles de decisión {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Un ejemplo simple con meuse**
+
+```{r}
+#| echo: true
+library(sp)
+library(rpart)
+library(rpart.plot)
+data(meuse)
+tree <- rpart(zinc~dist,meuse)
+rpart.plot(tree)
+```
+
+## Random Forest {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**¿Cómo Funciona?**
+
+`Bagging:` Bootstrap Aggregation, sirve como técnica de ensamblado/conjunto.
+
+![](figs/1_DvgOxmBc30t9HjDKFYLC0g.jpg){fig-align='center' width=80%}
+
+## Random Forest {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Pasos involucrados en Random Forest
+
++ `Paso 1:` en este modelo, se selecciona un subconjunto de puntos de datos y un subconjunto de características para construir cada árbol de decisión. En pocas palabras, se toman $n$ registros aleatorios y $m$ características del conjunto de datos que tiene $k$ número de registros.
++ `Paso 2:` Se construyen árboles de decisión individuales para cada muestra.
++ `Paso 3:` Cada árbol de decisión generará un resultado.
++ `Paso 4:` El resultado final se considera en función de la votación mayoritaria (clasificación) o el promedio (regresión).
+
+## Random Forest {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Random Forest utiliza estimación del error out-of-bag (OOB) en cada submuestra.
+
++ El **OOB** es un método utilizado para estimar el error de predicción de Random Forest. 
+
++ Aprovecha el concepto de agregación bootstrap, donde se crean múltiples subconjuntos del conjunto de datos original mediante muestreo aleatorio con reemplazo. 
+
++ Algunas instancias del conjunto de datos no se incluirán en estos subconjuntos para entrenar un árbol determinado. 
+
++ Estas instancias excluidas se conocen como muestras `"fuera de bolsa"` (OOB).
+
++ Para cada submuestra deja ~ $1/3$ para calcular el error de predicción (validación cruzada)
+
+
+## Random Forest {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**¿Por qué Random Forest es poderoso?**
+
++ `Precisión:` Random Forest a menudo proporciona una mayor precisión en comparación con los árboles de decisión individuales porque la agregación de predicciones reduce la varianza.
++ `Robustez:` Es menos propenso al sobreajuste debido a la aleatoriedad introducida en los procesos de arranque y selección de características.
++ `Versatilidad:` puede manejar tareas de clasificación y regresión y funciona bien con datos categóricos y numéricos.
++ `Importancia de las características:` Random Forest proporciona información sobre la importancia de las diferentes características en la predicción de la variable objetivo, lo que puede resultar útil para la selección de características.
+
+# Random Forest con {tidymodels} {background-color='orange'}
+
+## ¿Qué es {tidymodels}? {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r}
+#| echo: true
+library(tidymodels)
+#> ── Attaching packages ──────────────────────────── tidymodels 1.0.0 ──
+#> ✔ broom        1.0.0     ✔ rsample      1.0.0
+#> ✔ dials        1.0.0     ✔ tibble       3.1.8
+#> ✔ dplyr        1.0.9     ✔ tidyr        1.2.0
+#> ✔ infer        1.0.2     ✔ tune         1.0.0
+#> ✔ modeldata    1.0.0     ✔ workflows    1.0.0
+#> ✔ parsnip      1.0.0     ✔ workflowsets 1.0.0
+#> ✔ purrr        0.3.4     ✔ yardstick    1.0.0
+#> ✔ recipes      1.0.1
+#> ── Conflicts ─────────────────────────────── tidymodels_conflicts() ──
+#> ✖ purrr::discard() masks scales::discard()
+#> ✖ dplyr::filter()  masks stats::filter()
+#> ✖ dplyr::lag()     masks stats::lag()
+#> ✖ recipes::step()  masks stats::step()
+#> • Use tidymodels_prefer() to resolve common conflicts.
+```
+
+## ¿Qué es {tidymodels}? {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+![](figs/tidymodels_que_es.png){width=100% fig-align='center'}
+
+## El juego completo {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+![](figs/tidy_models_whole_game.png){fig-align='center'}
+
+## División en entrenamiento y testeo {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Para el aprendizaje automático, normalmente dividimos los datos en conjuntos de entrenamiento y testeo:
+
+. . .
+
+- El **set de entrenamiento** se utiliza para estimar los parámetros del modelo.
+- El **set de testeo** se utiliza para encontrar una evaluación independiente del rendimiento del modelo.
+
+. . .
+
+No 🚫 utilice el set de testeo durante el entrenamiento.
+
+## División en entrenamiento y testeo {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+![](figs/split_test_train.png){fig-align='center'}
+
+## División en entrenamiento y testeo {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+- Utilizar demasiados datos en **entrenamiento** nos impide calcular una buena evaluación del **rendimiento** predictivo.
+
+. . .
+
+- Utilizar demasiados datos en **testeo** nos impide calcular una buena estimación de los **parámetros** del modelo.
+
+## División en entrenamiento y testeo {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Con los datos de meuse**
+
+Hagamos la división de los datos 
+
+```{r}
+#| echo: true
+set.seed(123)
+meuse_split <- initial_split(meuse)
+meuse_split
+```
+
+## División en entrenamiento y testeo {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Con los datos de meuse**
+
+```{r}
+#| echo: true
+meuse_train <- training(meuse_split)
+meuse_test <- testing(meuse_split)
+```
+
+## Especificar un modelo {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Especificar un modelo**
+
++ Elegir el modelo
+
++ Elegir el motor
+
++ Elegir el modo
+
+Todos los modelos disponibles se enumeran en [https://www.tidymodels.org/find/parsnip/](https://www.tidymodels.org/find/parsnip/)
+
+## Especificar un modelo {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r}
+rf_spec <- rand_forest() |> 
+  set_mode('regression') |> 
+  set_engine('ranger')
+```
+
+## Modelo de flujo de trabajo (workflow) {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Los flujos de trabajo manejan datos nuevos mejor que las herramientas básicas de R en términos de nuevos niveles de factores
+
+. . .
+
+- Puedes usar otros preprocesadores además de fórmulas (avanzados)
+
+. . .
+
+- Pueden ayudar a organizar su trabajo cuando trabaje con varios modelos.
+
+. . .
+
+- [Lo más importante]{.underline}, un flujo de trabajo captura todo el proceso de modelado: `fit()` y `predict()` se aplican a los pasos de preprocesamiento además del ajuste real del modelo.
+
+## Modelo de flujo de trabajo (workflow) {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Sin workflows
+
+```{r}
+#| echo: true
+
+rf_spec <- rand_forest() |> 
+  set_mode('regression') |> 
+  set_engine('ranger')
+
+rf_spec |> 
+  fit(zinc~dist+soil,data = meuse)
+```
+
+## Modelo de flujo de trabajo (workflow) {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Usando workflows
+
+```{r}
+#| echo: true
+workflow() |> 
+  add_formula(zinc ~ dist+soil ) |> 
+  add_model(rf_spec) |> 
+  fit(data = meuse_train) 
+```
+
+## Predecir utilizando el modelo entrenado  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r}
+#| echo: true
+
+rf_fit <- workflow() |> 
+  add_formula(zinc ~ dist+soil ) |> 
+  add_model(rf_spec) |> 
+  fit(data = meuse_train) 
+
+predict(rf_fit, new_data = meuse_test)
+```
+
+## Evaluar las predicciones {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r}
+#| echo: true
+augment(rf_fit, new_data = meuse_test)
+```
+
+## Evaluar las predicciones  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r}
+#| echo: true
+data_ev <- augment(rf_fit, new_data = meuse_test)
+ggplot(data_ev,aes(.pred,zinc)) + 
+  geom_point() + 
+  geom_abline(slope =1,lty='dashed') + 
+  theme_bw()
+```
+
+## Evaluar las predicciones  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+::: {.columns}
+::: {.column width=50%}
+
+En el set de entrenamiento
+
+```{r}
+#| echo: true
+augment(rf_fit, new_data = meuse_train) |> 
+  metrics(truth = .pred, 
+        estimate = zinc)
+```
+:::
+::: {.column width=50%}
+
+En el set de testeo
+
+```{r}
+#| echo: true
+augment(rf_fit, new_data = meuse_test) |> 
+  metrics(truth = .pred, 
+        estimate = zinc)
+```
+:::
+:::
+
+
+## Evaluar las predicciones  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Remuestreo**
+
+![](figs/resampling.svg){fig-align='center'}
+
+## Evaluar las predicciones  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Remuestreo**
+
+```{r}
+#| echo: true
+set.seed(123)
+meuse_folds <- vfold_cv(meuse_train, v = 10)
+meuse_folds
+```
+
+## Evaluar las predicciones  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Remuestreo**
+
+```{r}
+#| echo: true
+rf_wf <- workflow() |> 
+  add_formula(zinc ~ dist+soil ) |> 
+  add_model(rf_spec) 
+```
+
+
+```{r}
+#| echo: true
+meuse_res <- fit_resamples(rf_wf, meuse_folds)
+meuse_res
+```
+
+## Evaluar las predicciones  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Remuestreo**
+
+Podemos medir la calidad de las predicciones utilizando sólo remuestreo!!
+
+::: {.columns}
+::: {.column width=50%}
+```{r}
+#| echo: true
+meuse_res |> 
+  collect_metrics()
+```
+:::
+::: {.column width=50%}
+Si comparamos con las métricas en el set de entrenamiento y de  testeo.
+
+En set de entrenamiento RMSE = 214 y $R^2$=0.684.  
+
+En set de testeo RMSE = 219 y $R^2$=0.66.
+:::
+:::
+
+
+## El ajuste final  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+* Supongamos que estamos contentos con nuestro modelo de bosque aleatorio.
+
+* Ajustemos el modelo en el conjunto de entrenamiento y verifiquemos nuestro desempeño usando el conjunto de prueba.
+
+* He mostrado las funciones `fit()` y `predict()` (`+ augment()`) pero hay un atajo:
+
+```{r}
+#| echo: true
+final_fit <- last_fit(rf_wf, meuse_split) 
+final_fit
+```
+
+## El ajuste final  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r}
+#| echo: true
+collect_metrics(final_fit)
+```
+
+. . .
+
+Estas son las métricas calculadas sobre el `set de testeo`.
+
+## El ajuste final  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r}
+#| echo: true
+collect_predictions(final_fit)
+```
+
+## El ajuste final  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r}
+#| echo: true
+extract_workflow(final_fit)
+```
+
+. . .
+
+Utilizar este modelo para realizar las predicciones.
+
+## Todo el juego  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+![](figs/tidy_models_whole_game.png){fig-align='center'}
+
+## Ajustar los parámetros del modelo  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Algunos parámetros del modelo o de preprocesamiento no se pueden estimar directamente a partir de los datos.
+
+Algunos ejemplos:
+
+* Profundidad del árbol en árboles de decisión
+
+* Número de vecinos en un modelo de vecino K-más cercano
+
+## Optimizar los parámetros del modelo  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+* Pruebe diferentes valores y mida su desempeño.
+
+* Encuentre buenos valores para estos parámetros.
+
+* Una vez que se determinan los valores de los parámetros, se puede finalizar un modelo ajustándolo a todo el conjunto de entrenamiento.
+
+## Optimizar los parámetros del modelo  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Las dos estrategias principales de optimización son:
+
+. . .
+
+- **Búsqueda de cuadrícula (grid search)** 💠 que prueba un conjunto predefinido de valores candidatos
+
+- **Búsqueda iterativa (iterative search)** 🌀 que sugiere/estima nuevos valores de parámetros candidatos para evaluar
+
+## Optimizar los parámetros del modelo  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Probemos con el modelo de Random Forest para `meuse`.
+
+```{r}
+#| echo: true
+rf_spec <- rand_forest(
+  tree = 1000,
+  mtry = tune(),
+  min_n = tune()
+  ) |> 
+  set_mode('regression') |> 
+  set_engine('ranger',importance ='impurity')
+
+rf_wf <- workflow() |> 
+  add_formula(zinc ~ dist+soil) |> 
+  add_model(rf_spec) 
+```
+
+## Optimizar los parámetros del modelo  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Probemos con el modelo de Random Forest para `meuse`.
+
+```{r}
+set.seed(22)
+rf_res <- tune_grid(
+  rf_wf,
+  meuse_folds,
+  grid = 5
+)
+```
+
+## Optimizar los parámetros del modelo  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r}
+autoplot(rf_res)
+```
+
+## Optimizar los parámetros del modelo  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Inspeccionando los resultados y seleccionad el de mejor calidad
+
+```{r}
+#echo: true
+show_best(rf_res)
+```
+
+```{r}
+#| echo: true
+mejores_param <- select_best(rf_res)
+```
+
+## Ajuste final  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r}
+#| echo: true
+rf_wf <- finalize_workflow(rf_wf, mejores_param)
+final_fit <- last_fit(rf_wf, meuse_split) 
+
+collect_metrics(final_fit)
+```
+
+
+## Importancia de las variables  {.smaller background-image="https://juliasilge.github.io/tidymodels-tutorial/slides/hexes/tidymodels.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r}
+library(vip)
+final_fit |>  
+  extract_fit_parsnip() %>% 
+  vip(num_features = 20)
+```
+
+# Random Forest para interpolación espacial {background-color='gray'}
+
+## Motivación
+
+![](figs/spRF_Hengl_et_al.png){fig-align = 'center'}

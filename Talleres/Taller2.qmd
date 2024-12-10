@@ -1,0 +1,42 @@
+---
+title: "Taller 2: Métodos de predicción espacial determinísticos y de regresión"
+subtitle: "Análisis Espacial con R"
+author: "Dr. Francisco Zambrano"
+format: 
+  html:
+    number-sections: true
+editor: source
+---
+
+## Descripción
+
+En el primer taller se realizó la preparación de los datos raster y vectoriales que se utilizarán para realizar la predicción espacial de temperatura para la región asignada. Por lo que ahora debería contar con archivos raster que contengan -al menos- los seis predictores definidos: elevación, pendiente, orientación, distancia a la costa, índice de vegetación NDVI y temperatura superficial de suelo. Por otra parte debe haber extraido los valores de los predictores en la posición de las estaciones que se ubican en su región. En este caso debe contar con un objeto `sf` que tenga como geometría los puntos de ubicación de las estaciones y como atributos los valores de temperatura obtenidos de las estaciones (ej., via `{agrometR}`), además de los valores de los seis predictores.
+
+## Objetivo del taller
+
+En `R` utilizando `{gstat}`, realice la predicción espacial de temperatura para los meses definidos en la región correspondiente utilizando:
+
+1)  el método de vecino más próximo, considere tres valores de k, de acuerdo a la cantidad de puntos disponibles. Realice un proceso de validación cruzada LOOCV (leave-one-out) para calcular la métricas de RMSE y $R^2$.
+
+2)  utilizando el método inverso de la distancia (IDW). Realice un proceso de validación cruzada LOOCV (leave-one-out) para calcular la métricas de RMSE y $R^2$.
+
+3)  en la región correspondiente utilizando métodos de regresión lineal utilizando los seis predictores raster.
+
+Para todos los métodos debe realizar un proceso de validación cruzada LOOCV (leave-one-out) para calcular la métricas de RMSE y $R^2$.
+
+## Lo que deberá entregar
+
+1)  Un documento en `Quarto` donde se detalle la metodología utilizada, incluyendo los scripts.
+
+2)  Mapas estáticos (`tmap_mode("plot")`) de los cuatro meses para el modelo que alcanzo la mejor calidad de acuerdo a las métricas $RMSE$ y $R^2$ junto con la varianza del error de predicción (en caso de modelo de regresión lineal).
+
+3)  Una tabla con los resultados de la métricas de calidad para cada uno de los métodos y meses
+
+4)  Una breve sección de discusión de los resultados en el cuál analice las varianzas del errores estandar de predicción y las métricas de calidad $RMSE$ y $R^2$ entre los diferentes métodos.
+
+5)  Los mapas deben incluir las siguientes características:
+
+    i)  flecha norte
+    ii) grilla en coordenadas geográficas datum WG84 (epsg:4326)
+    iii) leyenda con respecto a escalas de colores continuas diferentes (ej. quantile, pretty, jenks)
+    iv) los nombres de las leyendas deben ser identificativos, no deben corresponder al nombre dl objeto en R.

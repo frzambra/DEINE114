@@ -1,0 +1,414 @@
+---
+title: "Métodos determinísticos"
+subtitle: "Análisis espacial con R"
+author: "Dr. Francisco Zambrano"
+format: 
+  revealjs:
+    slide-number: true
+    logo: ../imgs/logo_hemera_2024.png
+    css: ../logo.css
+    revealjs-plugins:
+      - drop
+    drop:
+      shortcut: "]"
+editor: source
+---
+
+## Preparar datos para interpolación {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+::::: columns
+::: {.column width="50%"}
+```{r echo=TRUE,message=FALSE,fig.height=5,eval=FALSE}
+library(tidyverse)
+library(sf)
+library(tmap)
+region <- read_rds('data/regs_utm_sf.rds')
+data_temp <- read_rds('data/data_temp_enero.rds')[c('ema','temp_enero')]
+set.seed(432)
+data_temp_mod <- data_temp |> sample_frac(0.8)
+data_temp_val <- data_temp |> filter(!(ema %in% data_temp_mod$ema))
+
+calc_met <- function(ras,object_sf,var = 'temp_enero') {
+  df_val <- terra::extract(ras,terra::vect(object_sf)) |> 
+    cbind(object_sf[,var]) 
+  rmse <- function(obs,pred) sqrt(sum((obs-pred)^2)/length(obs))
+  rmse_v <- rmse(df_val[,3],df_val[,2])
+    r2 <- cor(df_val[,3],df_val[,2])^2
+  c('rmse' = rmse_v,'rsq' = r2)
+}
+
+
+tm_shape(region) + 
+  tm_borders() +
+  tm_shape(data_temp) +
+  tm_dots(col='temp_enero')
+```
+:::
+
+::: {.column width="50%"}
+```{r echo=FALSE,message=FALSE,eval=TRUE,fig.width=3}
+library(tidyverse)
+library(sf)
+library(tmap)
+region <- read_rds('data/regs_utm_sf.rds')
+data_temp <- read_rds('data/data_temp_enero.rds')[c('ema','temp_enero')]
+set.seed(876)
+data_temp_mod <- data_temp |> sample_frac(0.8)
+data_temp_val <- data_temp |> filter(!(ema %in% data_temp_mod$ema))
+
+calc_met <- function(ras,object_sf,var = 'temp_enero') {
+  df_val <- terra::extract(ras,terra::vect(object_sf)) |> 
+    cbind(object_sf[,var]) 
+  rmse <- function(obs,pred) sqrt(sum((obs-pred)^2)/length(obs))
+  rmse_v <- rmse(df_val[,3],df_val[,2])
+    r2 <- cor(df_val[,3],df_val[,2])^2
+  c('rmse' = rmse_v,'rsq' = r2)
+}
+
+
+tm_shape(region) + 
+  tm_borders() +
+  tm_shape(data_temp) +
+  tm_dots(col='temp_enero')
+```
+:::
+:::
+
+## Preparar datos para interpolación {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Grilla
+
+En R, espacializar temperatura promedio del mes de enero 2023.
+
+::::: columns
+::: {.column width="50%"}
+```{r}
+#| echo: true
+#| message: false
+library(stars)
+library(terra)
+bb <- st_bbox(region)
+grilla <- rast(xmin = bb$xmin,xmax = bb$xmax,
+               ymin = bb$ymin,ymax = bb$ymax, 
+               res=10000,crs="EPSG:32719") 
+grilla_st <- grilla |>   st_as_stars() #como clase stars
+
+```
+:::
+::: {.column width="50%"}
+```{r}
+#| fig.width: 4
+#| echo: true
+grilla |> as.polygons() |> plot()
+```
+:::
+:::
+
+## Voronoi (Polígonos de Thiessen) {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**Zonas de influencia más cercana a cada punto**. Caso particular de vecino más próximo con k=1.
+ 
+::: {.columns}
+::: {.column width=50%}
+```{r}
+#| echo: true
+#| eval: true
+temp_vor <- voronoi(vect(data_temp_mod)) |> 
+  terra::rasterize(grilla,'temp_enero') |> 
+  mask(vect(region)) 
+(met_vor <- calc_met(temp_vor,data_temp_val))
+```
+:::
+::: {.column width=50%}
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 3
+plot(temp_vor)
+```
+:::
+:::
+
+## Vecino más próximo {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Vecino más póximo con k=1.
+
+[kNN Interactivo](https://sahandbabali.github.io/Interactive-K-Nearest-Neighbors-Demo/)
+
+::: {.columns}
+::: {.column width=50%}
+```{r}
+#| echo: true
+#| eval: true
+library(gstat)
+temp_nn <- idw(temp_enero~1, data_temp_mod, grilla_st,nmax=1)
+temp_nn <- temp_nn |> rast() |> mask(vect(region)) |> trim() 
+(met_nn1 <- calc_met(temp_nn[[1]],data_temp_val))
+```
+:::
+::: {.column width=50%}
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 4
+plot(temp_nn)
+```
+:::
+:::
+
+## Vecino más próximo {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Vecino más póximo con k=5.
+
+::: {.columns}
+::: {.column width=50%}
+```{r}
+#| echo: true
+#| eval: true
+library(gstat)
+temp_nn5 <- idw(temp_enero~1, data_temp_mod, grilla_st,nmax=5)
+temp_nn5 <- temp_nn5 |> rast() |> mask(vect(region)) |> trim() 
+(met_nn5 <- calc_met(temp_nn5[[1]],data_temp_val))
+```
+:::
+::: {.column width=50%}
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 4
+plot(temp_nn5)
+```
+:::
+:::
+
+## Vecino más próximo {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+Vecino más póximo con k=10.
+
+::: {.columns}
+::: {.column width=50%}
+```{r}
+#| echo: true
+#| eval: true
+library(gstat)
+temp_nn10 <- idw(temp_enero~1, data_temp_mod, grilla_st,nmax=10)
+temp_nn10 <- temp_nn10 |> rast() |> mask(vect(region)) |> trim() 
+(met_nn10 <- calc_met(temp_nn10[[1]],data_temp_val))
+```
+:::
+::: {.column width=50%}
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 4
+plot(temp_nn10)
+```
+:::
+:::
+
+## Inverso de la Distancia {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+-   Quizas uno de los métodos más antiguos de predicción espacial.
+
+$$\hat z(s_0) = \sum_{i=1}^n \lambda_i(s_0)\cdot z(s_i)$$
+
+Notación de matriz
+
+$$\hat z(s_0) = \lambda_0^T \cdot z$$
+
+Los pesos se determinan por el inverso de la distancia
+
+$$\lambda(s_0) = \frac{\frac{1}{d^\beta (s_0,S_i)}}{\sum_{i=1}^n \frac{1}{d^\beta (s_0,s_i)}}$$ $\beta >0$
+
+## Inverso de la Distancia {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r}
+#| echo: false
+A <- c(-70.3, -33.1)
+B <- c(-71.2, -32.9)
+C <- c(-71.3, -33.4)
+D <- c(-70.1, -33.5)
+E <- c(-70.7, -33.2)
+F <- c(-70.4, -32.5)
+pts <- rbind(A, B, C, D, E, F)
+pts <- data.frame(x=pts[,1],y=pts[,2])
+ptsSF <- st_as_sf(pts,coords = c('x','y'),crs=4326)
+ptsSF_utm <- st_transform(ptsSF,32719)
+bb <- st_buffer(ptsSF_utm,5000) |> st_bbox()
+r <- rast(xmin=bb[1],xmax=bb[3],ymin=bb[2],ymax=bb[4],res=10000)
+xy <- xyFromCell(r,1:ncell(r)) |> 
+  vect()
+
+values(r) <- 1:ncell(r)
+grid <- as.polygons(r)
+plot(grid)
+plot(vect(ptsSF_utm),col='red',add=TRUE)
+plot(xy,col='blue',add = TRUE)
+```
+
+## Inverso de la Distancia {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+En R, espacializar temperatura promedio del mes de enero 2023.
+
+::::: columns
+::: {.column width="50%"}
+```{r}
+#| echo: true
+temp_idw <- idw(temp_enero~1, data_temp_mod, grilla_st)
+temp_idw <- temp_idw |> rast() |> mask(vect(region)) |> trim() 
+met_idw <- calc_met(temp_idw[[1]],data_temp_val)
+```
+
+```{r}
+#| echo: true
+#| eval: false
+#| fig-width: 3
+tm_shape(temp_idw[[1]]) +
+  tm_raster(style = 'cont',palette = viridis::viridis(20)) +
+  tm_shape(region) + 
+  tm_borders() +
+  tm_shape(data_temp) +
+  tm_dots(col='temp_enero',title = "Temperatura (°C)",style = 'jenks',palette = viridis::viridis(10))
+```
+:::
+::: {.column width="50%"}
+```{r}
+#| echo: false
+#| fig-width: 3
+tm_shape(temp_idw[[1]]) +
+  tm_raster(style = 'cont',palette = viridis::viridis(20)) +
+  tm_shape(region) + 
+  tm_borders() 
+  # tm_shape(data_temp) +
+  # tm_dots(col='temp_enero',title = "Temperatura (°C)",style = 'jenks',palette = viridis::viridis(10))
+```
+:::
+::::::
+
+## Trend surface / regresión en coordenadas {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+* Asumimos que los valores de la variable objetivo (geográficamente ubicada) es función de sus coordenadas.
+
+* Podemos determinar sus valores encontrando una función a través de los puntos observados.
+
+* Se basa en el siguiente modelo:
+
+$$Z(s) = f(x,y) + \epsilon$$
+
+
+## Trend surface / regresión en coordenadas {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+En R
+
+$$Temp=\beta_0+\beta_1\cdot x+\beta_2\cdot y$$
+
+```{r echo=TRUE}
+
+data_temp_mod <- cbind(data_temp_mod,st_coordinates(data_temp_mod))
+mod.lm1 <- lm(temp_enero ~ X + Y, data=data_temp_mod)
+```
+
+$$Temp = \beta_0+\beta_1\cdot x + \beta_1 \cdot y + \beta_2\cdot x^2+\beta_3\cdot y^2 + \beta_4\cdot x\cdot y$$
+
+```{r echo=TRUE}
+
+mod.lm2 <- lm(temp_enero ~ X + Y + I(X^2) + I(Y^2) + I(X*Y), data=data_temp_mod)
+
+```
+## Trend surface / regresión en coordenadas {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+$$Temp=\beta_0+\beta_1\cdot x+\beta_2\cdot y$$
+
+```{r echo=TRUE}
+
+summary(mod.lm1)$r.squared
+
+```
+
+$$Temp = \beta_0+\beta_1\cdot x + \beta_1 \cdot y + \beta_2\cdot x^2+\beta_3\cdot y^2 + \beta_4\cdot x\cdot y$$
+
+```{r echo=TRUE}
+
+summary(mod.lm2)$adj.r.squared
+
+summary(mod.lm2)$r.squared
+
+```
+
+## Trend surface / regresión en coordenadas {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+::: {.columns}
+::: {.column width=50%}
+```{r echo=TRUE}
+#| eval: true
+temp_ts <- c(grilla,grilla)
+xy <- xyFromCell(grilla,1:ncell(grilla)) |> 
+  as_tibble() |> set_names(c('X','Y'))
+values(temp_ts[[1]])<-  predict(mod.lm1, newdata=xy)
+
+values(temp_ts[[2]]) <- predict(mod.lm1, newdata=xy,se.fit=TRUE,inerval='prediction')$se.fit
+names(temp_ts) <- c('temperatura','error_estandar')
+temp <- mask(temp_ts, vect(region))
+(met_ts1 <- calc_met(temp_ts[[1]],data_temp_val))
+
+```
+:::
+::: {.column width=50%}
+```{r}
+#| eval: true
+#| echo: false
+#| fig-width: 5
+plot(temp)
+```
+:::
+:::
+
+## Trend surface / regresión en coordenadas {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+::: {.columns}
+::: {.column width=50%}
+```{r}
+#| echo: true
+#| eval: true
+temp_ts2 <- c(grilla,grilla)
+values(temp_ts2[[1]])<-  predict(mod.lm2, newdata=xy)
+
+values(temp_ts2[[2]]) <- predict(mod.lm2, newdata=xy,se.fit=TRUE,inerval='prediction')$se.fit
+names(temp_ts2) <- c('temperatura','error_estandar')
+temp_ts2 <- mask(temp_ts2, vect(region))
+(met_ts2 <- calc_met(temp_ts2[[1]],data_temp_val))
+```
+:::
+::: {.column width=50%}
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 5
+plot(temp)
+```
+:::
+:::
+
+## Evaluación de los modelos {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+```{r}
+df_metrics <- bind_rows(met_vor,met_nn1,met_nn5,met_nn10,met_idw,met_ts1,met_ts2) |> 
+  mutate(modelo = c('Voronoi','Vecino Próximo (k=1)','Vecino Próximo (k=5)',
+                    'Vecino Próximo (k=10)','Inverso Distancia','Regresion en coordenadas (1)','Regresion en coordenadas (2)')) |> 
+  relocate(modelo,.before = rmse)
+write_rds(df_metrics,'../Talleres/data/procesada/data_metrics_metodos_det.rds')
+df_metrics |> 
+  pivot_longer(-modelo) |> 
+  ggplot(aes(value,fct_inorder(modelo))) + 
+  geom_col(alpha=.7) +
+  geom_text(aes(label = round(value,2)),hjust=1) +
+  facet_grid(.~name) +
+  theme(axis.title = element_blank()) +
+  theme_bw()
+```
+
+
+
+
+
+
