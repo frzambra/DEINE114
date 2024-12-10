@@ -5,8 +5,8 @@ author: "Dr. Francisco Zambrano"
 date: "2024-12-10"
 lang: "es"
 execute:
-  echo: true
-  eval: true
+  echo: false
+  eval: false
 format:
   html:
     number-sections: true
