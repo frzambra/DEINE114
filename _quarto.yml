@@ -55,7 +55,7 @@ website:
       #     - text: "Taller 5: Predicción espacial con Random Forest"
       #       href: Talleres/Taller5.html
       - text: Ejercicios
-        href: ejercicios.qmd
+        href: Ejercicios/index_ejercicios.qmd
       - text: Acerca
         href: about.qmd
     right:
