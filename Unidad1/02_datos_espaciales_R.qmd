@@ -164,15 +164,15 @@ wst
 
 **Simple Feature `{sf}`: Tipos de geometrías**
 
-| Tipo                 | Descripción                                                                                                        |
-|-------------------------------------------|-----------------------------|
-| `POINT`              | geometría dimensión cero, un punto                                                                                 |
-| `LINESTRING`         | varios puntos, secuencia de puntos conectados por líneas rectas que no se intersecan; geometría unidimensional     |
-| `POLYGON`            | geometría con un área positiva (bidimensional); la secuencia de puntos forma un anillo cerrado que no se interseca |
-| `MULTIPOINT`         | grupo de `POINT`                                                                                                   |
-| `MULTILINESTRING`    | grupo de `LINESTRING`                                                                                              |
-| `MULTIPOLYGON`       | grupo de `POLYGON`                                                                                                 |
-| `GEOMETRYCOLLECTION` | grupo de geometrías de cualquier tipo                                                                              |
+| Tipo | Descripción |
+|----|----|
+| `POINT` | geometría dimensión cero, un punto |
+| `LINESTRING` | varios puntos, secuencia de puntos conectados por líneas rectas que no se intersecan; geometría unidimensional |
+| `POLYGON` | geometría con un área positiva (bidimensional); la secuencia de puntos forma un anillo cerrado que no se interseca |
+| `MULTIPOINT` | grupo de `POINT` |
+| `MULTILINESTRING` | grupo de `LINESTRING` |
+| `MULTIPOLYGON` | grupo de `POLYGON` |
+| `GEOMETRYCOLLECTION` | grupo de geometrías de cualquier tipo |
 
 ## 2. Datos espaciales vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
@@ -692,8 +692,8 @@ tm_shape(nz_highest) +
 (st_distance(nz_highest, canterbury_centroid))
 ```
 
-Dos cosas que hay que notar:  
-1. el resultado tiene unidades, indicando que es en metros, no kilometros, pies, etc.  
+Dos cosas que hay que notar:\
+1. el resultado tiene unidades, indicando que es en metros, no kilometros, pies, etc.\
 2. el resultado se entrega en forma de matriz, aunque en este caso tiene un solo valor
 
 `st_distance` devuelve una matriz de distancia. La función tiene la `habilidad` de calcular la distancia entre cualquier combinación de objetos.
