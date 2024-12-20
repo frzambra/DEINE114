@@ -17,8 +17,8 @@ website:
             href: Unidad1/01_intro_R.qmd
           - text: "Manejo de datos con {tidyverse}"
             href: Unidad1/02_manejo_datos_tidyverse.qmd
-      #     - text: "Datos espaciales con R"
-      #       href: Unidad1/03_datos_espaciales_R.qmd
+          - text: "Datos espaciales con R"
+            href: Unidad1/03_datos_espaciales_R.qmd
       #   
       #     - text: "Mapas con {tmap}"
       #       href: Unidad1/04_mapas_con_tmap.qmd

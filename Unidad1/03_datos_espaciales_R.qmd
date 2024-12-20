@@ -165,7 +165,7 @@ wst
 **Simple Feature `{sf}`: Tipos de geometrías**
 
 | Tipo | Descripción |
-|----|----|
+|------------------------------------|------------------------------------|
 | `POINT` | geometría dimensión cero, un punto |
 | `LINESTRING` | varios puntos, secuencia de puntos conectados por líneas rectas que no se intersecan; geometría unidimensional |
 | `POLYGON` | geometría con un área positiva (bidimensional); la secuencia de puntos forma un anillo cerrado que no se interseca |
@@ -838,3 +838,125 @@ plot(elev4)
 #| echo: true
 plot(res);text(res)
 ```
+
+## 9. Interacciones raster-vectorial {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Cortado de raster
+
+```{r}
+#| echo: true
+library(spDataLarge)
+srtm = rast(system.file("raster/srtm.tif", package = "spDataLarge"))
+zion = read_sf(system.file("vector/zion.gpkg", package = "spDataLarge"))
+zion = st_transform(zion, st_crs(srtm))
+```
+
+```{r}
+#| echo: false
+plot(srtm)
+plot(zion,add = TRUE,col='transparent')
+```
+
+## 9. Interacciones raster-vectorial {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Cortado de raster
+
+Función de corte `crop`
+```{r}
+#| echo: true
+srtm_cropped = crop(srtm, zion)
+```
+
+```{r}
+plot(srtm_cropped)
+plot(zion,add = TRUE,col='transparent')
+```
+
+## 9. Interacciones raster-vectorial {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Cortado de raster
+
+Función de mascara `mask`
+
+```{r}
+#| echo: true
+srtm_masked = mask(srtm, zion)
+```
+
+```{r}
+plot(srtm_masked)
+plot(zion,add = TRUE,col='transparent')
+```
+
+## 9. Interacciones raster-vectorial {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Cortado de raster
+
+La mayoría de las veces se utilizaran las dos funciones. `crop` para limitar la estensión y `mask` para reemplazar por NA los valores fuera de la geometría.
+
+```{r}
+#| echo: true
+srtm_cropped = crop(srtm, zion)
+srtm_final = mask(srtm_cropped, zion)
+```
+
+## 9. Interacciones raster-vectorial {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Cortado de raster
+
+Argumento inverse = TRUE
+
+```{r}
+#| echo: true
+srtm_inv_masked = mask(srtm, zion, inverse = TRUE)
+```
+
+```{r}
+plot(srtm_inv_masked)
+plot(zion,add = TRUE,col='transparent')
+```
+
+## 10. Extracción raster {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Desde puntos
+
+```{r}
+#| echo: true
+data("zion_points", package = "spDataLarge")
+elevation = terra::extract(srtm, zion_points)
+zion_points = cbind(zion_points, elevation)
+```
+
+```{r}
+plot(srtm)
+plot(zion,col='transparent',add = TRUE)
+plot(st_as_sf(zion_points),col='black',lty =1,add = TRUE)
+```
+## 10. Extracción raster {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Desde líneas
+
+## 10. Extracción raster {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Desde polígono
+
+```{r}
+#| echo: true
+zion_srtm_values = terra::extract(x = srtm, y = zion)
+
+library(tidyverse)
+zion_srtm_values |> as_tibble()
+```
+
+ 
+## 10. Extracción raster {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+### Desde polígono
+
+```{r}
+# echo: true
+group_by(zion_srtm_values, ID) |> 
+  summarize(across(srtm, list(min = min, mean = mean, max = max)))
+```
+ 
+ 
