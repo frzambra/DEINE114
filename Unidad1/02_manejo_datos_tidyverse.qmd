@@ -12,6 +12,8 @@ format:
     drop:
       shortcut: "]"
 slide-number: true
+execute: 
+  echo: true
 editor: source
 ---
 
@@ -636,7 +638,7 @@ Nota: Encuentre más información sobre `pivot_*()` en la [pivoting vignette](ht
 
 # `{dplyr}`: Una gramática de la manipulación de datos {background-color="brown"}
 
-## `{dplyr}`: Una gramática de la manipulación de datos {.smaller background-image="https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## `{dplyr}`: Una gramática de la manipulación de datos {.smaller .scrollable background-image="https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
 `{dplyr}` proporciona un conjuntio de funciones para manipulación de data frames (ej. tibbles) mientras se basa en una gramática consistente. Las funciones se representan intuitivamente mediante "verbos" que reflejan las operaciones subyacentes y siempre generan un tibble nuevo o modificado.
 
@@ -655,7 +657,7 @@ Nota: Encuentre más información sobre `pivot_*()` en la [pivoting vignette](ht
 - `group_by()` divide los datos en función de una o varias columnas\
 - `summarise()` reduce un grupo de datos en una sola fila
 
-## `{dplyr}`: Una gramática de la manipulación de datos {.smaller background-image="https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## `{dplyr}`: Una gramática de la manipulación de datos {.smaller .scrollable background-image="https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
 ::: columns
 ::: {.column width="50%"}
