@@ -1334,167 +1334,66 @@ First 10 features:
 </div>
 </div>
 </section>
-<section id="operaciones-espaciales-en-datos-raster" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>8. Operaciones espaciales en datos raster</h2>
-<p>Usaremos los datos: 1. <code>elev</code> : datos <code>raster</code> de elevación en metros. 2. <code>grain</code> : datos <code>raster</code> de granulométricos</p>
+<section id="función-app" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>8. Función <code>app</code></h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a></a>elev <span class="ot">=</span> <span class="fu">rast</span>(<span class="fu">system.file</span>(<span class="st">"raster/elev.tif"</span>, <span class="at">package =</span> <span class="st">"spData"</span>))</span>
-<span id="cb74-2"><a></a>grain <span class="ot">=</span> <span class="fu">rast</span>(<span class="fu">system.file</span>(<span class="st">"raster/grain.tif"</span>, <span class="at">package =</span> <span class="st">"spData"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-
-<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-50-1.png" style="width:100.0%" class="r-stretch"></section>
-<section id="operaciones-espaciales-en-datos-raster-1" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>8. Operaciones espaciales en datos raster</h2>
-<p><strong>Subset espacial</strong></p>
-<p>Funciones <code>{terra}</code>: <code>cellFromXY</code> <code>extract</code></p>
-<p>Problema: extraer los valores de elevación que están a 0.1 unidades desde el origen.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a></a>id <span class="ot">=</span> <span class="fu">cellFromXY</span>(elev, <span class="at">xy =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.1</span>, <span class="sc">-</span><span class="fl">0.1</span>),<span class="at">ncol=</span><span class="dv">2</span>))</span>
-<span id="cb75-2"><a></a>elev[id]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  elev
-1   21</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a></a>terra<span class="sc">::</span><span class="fu">extract</span>(elev, <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="sc">-</span><span class="fl">0.1</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">0.1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  ID elev
-1  1   21</code></pre>
-</div>
-</div>
-</section>
-<section id="operaciones-espaciales-en-datos-raster-2" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>8. Operaciones espaciales en datos raster</h2>
-<p><strong>Subset espacial</strong></p>
-<p>Se pueden realizar subset con otros datos raster.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a></a>clip <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="at">xmin =</span> <span class="fl">0.9</span>, <span class="at">xmax =</span> <span class="fl">1.8</span>, <span class="at">ymin =</span> <span class="sc">-</span><span class="fl">0.45</span>, <span class="at">ymax =</span> <span class="fl">0.45</span>,</span>
-<span id="cb79-2"><a></a>              <span class="at">res =</span> <span class="fl">0.3</span>, <span class="at">vals =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">9</span>))</span>
-<span id="cb79-3"><a></a>elev[clip]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  elev
-1   18
-2   24</code></pre>
-</div>
-</div>
-</section>
-<section id="operaciones-espaciales-en-datos-raster-3" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>8. Operaciones espaciales en datos raster</h2>
-<p><strong>Subset espacial</strong></p>
-<ul>
-<li>Hasta ahora los subset devuelven los valores numéricos.</li>
-<li>Si queremos que el resultado sea entregado como objeto espacial¿?</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a></a>s1 <span class="ot">&lt;-</span> elev[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
-<span id="cb81-2"><a></a>s2 <span class="ot">&lt;-</span> elev[<span class="dv">1</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
-<span id="cb81-3"><a></a>elev[clip, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>class       : SpatRaster 
-dimensions  : 2, 1, 1  (nrow, ncol, nlyr)
-resolution  : 0.5, 0.5  (x, y)
-extent      : 1, 1.5, -0.5, 0.5  (xmin, xmax, ymin, ymax)
-coord. ref. : lon/lat WGS 84 (EPSG:4326) 
-source(s)   : memory
-varname     : elev 
-name        : elev 
-min value   :   18 
-max value   :   24 </code></pre>
-</div>
-</div>
-</section>
-<section id="operaciones-espaciales-en-datos-raster-4" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>8. Operaciones espaciales en datos raster</h2>
-<p><strong>Subset espacial</strong></p>
-<p>Otro caso comun de subset espacial es utilizar una <code>mascara</code> lógica (con NA y 1).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a></a>rmask <span class="ot">&lt;-</span> elev</span>
-<span id="cb83-2"><a></a><span class="fu">values</span>(rmask) <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">1</span>), <span class="dv">36</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb83-3"><a></a><span class="fu">plot</span>(rmask)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb74-2"><a></a>elev4 <span class="ot">&lt;-</span> <span class="fu">c</span>(elev, elev<span class="sc">*</span><span class="fl">0.2</span>, elev<span class="sc">*</span><span class="fl">1.2</span>,elev<span class="sc">*</span><span class="fl">1.5</span>) <span class="co">#raster con 4 capas</span></span>
+<span id="cb74-3"><a></a></span>
+<span id="cb74-4"><a></a>res <span class="ot">&lt;-</span> <span class="fu">app</span>(elev4, \(y){</span>
+<span id="cb74-5"><a></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="at">y=</span>y)</span>
+<span id="cb74-6"><a></a>  mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(y<span class="sc">~</span>x,df)</span>
+<span id="cb74-7"><a></a>  <span class="fu">summary</span>(mod)<span class="sc">$</span>coefficients[<span class="dv">2</span>,<span class="dv">1</span>]</span>
+<span id="cb74-8"><a></a>  })</span>
+<span id="cb74-9"><a></a></span>
+<span id="cb74-10"><a></a><span class="co"># tendencia lineal (pendiente) para el ajuste entre 1:4 y los valores de los raster</span></span>
+<span id="cb74-11"><a></a><span class="fu">plot</span>(elev4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-54-1.png" width="960" class="r-stretch"></section>
-<section id="operaciones-espaciales-en-datos-raster-5" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>8. Operaciones espaciales en datos raster</h2>
-<p><strong>Subset espacial</strong></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a></a>s4 <span class="ot">&lt;-</span> elev[rmask, drop <span class="ot">=</span> <span class="cn">FALSE</span>]           <span class="co"># with [ operator</span></span>
-<span id="cb84-2"><a></a>s5 <span class="ot">&lt;-</span> <span class="fu">mask</span>(elev, rmask)                   <span class="co"># with mask()</span></span>
-<span id="cb84-3"><a></a></span>
-<span id="cb84-4"><a></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb84-5"><a></a><span class="fu">plot</span>(s4);<span class="fu">plot</span>(s5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-55-1.png" style="width:100.0%" class="r-stretch"></section>
-<section id="operaciones-espaciales-en-datos-raster-6" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>8. Operaciones espaciales en datos raster</h2>
-<p><strong>Operaciones locales</strong></p>
-<p>Algebra raster</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a></a>elev <span class="sc">+</span> elev</span>
-<span id="cb85-2"><a></a>elev<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb85-3"><a></a><span class="fu">log</span>(elev)</span>
-<span id="cb85-4"><a></a>elev <span class="sc">&gt;</span> <span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="función-app" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>Función <code>app</code></h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a></a>elev4 <span class="ot">&lt;-</span> <span class="fu">c</span>(elev, elev<span class="sc">*</span><span class="fl">0.2</span>, elev<span class="sc">*</span><span class="fl">1.2</span>,elev<span class="sc">*</span><span class="fl">1.5</span>) <span class="co">#raster con 4 capas</span></span>
-<span id="cb86-2"><a></a></span>
-<span id="cb86-3"><a></a>res <span class="ot">&lt;-</span> <span class="fu">app</span>(elev4, \(y){</span>
-<span id="cb86-4"><a></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="at">y=</span>y)</span>
-<span id="cb86-5"><a></a>  mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(y<span class="sc">~</span>x,df)</span>
-<span id="cb86-6"><a></a>  <span class="fu">summary</span>(mod)<span class="sc">$</span>coefficients[<span class="dv">2</span>,<span class="dv">1</span>]</span>
-<span id="cb86-7"><a></a>  })</span>
-<span id="cb86-8"><a></a></span>
-<span id="cb86-9"><a></a><span class="co"># tendencia lineal (pendiente) para el ajuste entre 1:4 y los valores de los raster</span></span>
-<span id="cb86-10"><a></a><span class="fu">plot</span>(elev4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-57-1.png" width="960" class="r-stretch"></section>
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-49-1.png" width="960" class="r-stretch"></section>
 <section id="función-app-1" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
 <h2>Función <code>app</code></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a></a><span class="fu">plot</span>(res);<span class="fu">text</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a></a><span class="fu">plot</span>(res);<span class="fu">text</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-58-1.png" width="960" class="r-stretch"></section>
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-50-1.png" width="960" class="r-stretch"></section>
 <section id="interacciones-raster-vectorial" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
 <h2>9. Interacciones raster-vectorial</h2>
 <h3 id="cortado-de-raster">Cortado de raster</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a></a><span class="fu">library</span>(spDataLarge)</span>
-<span id="cb88-2"><a></a>srtm <span class="ot">=</span> <span class="fu">rast</span>(<span class="fu">system.file</span>(<span class="st">"raster/srtm.tif"</span>, <span class="at">package =</span> <span class="st">"spDataLarge"</span>))</span>
-<span id="cb88-3"><a></a>zion <span class="ot">=</span> <span class="fu">read_sf</span>(<span class="fu">system.file</span>(<span class="st">"vector/zion.gpkg"</span>, <span class="at">package =</span> <span class="st">"spDataLarge"</span>))</span>
-<span id="cb88-4"><a></a>zion <span class="ot">=</span> <span class="fu">st_transform</span>(zion, <span class="fu">st_crs</span>(srtm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a></a><span class="fu">library</span>(spDataLarge)</span>
+<span id="cb76-2"><a></a>srtm <span class="ot">=</span> <span class="fu">rast</span>(<span class="fu">system.file</span>(<span class="st">"raster/srtm.tif"</span>, <span class="at">package =</span> <span class="st">"spDataLarge"</span>))</span>
+<span id="cb76-3"><a></a>zion <span class="ot">=</span> <span class="fu">read_sf</span>(<span class="fu">system.file</span>(<span class="st">"vector/zion.gpkg"</span>, <span class="at">package =</span> <span class="st">"spDataLarge"</span>))</span>
+<span id="cb76-4"><a></a>zion <span class="ot">=</span> <span class="fu">st_transform</span>(zion, <span class="fu">st_crs</span>(srtm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
-<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-60-1.png" width="960" class="r-stretch"></section>
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-52-1.png" width="960" class="r-stretch"></section>
 <section id="interacciones-raster-vectorial-1" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
 <h2>9. Interacciones raster-vectorial</h2>
 <h3 id="cortado-de-raster-1">Cortado de raster</h3>
 <p>Función de corte <code>crop</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a></a>srtm_cropped <span class="ot">=</span> <span class="fu">crop</span>(srtm, zion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a></a>srtm_cropped <span class="ot">=</span> <span class="fu">crop</span>(srtm, zion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
-<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-62-1.png" width="960" class="r-stretch"></section>
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-54-1.png" width="960" class="r-stretch"></section>
 <section id="interacciones-raster-vectorial-2" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
 <h2>9. Interacciones raster-vectorial</h2>
 <h3 id="cortado-de-raster-2">Cortado de raster</h3>
 <p>Función de mascara <code>mask</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a></a>srtm_masked <span class="ot">=</span> <span class="fu">mask</span>(srtm, zion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a></a>srtm_masked <span class="ot">=</span> <span class="fu">mask</span>(srtm, zion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
-<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-64-1.png" width="960" class="r-stretch"></section>
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-56-1.png" width="960" class="r-stretch"></section>
 <section id="interacciones-raster-vectorial-3" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
 <h2>9. Interacciones raster-vectorial</h2>
 <h3 id="cortado-de-raster-3">Cortado de raster</h3>
 <p>La mayoría de las veces se utilizaran las dos funciones. <code>crop</code> para limitar la estensión y <code>mask</code> para reemplazar por NA los valores fuera de la geometría.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a></a>srtm_cropped <span class="ot">=</span> <span class="fu">crop</span>(srtm, zion)</span>
-<span id="cb91-2"><a></a>srtm_final <span class="ot">=</span> <span class="fu">mask</span>(srtm_cropped, zion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a></a>srtm_cropped <span class="ot">=</span> <span class="fu">crop</span>(srtm, zion)</span>
+<span id="cb79-2"><a></a>srtm_final <span class="ot">=</span> <span class="fu">mask</span>(srtm_cropped, zion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="interacciones-raster-vectorial-4" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
@@ -1502,32 +1401,28 @@ max value   :   24 </code></pre>
 <h3 id="cortado-de-raster-4">Cortado de raster</h3>
 <p>Argumento inverse = TRUE</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a></a>srtm_inv_masked <span class="ot">=</span> <span class="fu">mask</span>(srtm, zion, <span class="at">inverse =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a></a>srtm_inv_masked <span class="ot">=</span> <span class="fu">mask</span>(srtm, zion, <span class="at">inverse =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
-<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-67-1.png" width="960" class="r-stretch"></section>
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-59-1.png" width="960" class="r-stretch"></section>
 <section id="extracción-raster" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
 <h2>10. Extracción raster</h2>
 <h3 id="desde-puntos">Desde puntos</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a></a><span class="fu">data</span>(<span class="st">"zion_points"</span>, <span class="at">package =</span> <span class="st">"spDataLarge"</span>)</span>
-<span id="cb93-2"><a></a>elevation <span class="ot">=</span> terra<span class="sc">::</span><span class="fu">extract</span>(srtm, zion_points)</span>
-<span id="cb93-3"><a></a>zion_points <span class="ot">=</span> <span class="fu">cbind</span>(zion_points, elevation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a></a><span class="fu">data</span>(<span class="st">"zion_points"</span>, <span class="at">package =</span> <span class="st">"spDataLarge"</span>)</span>
+<span id="cb81-2"><a></a>elevation <span class="ot">=</span> terra<span class="sc">::</span><span class="fu">extract</span>(srtm, zion_points)</span>
+<span id="cb81-3"><a></a>zion_points <span class="ot">=</span> <span class="fu">cbind</span>(zion_points, elevation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
-<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-69-1.png" width="960" class="r-stretch"></section>
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-61-1.png" width="960" class="r-stretch"></section>
 <section id="extracción-raster-1" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>10. Extracción raster</h2>
-<h3 id="desde-líneas">Desde líneas</h3>
-</section>
-<section id="extracción-raster-2" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
 <h2>10. Extracción raster</h2>
 <h3 id="desde-polígono">Desde polígono</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a></a>zion_srtm_values <span class="ot">=</span> terra<span class="sc">::</span><span class="fu">extract</span>(<span class="at">x =</span> srtm, <span class="at">y =</span> zion)</span>
-<span id="cb94-2"><a></a></span>
-<span id="cb94-3"><a></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb94-4"><a></a>zion_srtm_values <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a></a>zion_srtm_values <span class="ot">=</span> terra<span class="sc">::</span><span class="fu">extract</span>(<span class="at">x =</span> srtm, <span class="at">y =</span> zion)</span>
+<span id="cb82-2"><a></a></span>
+<span id="cb82-3"><a></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb82-4"><a></a>zion_srtm_values <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 88,080 × 2
       ID  srtm
@@ -1546,10 +1441,12 @@ max value   :   24 </code></pre>
 </div>
 </div>
 </section>
-<section id="extracción-raster-3" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<section id="extracción-raster-2" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
 <h2>10. Extracción raster</h2>
 <h3 id="desde-polígono-1">Desde polígono</h3>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a></a><span class="fu">group_by</span>(zion_srtm_values, ID) <span class="sc">|&gt;</span> </span>
+<span id="cb84-2"><a></a>  <span class="fu">summarize</span>(<span class="fu">across</span>(srtm, <span class="fu">list</span>(<span class="at">min =</span> min, <span class="at">mean =</span> mean, <span class="at">max =</span> max)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 4
      ID srtm_min srtm_mean srtm_max

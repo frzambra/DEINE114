@@ -720,106 +720,12 @@ tm_shape(co) +
 (st_distance(nz_height[1:3, ], co))
 ```
 
-## 8. Operaciones espaciales en datos raster {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
-Usaremos los datos: 1. `elev` : datos `raster` de elevación en metros. 2. `grain` : datos `raster` de granulométricos
+## 8. Función `app` {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
 ```{r}
 #| echo: true
 elev = rast(system.file("raster/elev.tif", package = "spData"))
-grain = rast(system.file("raster/grain.tif", package = "spData"))
-
-```
-
-```{r echo=FALSE,out.width='100%',fig.height=3,message=FALSE}
-library(terra)
-par(mfrow=c(1,2))
-plot(elev, main='elev')
-plot(grain, main='grain')
-```
-
-## 8. Operaciones espaciales en datos raster {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
-
-**Subset espacial**
-
-Funciones `{terra}`: `cellFromXY` `extract`
-
-Problema: extraer los valores de elevación que están a 0.1 unidades desde el origen.
-
-```{r echo=TRUE}
-id = cellFromXY(elev, xy = matrix(c(-0.1, -0.1),ncol=2))
-elev[id]
-terra::extract(elev, data.frame(x = -0.1, y = -0.1))
-```
-
-## 8. Operaciones espaciales en datos raster {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
-
-**Subset espacial**
-
-Se pueden realizar subset con otros datos raster.
-
-```{r echo=TRUE}
-clip <- rast(xmin = 0.9, xmax = 1.8, ymin = -0.45, ymax = 0.45,
-              res = 0.3, vals = rep(1, 9))
-elev[clip]
-```
-
-------------------------------------------------------------------------
-
-## 8. Operaciones espaciales en datos raster {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
-
-**Subset espacial**
-
--   Hasta ahora los subset devuelven los valores numéricos.
--   Si queremos que el resultado sea entregado como objeto espacial¿?
-
-```{r echo=TRUE}
-s1 <- elev[1:2, drop = FALSE]
-s2 <- elev[1, 1:2, drop = FALSE]
-elev[clip, drop = FALSE]
-```
-
-## 8. Operaciones espaciales en datos raster {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
-
-**Subset espacial**
-
-Otro caso comun de subset espacial es utilizar una `mascara` lógica (con NA y 1).
-
-```{r echo=TRUE, fig.height=4}
-rmask <- elev
-values(rmask) <- sample(c(NA, 1), 36, replace = TRUE)
-plot(rmask)
-```
-
-## 8. Operaciones espaciales en datos raster {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
-
-**Subset espacial**
-
-```{r echo=TRUE, fig.height=4,out.width='100%'}
-s4 <- elev[rmask, drop = FALSE]           # with [ operator
-s5 <- mask(elev, rmask)                   # with mask()
-
-par(mfrow=c(1,2))
-plot(s4);plot(s5)
-```
-
-## 8. Operaciones espaciales en datos raster {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
-
-**Operaciones locales**
-
-Algebra raster
-
-```{r echo=TRUE,results=FALSE}
-elev + elev
-elev^2
-log(elev)
-elev > 5
-```
-
-## Función `app` {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
-
-```{r}
-#| echo: true
 elev4 <- c(elev, elev*0.2, elev*1.2,elev*1.5) #raster con 4 capas
 
 res <- app(elev4, \(y){
@@ -934,10 +840,6 @@ plot(st_as_sf(zion_points),col='black',lty =1,add = TRUE)
 ```
 ## 10. Extracción raster {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
-### Desde líneas
-
-## 10. Extracción raster {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
-
 ### Desde polígono
 
 ```{r}
@@ -954,7 +856,7 @@ zion_srtm_values |> as_tibble()
 ### Desde polígono
 
 ```{r}
-# echo: true
+#| echo: true
 group_by(zion_srtm_values, ID) |> 
   summarize(across(srtm, list(min = min, mean = mean, max = max)))
 ```
