@@ -423,17 +423,14 @@ Dr.&nbsp;Francisco Zambrano Bigiarini
 </section>
 <section id="contenidos" class="slide level2 smaller" data-background-image="../imgs/R_logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
 <h2>Contenidos</h2>
-<p>Datos Espaciales en R</p>
-<div class="fragment">
-<ul>
-<li>Datos vectoriales</li>
-</ul>
-</div>
-<div class="fragment">
-<ul>
-<li>Datos raster</li>
-</ul>
-</div>
+<ol type="1">
+<li>Datos espaciales en R</li>
+<li>Datos espaciales vectoriales</li>
+<li>Datos espaciales raster</li>
+<li>Manejo de SRC</li>
+<li>Operaciones espaciales con datos vectoriales</li>
+<li>Operaciones espaciales con datos raster</li>
+</ol>
 </section>
 <section id="datos-espaciales-en-r" class="slide level2 smaller" data-background-image="../imgs/R_logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
 <h2>1. Datos espaciales en <code>R</code></h2>
@@ -975,12 +972,14 @@ max values  :   100, 10000,    10 </code></pre>
 <p><code>{sf}</code> usa wkt (well-known text) o EPSG</p>
 <p><code>{terra}</code> usa PROJ.4, wkt o EPSG</p>
 </section>
-<section id="datos-vectoriales-sf" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>5. Datos vectoriales: <code>{sf}</code></h2>
+<section id="manejo-de-crs-en-r-1" class="slide level2 smaller" data-background-image="../imgs/R_logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>4. Manejo de CRS en R</h2>
+<p><strong>4.1 Datos vectoriales: <code>{sf}</code></strong></p>
 <p>Versiones anteriores de <code>{sf}</code> (&lt;0.9) <img data-src="figs/crs_sf1.png">~</p>
 </section>
-<section id="datos-vectoriales-sf-1" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>5. Datos vectoriales: <code>{sf}</code></h2>
+<section id="manejo-de-crs-en-r-2" class="slide level2 smaller" data-background-image="../imgs/R_logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>4. Manejo de CRS en R</h2>
+<p><strong>4.1 Datos vectoriales: <code>{sf}</code></strong></p>
 <p>Ahora</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a></a><span class="fu">st_crs</span>(<span class="dv">4326</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1017,8 +1016,9 @@ GEOGCRS["WGS 84",
 </div>
 </div>
 </section>
-<section id="datos-vectoriales-sf-2" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>5. Datos vectoriales: <code>{sf}</code></h2>
+<section id="manejo-de-crs-en-r-3" class="slide level2 smaller" data-background-image="../imgs/R_logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>4. Manejo de CRS en R</h2>
+<p><strong>4.1 Datos vectoriales: <code>{sf}</code></strong></p>
 <p>Recomendación utilizar <code>EPSG (European Petroleum Survey Group)</code> y <code>wkt</code> para identificar el <code>CRS</code>, cuando sea posible. No se aconseja el uso de <code>proj4</code>.</p>
 <p>Transformar de un CRS a otro con la función <code>st_transform</code></p>
 <div class="cell">
@@ -1039,8 +1039,9 @@ GEOGCRS["WGS 84",
 </div>
 </div>
 </section>
-<section id="datos-raster-terra" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>6. Datos raster: <code>{terra}</code></h2>
+<section id="manejo-de-crs-en-r-4" class="slide level2 smaller" data-background-image="../imgs/R_logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>4. Manejo de CRS en R</h2>
+<p><strong>4.2 Datos raster: <code>{terra}</code></strong></p>
 <p>Asignar un <code>CRS</code> a un raster. Utilce <code>EPSG</code> o <code>wkt</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a></a><span class="fu">crs</span>(r) <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
@@ -1090,8 +1091,9 @@ GEOGCRS["WGS 84",
 </div>
 </div>
 </section>
-<section id="datos-raster-terra-1" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>6. Datos raster: <code>{terra}</code></h2>
+<section id="manejo-de-crs-en-r-5" class="slide level2 smaller" data-background-image="../imgs/R_logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>4. Manejo de CRS en R</h2>
+<p><strong>4.2 Datos raster: <code>{terra}</code></strong></p>
 <p><strong>Reproyectar</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a></a>r <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="at">xmin=</span><span class="sc">-</span><span class="dv">72</span>, <span class="at">xmax=</span><span class="sc">-</span><span class="dv">71</span>, <span class="at">ymin=</span><span class="sc">-</span><span class="dv">37</span>, <span class="at">ymax=</span><span class="sc">-</span><span class="dv">36</span>, <span class="at">ncols=</span><span class="dv">40</span>, <span class="at">nrows=</span><span class="dv">40</span>)</span>
@@ -1100,8 +1102,9 @@ GEOGCRS["WGS 84",
 
 </div>
 <img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-31-1.png" width="960" class="r-stretch"></section>
-<section id="datos-raster-terra-2" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>6. Datos raster: <code>{terra}</code></h2>
+<section id="manejo-de-crs-en-r-6" class="slide level2 smaller" data-background-image="../imgs/R_logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>4. Manejo de CRS en R</h2>
+<p><strong>4.2 Datos raster: <code>{terra}</code></strong></p>
 <p><strong>Reproyectar</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a></a><span class="fu">crs</span>(r) <span class="ot">&lt;-</span> <span class="fu">crs</span>(<span class="st">'EPSG:4326'</span>)</span>
@@ -1119,16 +1122,18 @@ max value   : 1600.00000 </code></pre>
 </div>
 </div>
 </section>
-<section id="datos-raster-terra-3" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>6. Datos raster: <code>{terra}</code></h2>
+<section id="manejo-de-crs-en-r-7" class="slide level2 smaller" data-background-image="../imgs/R_logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>4. Manejo de CRS en R</h2>
+<p><strong>4.2 Datos raster: <code>{terra}</code></strong></p>
 <p><strong>Reproyectar</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a></a><span class="fu">plot</span>(newr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-33-1.png" width="960" class="r-stretch"></section>
-<section id="conversion-entre-crsterra-y-crssf" class="slide level2">
-<h2>6. Conversion entre CRS(<code>{terra}</code>) y crs(<code>{sf}</code>)</h2>
+<section id="manejo-de-crs-en-r-8" class="slide level2 smaller" data-background-image="../imgs/R_logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>4. Manejo de CRS en R</h2>
+<p><strong>4.3 Conversion entre CRS(<code>{terra}</code>) y crs(<code>{sf}</code>)</strong></p>
 <p>De <code>sf</code> a <code>terra</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a></a>new_crs <span class="ot">&lt;-</span> <span class="fu">crs</span>(<span class="fu">st_crs</span>(<span class="dv">32719</span>)<span class="sc">$</span>wkt)</span>
@@ -1146,8 +1151,8 @@ max value   : 1600.00000 </code></pre>
 </div>
 </div>
 </section>
-<section id="algunas-operaciones-espaciales" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>7. Algunas operaciones espaciales</h2>
+<section id="operaciones-espaciales-con-datos-vectoriales" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>5. Operaciones espaciales con datos vectoriales</h2>
 <p>Necesitamos para poder reproducir</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a></a><span class="fu">library</span>(sf)</span>
@@ -1156,8 +1161,8 @@ max value   : 1600.00000 </code></pre>
 <p><code>nz</code>: geometria de Nueva Zelanda<br>
 <code>nz_height</code> : geometría de las mayores alturas en Nueva Zelanda</p>
 </section>
-<section id="operaciones-espaciales-con-datos-vectoriales" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>7. Operaciones espaciales con datos vectoriales</h2>
+<section id="operaciones-espaciales-con-datos-vectoriales-1" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>5. Operaciones espaciales con datos vectoriales</h2>
 <p><strong>Filtrado espacial</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a></a>nz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1193,8 +1198,8 @@ First 10 features:
 </div>
 </div>
 </section>
-<section id="operaciones-espaciales-con-datos-vectoriales-1" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>7. Operaciones espaciales con datos vectoriales</h2>
+<section id="operaciones-espaciales-con-datos-vectoriales-2" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>5. Operaciones espaciales con datos vectoriales</h2>
 <p><strong>Filtrado espacial</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a></a><span class="fu">str</span>(nz)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1216,8 +1221,8 @@ First 10 features:
 </div>
 </div>
 </section>
-<section id="operaciones-espaciales-con-datos-vectoriales-2" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>7. Operaciones espaciales con datos vectoriales</h2>
+<section id="operaciones-espaciales-con-datos-vectoriales-3" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>5. Operaciones espaciales con datos vectoriales</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a></a>nz_height</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1241,8 +1246,8 @@ First 10 features:
 </div>
 </div>
 </section>
-<section id="operaciones-espaciales-con-datos-vectoriales-3" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>7. Operaciones espaciales con datos vectoriales</h2>
+<section id="operaciones-espaciales-con-datos-vectoriales-4" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>5. Operaciones espaciales con datos vectoriales</h2>
 <p><strong>Filtrado espacial</strong></p>
 <div class="cell">
 <div class="cell-output-display">
@@ -1251,8 +1256,8 @@ First 10 features:
 </div>
 </div>
 </section>
-<section id="operaciones-espaciales-con-datos-vectoriales-4" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>7. Operaciones espaciales con datos vectoriales</h2>
+<section id="operaciones-espaciales-con-datos-vectoriales-5" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>5. Operaciones espaciales con datos vectoriales</h2>
 <p><strong>Filtrado espacial</strong></p>
 <p><code>Problema:</code>Seleccionemos las máximas alturas en Canterbury</p>
 <p>alternativa 1</p>
@@ -1261,15 +1266,23 @@ First 10 features:
 <span id="cb67-2"><a></a>canterbury <span class="ot">&lt;-</span> nz[rows_sel,]</span>
 <span id="cb67-3"><a></a>cant_height <span class="ot">&lt;-</span> nz_height[canterbury,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Otra alternativa: con operaciones geométricas</p>
+<p>alternativa 2</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a></a>rows_sel<span class="ot">&lt;-</span> nz<span class="sc">$</span>Name <span class="sc">==</span> <span class="st">'Canterbury'</span></span>
-<span id="cb68-2"><a></a>canterbury <span class="ot">&lt;-</span> nz[rows_sel,]</span>
-<span id="cb68-3"><a></a>cant_height <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(nz_height,canterbury)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a></a>canterbury <span class="ot">&lt;-</span> nz <span class="sc">|&gt;</span> </span>
+<span id="cb68-2"><a></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Name <span class="sc">==</span> <span class="st">'Canterbury'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb68-3"><a></a>  <span class="fu">st_join</span>(nz_height <span class="sc">|&gt;</span> <span class="fu">st_as_sf</span>(<span class="at">geom =</span> <span class="st">'geometry'</span>)) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a></a>cant_height <span class="ot">&lt;-</span> nz_height[canterbury,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-42-1.png" width="960" class="r-stretch"><p>Otra alternativa: con operaciones geométricas</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a></a>rows_sel<span class="ot">&lt;-</span> nz<span class="sc">$</span>Name <span class="sc">==</span> <span class="st">'Canterbury'</span></span>
+<span id="cb70-2"><a></a>canterbury <span class="ot">&lt;-</span> nz[rows_sel,]</span>
+<span id="cb70-3"><a></a>cant_height <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(nz_height,canterbury)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="operaciones-espaciales-en-datos-vectoriales" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>7. Operaciones espaciales en datos vectoriales</h2>
+<h2>5. Operaciones espaciales en datos vectoriales</h2>
 <p><strong>Filtrado espacial</strong></p>
 <div class="cell">
 <div class="cell-output-display">
@@ -1278,13 +1291,13 @@ First 10 features:
 </div>
 </div>
 </section>
-<section id="operaciones-espaciales-en-datos-vectoriales-1" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>7. Operaciones espaciales en datos vectoriales</h2>
+<section id="operaciones-espaciales-con-datos-vectoriales-6" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>5. Operaciones espaciales con datos vectoriales</h2>
 <p><strong>Distancia</strong></p>
 <p><code>Problema:</code> calcular la distancia entre el punto de mayor altura en Nueva Zelanda y el centroide da la región de Canterbury.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a></a>nz_highest <span class="ot">&lt;-</span> nz_height[<span class="fu">order</span>(<span class="sc">-</span>nz_height<span class="sc">$</span>elevation),][<span class="dv">1</span>,]</span>
-<span id="cb69-2"><a></a>canterbury_centroid <span class="ot">=</span> <span class="fu">st_centroid</span>(canterbury)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a></a>nz_highest <span class="ot">&lt;-</span> nz_height[<span class="fu">order</span>(<span class="sc">-</span>nz_height<span class="sc">$</span>elevation),][<span class="dv">1</span>,]</span>
+<span id="cb71-2"><a></a>canterbury_centroid <span class="ot">=</span> <span class="fu">st_centroid</span>(canterbury)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -1293,11 +1306,11 @@ First 10 features:
 </div>
 </div>
 </section>
-<section id="operaciones-espaciales-en-datos-vectoriales-2" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>7. Operaciones espaciales en datos vectoriales</h2>
+<section id="operaciones-espaciales-con-datos-vectoriales-7" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>5. Operaciones espaciales con datos vectoriales</h2>
 <p><strong>Distancia</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a></a>(<span class="fu">st_distance</span>(nz_highest, canterbury_centroid))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a></a>(<span class="fu">st_distance</span>(nz_highest, canterbury_centroid))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Units: [m]
        [,1]
@@ -1309,8 +1322,8 @@ First 10 features:
 2. el resultado se entrega en forma de matriz, aunque en este caso tiene un solo valor</p>
 <p><code>st_distance</code> devuelve una matriz de distancia. La función tiene la <code>habilidad</code> de calcular la distancia entre cualquier combinación de objetos.</p>
 </section>
-<section id="operaciones-espaciales-en-datos-vectoriales-3" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>7. Operaciones espaciales en datos vectoriales</h2>
+<section id="operaciones-espaciales-con-datos-vectoriales-8" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>5. Operaciones espaciales con datos vectoriales</h2>
 <p><strong>Distancia</strong></p>
 <p><code>Problema:</code> calcular la distancia entre las regiones de <code>Canterbury</code> y <code>Otago</code> con las tres primeras altura de <code>nz_height</code></p>
 <div class="cell">
@@ -1320,11 +1333,11 @@ First 10 features:
 </div>
 </div>
 </section>
-<section id="operaciones-espaciales-en-datos-vectoriales-4" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>7. Operaciones espaciales en datos vectoriales</h2>
+<section id="operaciones-espaciales-con-datos-vectoriales-9" class="slide level2 smaller" data-background-image="../imgs/logo_sf.gif" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>5. Operaciones espaciales con datos vectoriales</h2>
 <p><strong>Distancia</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a></a>(<span class="fu">st_distance</span>(nz_height[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, ], co))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a></a>(<span class="fu">st_distance</span>(nz_height[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, ], co))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Units: [m]
           [,1]     [,2]
@@ -1334,95 +1347,420 @@ First 10 features:
 </div>
 </div>
 </section>
-<section id="función-app" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>8. Función <code>app</code></h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a></a>elev <span class="ot">=</span> <span class="fu">rast</span>(<span class="fu">system.file</span>(<span class="st">"raster/elev.tif"</span>, <span class="at">package =</span> <span class="st">"spData"</span>))</span>
-<span id="cb74-2"><a></a>elev4 <span class="ot">&lt;-</span> <span class="fu">c</span>(elev, elev<span class="sc">*</span><span class="fl">0.2</span>, elev<span class="sc">*</span><span class="fl">1.2</span>,elev<span class="sc">*</span><span class="fl">1.5</span>) <span class="co">#raster con 4 capas</span></span>
-<span id="cb74-3"><a></a></span>
-<span id="cb74-4"><a></a>res <span class="ot">&lt;-</span> <span class="fu">app</span>(elev4, \(y){</span>
-<span id="cb74-5"><a></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="at">y=</span>y)</span>
-<span id="cb74-6"><a></a>  mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(y<span class="sc">~</span>x,df)</span>
-<span id="cb74-7"><a></a>  <span class="fu">summary</span>(mod)<span class="sc">$</span>coefficients[<span class="dv">2</span>,<span class="dv">1</span>]</span>
-<span id="cb74-8"><a></a>  })</span>
-<span id="cb74-9"><a></a></span>
-<span id="cb74-10"><a></a><span class="co"># tendencia lineal (pendiente) para el ajuste entre 1:4 y los valores de los raster</span></span>
-<span id="cb74-11"><a></a><span class="fu">plot</span>(elev4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="operaciones-espaciales-con-datos-raster" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>6. Operaciones espaciales con datos raster</h2>
+<p><strong>Subconjunto espacial</strong></p>
 
-</div>
-<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-49-1.png" width="960" class="r-stretch"></section>
-<section id="función-app-1" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>Función <code>app</code></h2>
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-50-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
+<section id="operaciones-espaciales-con-datos-raster-1" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.1. Subconjunto espacial</strong></p>
+<p>Extrae la posición de la celda con <code>cellFromXY</code> y luego con indexación extrae el valor de esa celda con <code>elev[id]</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a></a><span class="fu">plot</span>(res);<span class="fu">text</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  elev
+1   16</code></pre>
+</div>
+</div>
+<p>Extrae el valor que se encuentra en las coordenadas indicadas con la función <code>extract</code></p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  elev
+1   16</code></pre>
+</div>
+</div>
+</section>
+<section id="operaciones-espaciales-con-datos-raster-2" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.1. Subconjunto espacial</strong></p>
+<p>También se puede extraer utilizando otro raster, como rater de indexación.</p>
 
-</div>
-<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-50-1.png" width="960" class="r-stretch"></section>
-<section id="interacciones-raster-vectorial" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>9. Interacciones raster-vectorial</h2>
-<h3 id="cortado-de-raster">Cortado de raster</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a></a><span class="fu">library</span>(spDataLarge)</span>
-<span id="cb76-2"><a></a>srtm <span class="ot">=</span> <span class="fu">rast</span>(<span class="fu">system.file</span>(<span class="st">"raster/srtm.tif"</span>, <span class="at">package =</span> <span class="st">"spDataLarge"</span>))</span>
-<span id="cb76-3"><a></a>zion <span class="ot">=</span> <span class="fu">read_sf</span>(<span class="fu">system.file</span>(<span class="st">"vector/zion.gpkg"</span>, <span class="at">package =</span> <span class="st">"spDataLarge"</span>))</span>
-<span id="cb76-4"><a></a>zion <span class="ot">=</span> <span class="fu">st_transform</span>(zion, <span class="fu">st_crs</span>(srtm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-53-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
+<section id="operaciones-espaciales-con-datos-raster-3" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.1. Subconjunto espacial</strong></p>
+<p>También se puede extraer utilizando otro raster, como rater de indexación.</p>
 
-<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-52-1.png" width="960" class="r-stretch"></section>
-<section id="interacciones-raster-vectorial-1" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>9. Interacciones raster-vectorial</h2>
-<h3 id="cortado-de-raster-1">Cortado de raster</h3>
-<p>Función de corte <code>crop</code></p>
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-54-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
+<section id="operaciones-espaciales-con-datos-raster-4" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.1. Subconjunto espacial</strong></p>
+<p>Extraer desde el objeto <code>elev</code> los valores que se encuentran en la extensión del objeto <code>clip</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a></a>srtm_cropped <span class="ot">=</span> <span class="fu">crop</span>(srtm, zion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  elev
+1   18
+2   24</code></pre>
 </div>
-
-<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-54-1.png" width="960" class="r-stretch"></section>
-<section id="interacciones-raster-vectorial-2" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>9. Interacciones raster-vectorial</h2>
-<h3 id="cortado-de-raster-2">Cortado de raster</h3>
-<p>Función de mascara <code>mask</code></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a></a>srtm_masked <span class="ot">=</span> <span class="fu">mask</span>(srtm, zion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>class       : SpatRaster 
+dimensions  : 2, 1, 1  (nrow, ncol, nlyr)
+resolution  : 0.5, 0.5  (x, y)
+extent      : 1, 1.5, -0.5, 0.5  (xmin, xmax, ymin, ymax)
+coord. ref. : lon/lat WGS 84 (EPSG:4326) 
+source(s)   : memory
+varname     : elev 
+name        : elev 
+min value   :   18 
+max value   :   24 </code></pre>
 </div>
+</div>
+</section>
+<section id="operaciones-espaciales-con-datos-raster-5" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.1. Subconjunto espacial</strong></p>
+<p>La función <code>crop</code> sirve para realizar <code>elev[clip,drop = FALSE]</code></p>
 
 <img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-56-1.png" width="960" class="r-stretch"></section>
+<section id="operaciones-espaciales-con-datos-raster-6" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.1. Subconjunto espacial</strong></p>
+<p><strong>Con indexación</strong></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>   elev
+1     1
+2     2
+3     3
+4     4
+5     5
+6     6
+7     7
+8     8
+9     9
+10   10
+11   11
+12   12</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>class       : SpatRaster 
+dimensions  : 1, 2, 1  (nrow, ncol, nlyr)
+resolution  : 0.5, 0.5  (x, y)
+extent      : -1.5, -0.5, 1, 1.5  (xmin, xmax, ymin, ymax)
+coord. ref. : lon/lat WGS 84 (EPSG:4326) 
+source(s)   : memory
+varname     : elev 
+name        : elev 
+min value   :    1 
+max value   :    2 </code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="operaciones-espaciales-con-datos-raster-7" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>Subconjunto espacial</strong></p>
+<p>Utilizando un raster con valores <code>lógicos</code> para ser utilizado como mascara</p>
+
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-59-1.png" width="960" class="r-stretch"></section>
+<section id="operaciones-espaciales-con-datos-raster-8" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.1. Subconjunto espacial</strong></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-60-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Utilizando un raster con valores <code>NA</code> para ser utilizado como mascara con la función <code>mask</code></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-61-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="operaciones-espaciales-con-datos-raster-9" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.1. Subconjunto espacial</strong></p>
+<p>Utilizando un raster con valores <code>NA</code> para ser utilizado como mascara.</p>
+<p>Se puede utilizar la función <code>mask</code></p>
+
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-62-1.png" width="960" class="r-stretch"></section>
+<section id="operaciones-espaciales-con-datos-raster-10" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.1. Subconjunto espacial</strong></p>
+<p>Se pueden crear mascaras con operaciones lógicas.</p>
+
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-63-1.png" width="960" class="r-stretch"></section>
+<section id="operaciones-espaciales-con-datos-raster-11" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.2. Algebra raster</strong></p>
+<p>Algunas consideraciones</p>
+<div class="fragment">
+<ul>
+<li>Si usas multiples raster, estos deben tener el mismo punto origen<sup>1</sup> y la misma resolución</li>
+<li>Generalmenet tienen la misma extensión, pero si no, devuelve la operación dentro de la intersección de los dos</li>
+<li>El reciclado de raster en operaciones algebraicas funciona de las misma forma que en el caso de los <code>atomic vectors</code></li>
+</ul>
+</div>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>el punto más cercano a la coordenada c(0,0)</p></li></ol></aside></section>
+<section id="operaciones-espaciales-con-datos-raster-12" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.2. Algebra raster</strong></p>
+<p>Muchas de las operaciones genéricas han sido implementadas</p>
+<div class="fragment">
+<ul>
+<li>Operaciones: <code>+, -, *, /,</code></li>
+<li>Operadores lógicos: <code>&gt;, &gt;=, &lt;, ==, !</code></li>
+<li>Funciones como: <code>abs, round, ceiling, floor, trunc, sqrt, log, log10, exp, cos, sin, atan, tan, max, min, range, prod, sum, any, all</code></li>
+</ul>
+</div>
+</section>
+<section id="operaciones-espaciales-con-datos-raster-13" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.2. Operaciones locales</strong></p>
+
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-64-1.png" width="960" class="r-stretch"></section>
+<section id="operaciones-espaciales-con-datos-raster-14" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.2. Operaciones locales</strong></p>
+<h3 id="reclasificación">Reclasificación</h3>
+<p>Agrupamos los valores por un rango que define una clase y se le asigna un valor</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    0   12    1
+[2,]   12   24    2
+[3,]   24   36    3</code></pre>
+</div>
+</div>
+</section>
+<section id="operaciones-espaciales-con-datos-raster-15" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.2. Operaciones locales</strong></p>
+<h3 id="reclasificación-1">Reclasificación</h3>
+
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-66-1.png" width="960" class="r-stretch"></section>
+<section id="operaciones-espaciales-con-datos-raster-16" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.2. Operaciones locales</strong></p>
+<p>Funciones de resumen: <code>min</code>, <code>max</code>, <code>mean</code>, <code>prod</code>, <code>sum</code>, <code>Median</code>, <code>cv</code>, <code>range</code>, <code>any</code>, <code>all</code>, siempre devuelven un <code>SpatRaster</code></p>
+
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-67-1.png" width="960" class="r-stretch"></section>
+<section id="operaciones-espaciales-con-datos-raster-17" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.2. Operaciones locales</strong></p>
+<p>Funciones de resumen: <code>min</code>, <code>max</code>, <code>mean</code>, <code>prod</code>, <code>sum</code>, <code>Median</code>, <code>cv</code>, <code>range</code>, <code>any</code>, <code>all</code>, siempre devuelven un <code>SpatRaster</code></p>
+
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-68-1.png" width="960" class="r-stretch"></section>
+<section id="operaciones-espaciales-con-datos-raster-18" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.3. Operaciones globales</strong></p>
+<p>Usar la función <code>global</code> para obtener un valor resumen de todo el raster. En general operaciones de estadística descriptiva.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>     mean
+elev   37</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     max
+elev  72</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     min
+elev   2</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      sum
+elev 1332</code></pre>
+</div>
+</div>
+</section>
+<section id="operaciones-espaciales-con-datos-raster-19" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.3. Operaciones globales</strong></p>
+<p>Cuando se aplica sobre un raster multicapa, devuleve el resultado de la función sobre cada capa del raster.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>                 mean
+elev+elev  37.0000000
+elev^2    450.1666667
+log(elev)   2.6588804
+elev &gt; 5    0.8611111</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  max
+elev+elev   72.000000
+elev^2    1296.000000
+log(elev)    3.583519
+elev &gt; 5     1.000000</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>          min
+elev+elev   2
+elev^2      1
+log(elev)   0
+elev &gt; 5    0</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  sum
+elev+elev  1332.00000
+elev^2    16206.00000
+log(elev)    95.71969
+elev &gt; 5     31.00000</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="operaciones-espaciales-con-datos-raster-20" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.4. Unión de rasters (merge)</strong></p>
+<p>Cuando tenemos dos o más raster de una misma área geográfica y queremos unirlos.</p>
+
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-72-1.png" width="960" class="r-stretch"></section>
+<section id="operaciones-espaciales-con-datos-raster-21" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.4. Unión de rasters (merge)</strong></p>
+<p>Cuando tenemos dos o más raster de una misma área geográfica y queremos unirlos.</p>
+
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-73-1.png" width="960" class="r-stretch"></section>
+<section id="operaciones-espaciales-con-datos-raster-22" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.4. Unión de rasters (merge)</strong></p>
+<p>Para unirlos utilizamos la función <code>merge</code>.</p>
+<ul>
+<li><p>Los raster deben tener el mismo origen y resolución.</p></li>
+<li><p>Los valores del primer raster se mantienen por defecto.</p></li>
+</ul>
+
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-74-1.png" width="960" class="r-stretch"></section>
+<section id="operaciones-espaciales-con-datos-raster-23" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.4. Unión de rasters (merge)</strong></p>
+<ul>
+<li>También podemos utilizar la función <code>mosaic</code>.</li>
+<li><code>mosaic</code> permite definir una función para resolver en la zona de intersección, por defecto utiliza el promedio, pero se puede cambiar la función.</li>
+<li><code>mosaic</code> es más lento que <code>merge</code>,</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>ext 0: 0 8 0 5 
+ext 1: 0 8 0 5 </code></pre>
+</div>
+
+</div>
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-75-1.png" width="960" class="r-stretch"></section>
+<section id="operaciones-espaciales-con-datos-raster-24" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.4. Unión de rasters (merge)</strong></p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>ext 0: 0 8 0 5 
+ext 1: 0 8 0 5 </code></pre>
+</div>
+
+</div>
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-76-1.png" width="960" class="r-stretch"></section>
+<section id="operaciones-espaciales-con-datos-raster-25" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>Operaciones espaciales con datos raster</h2>
+<p><strong>6.5. Función <code>app</code></strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a></a>elev <span class="ot">=</span> <span class="fu">rast</span>(<span class="fu">system.file</span>(<span class="st">"raster/elev.tif"</span>, <span class="at">package =</span> <span class="st">"spData"</span>))</span>
+<span id="cb93-2"><a></a>elev4 <span class="ot">&lt;-</span> <span class="fu">c</span>(elev, elev<span class="sc">*</span><span class="fl">0.2</span>, elev<span class="sc">*</span><span class="fl">1.2</span>,elev<span class="sc">*</span><span class="fl">1.5</span>) <span class="co">#raster con 4 capas</span></span>
+<span id="cb93-3"><a></a></span>
+<span id="cb93-4"><a></a>res <span class="ot">&lt;-</span> <span class="fu">app</span>(elev4, \(y){</span>
+<span id="cb93-5"><a></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="at">y=</span>y)</span>
+<span id="cb93-6"><a></a>  mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(y<span class="sc">~</span>x,df)</span>
+<span id="cb93-7"><a></a>  <span class="fu">summary</span>(mod)<span class="sc">$</span>coefficients[<span class="dv">2</span>,<span class="dv">1</span>]</span>
+<span id="cb93-8"><a></a>  })</span>
+<span id="cb93-9"><a></a></span>
+<span id="cb93-10"><a></a><span class="co"># tendencia lineal (pendiente) para el ajuste entre 1:4 y los valores de los raster</span></span>
+<span id="cb93-11"><a></a><span class="fu">plot</span>(elev4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-77-1.png" width="960" class="r-stretch"></section>
+<section id="operaciones-espaciales-con-datos-raster-26" class="slide level2 smaller scrollable" data-background-image="https://rspatial.github.io/terra/reference/figures/logo.png" data-background-position="97.5% 2.5%" data-background-size="7.5%">
+<h2>6.1. Operaciones espaciales con datos raster</h2>
+<p><strong>Función <code>app</code></strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a></a><span class="fu">plot</span>(res);<span class="fu">text</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-78-1.png" width="960" class="r-stretch"></section>
+<section id="interacciones-raster-vectorial" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>7. Interacciones raster-vectorial</h2>
+<p><strong>7.1 Cortado de raster</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a></a><span class="fu">library</span>(spDataLarge)</span>
+<span id="cb95-2"><a></a>srtm <span class="ot">=</span> <span class="fu">rast</span>(<span class="fu">system.file</span>(<span class="st">"raster/srtm.tif"</span>, <span class="at">package =</span> <span class="st">"spDataLarge"</span>))</span>
+<span id="cb95-3"><a></a>zion <span class="ot">=</span> <span class="fu">read_sf</span>(<span class="fu">system.file</span>(<span class="st">"vector/zion.gpkg"</span>, <span class="at">package =</span> <span class="st">"spDataLarge"</span>))</span>
+<span id="cb95-4"><a></a>zion <span class="ot">=</span> <span class="fu">st_transform</span>(zion, <span class="fu">st_crs</span>(srtm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-80-1.png" width="960" class="r-stretch"></section>
+<section id="interacciones-raster-vectorial-1" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>7. Interacciones raster-vectorial</h2>
+<p><strong>7.1. Cortado de raster</strong></p>
+<p>Función de corte <code>crop</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a></a>srtm_cropped <span class="ot">=</span> <span class="fu">crop</span>(srtm, zion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-82-1.png" width="960" class="r-stretch"></section>
+<section id="interacciones-raster-vectorial-2" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>7. Interacciones raster-vectorial</h2>
+<p><strong>7.1. Cortado raster</strong></p>
+<p>Función de mascara <code>mask</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a></a>srtm_masked <span class="ot">=</span> <span class="fu">mask</span>(srtm, zion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-84-1.png" width="960" class="r-stretch"></section>
 <section id="interacciones-raster-vectorial-3" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>9. Interacciones raster-vectorial</h2>
-<h3 id="cortado-de-raster-3">Cortado de raster</h3>
+<h2>7. Interacciones raster-vectorial</h2>
+<p><strong>7.1. Cortado de raster</strong></p>
 <p>La mayoría de las veces se utilizaran las dos funciones. <code>crop</code> para limitar la estensión y <code>mask</code> para reemplazar por NA los valores fuera de la geometría.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a></a>srtm_cropped <span class="ot">=</span> <span class="fu">crop</span>(srtm, zion)</span>
-<span id="cb79-2"><a></a>srtm_final <span class="ot">=</span> <span class="fu">mask</span>(srtm_cropped, zion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a></a>srtm_cropped <span class="ot">=</span> <span class="fu">crop</span>(srtm, zion)</span>
+<span id="cb98-2"><a></a>srtm_final <span class="ot">=</span> <span class="fu">mask</span>(srtm_cropped, zion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="interacciones-raster-vectorial-4" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>9. Interacciones raster-vectorial</h2>
-<h3 id="cortado-de-raster-4">Cortado de raster</h3>
+<h2>7. Interacciones raster-vectorial</h2>
+<p><strong>7.1. Cortado de raster</strong></p>
 <p>Argumento inverse = TRUE</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a></a>srtm_inv_masked <span class="ot">=</span> <span class="fu">mask</span>(srtm, zion, <span class="at">inverse =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a></a>srtm_inv_masked <span class="ot">=</span> <span class="fu">mask</span>(srtm, zion, <span class="at">inverse =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
-<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-59-1.png" width="960" class="r-stretch"></section>
-<section id="extracción-raster" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>10. Extracción raster</h2>
-<h3 id="desde-puntos">Desde puntos</h3>
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-87-1.png" width="960" class="r-stretch"></section>
+<section id="interacciones-raster-vectorial-5" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>7. Interacciones raster-vectorial</h2>
+<p><strong>7.2. Extracción raster</strong></p>
+<p>Desde puntos</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a></a><span class="fu">data</span>(<span class="st">"zion_points"</span>, <span class="at">package =</span> <span class="st">"spDataLarge"</span>)</span>
-<span id="cb81-2"><a></a>elevation <span class="ot">=</span> terra<span class="sc">::</span><span class="fu">extract</span>(srtm, zion_points)</span>
-<span id="cb81-3"><a></a>zion_points <span class="ot">=</span> <span class="fu">cbind</span>(zion_points, elevation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a></a><span class="fu">data</span>(<span class="st">"zion_points"</span>, <span class="at">package =</span> <span class="st">"spDataLarge"</span>)</span>
+<span id="cb100-2"><a></a>elevation <span class="ot">=</span> terra<span class="sc">::</span><span class="fu">extract</span>(srtm, zion_points)</span>
+<span id="cb100-3"><a></a>zion_points <span class="ot">=</span> <span class="fu">cbind</span>(zion_points, elevation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
-<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-61-1.png" width="960" class="r-stretch"></section>
-<section id="extracción-raster-1" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>10. Extracción raster</h2>
-<h3 id="desde-polígono">Desde polígono</h3>
+<img data-src="03_datos_espaciales_R_files/figure-revealjs/unnamed-chunk-89-1.png" width="960" class="r-stretch"></section>
+<section id="interacciones-raster-vectorial-6" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>7. Interacciones raster-vectorial</h2>
+<p><strong>7.2. Extracción raster</strong></p>
+<p>Desde polígono</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a></a>zion_srtm_values <span class="ot">=</span> terra<span class="sc">::</span><span class="fu">extract</span>(<span class="at">x =</span> srtm, <span class="at">y =</span> zion)</span>
-<span id="cb82-2"><a></a></span>
-<span id="cb82-3"><a></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb82-4"><a></a>zion_srtm_values <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a></a>zion_srtm_values <span class="ot">=</span> terra<span class="sc">::</span><span class="fu">extract</span>(<span class="at">x =</span> srtm, <span class="at">y =</span> zion)</span>
+<span id="cb101-2"><a></a></span>
+<span id="cb101-3"><a></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb101-4"><a></a>zion_srtm_values <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 88,080 × 2
       ID  srtm
@@ -1441,12 +1779,13 @@ First 10 features:
 </div>
 </div>
 </section>
-<section id="extracción-raster-2" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
-<h2>10. Extracción raster</h2>
-<h3 id="desde-polígono-1">Desde polígono</h3>
+<section id="interacciones-raster-vectorial-7" class="slide level2 smaller" data-background-image="../imgs/logo_terra.png" data-background-position="97.5% 2.5%" data-background-size="7.5%" data-layout="true">
+<h2>7. Interacciones raster-vectorial</h2>
+<p><strong>7.2. Extracción raster</strong></p>
+<p>Desde polígono</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a></a><span class="fu">group_by</span>(zion_srtm_values, ID) <span class="sc">|&gt;</span> </span>
-<span id="cb84-2"><a></a>  <span class="fu">summarize</span>(<span class="fu">across</span>(srtm, <span class="fu">list</span>(<span class="at">min =</span> min, <span class="at">mean =</span> mean, <span class="at">max =</span> max)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a></a><span class="fu">group_by</span>(zion_srtm_values, ID) <span class="sc">|&gt;</span> </span>
+<span id="cb103-2"><a></a>  <span class="fu">summarize</span>(<span class="fu">across</span>(srtm, <span class="fu">list</span>(<span class="at">min =</span> min, <span class="at">mean =</span> mean, <span class="at">max =</span> max)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 4
      ID srtm_min srtm_mean srtm_max
@@ -1462,6 +1801,7 @@ First 10 features:
 </div>
 </div>
 </section>
+
     </div>
   </div>
 

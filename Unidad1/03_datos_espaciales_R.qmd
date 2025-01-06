@@ -17,15 +17,13 @@ editor: visual
 
 ## Contenidos {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
-Datos Espaciales en R
-
-. . .
-
--   Datos vectoriales
-
-. . .
-
--   Datos raster
+1. Datos espaciales en R
+2. Datos espaciales vectoriales
+3. Datos espaciales raster
+4. Manejo de SRC
+5. Operaciones espaciales con datos vectoriales
+6. Operaciones espaciales con datos raster
+    
 
 ## 1. Datos espaciales en `R` {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
@@ -492,11 +490,15 @@ Así, hay tres formatos para manejar los `CRS`
 
 `{terra}` usa PROJ.4, wkt o EPSG
 
-## 5. Datos vectoriales: `{sf}` {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 4. Manejo de CRS en R {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**4.1 Datos vectoriales: `{sf}`**
 
 Versiones anteriores de `{sf}` (\<0.9) ![](figs/crs_sf1.png)\~
 
-## 5. Datos vectoriales: `{sf}` {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 4. Manejo de CRS en R {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**4.1 Datos vectoriales: `{sf}`**
 
 Ahora
 
@@ -505,7 +507,9 @@ Ahora
 st_crs(4326)
 ```
 
-## 5. Datos vectoriales: `{sf}` {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 4. Manejo de CRS en R {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**4.1 Datos vectoriales: `{sf}`**
 
 Recomendación utilizar `EPSG (European Petroleum Survey Group)` y `wkt` para identificar el `CRS`, cuando sea posible. No se aconseja el uso de `proj4`.
 
@@ -518,7 +522,9 @@ nc.web_mercator <- st_transform(nc, 3857)
 st_geometry(nc.web_mercator)[[4]][[2]][[1]][1:3,]
 ```
 
-## 6. Datos raster: `{terra}` {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 4. Manejo de CRS en R {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**4.2 Datos raster: `{terra}`**
 
 Asignar un `CRS` a un raster. Utilce `EPSG` o `wkt`
 
@@ -529,7 +535,9 @@ crs(r)
 (crs(r) <- crs("+init=epsg:4326")) |> cat()
 ```
 
-## 6. Datos raster: `{terra}` {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 4. Manejo de CRS en R {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**4.2 Datos raster: `{terra}`**
 
 **Reproyectar**
 
@@ -540,7 +548,9 @@ values(r) <- 1:ncell(r)
 plot(r)
 ```
 
-## 6. Datos raster: `{terra}` {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 4. Manejo de CRS en R {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**4.2 Datos raster: `{terra}`**
 
 **Reproyectar**
 
@@ -550,7 +560,9 @@ crs(r) <- crs('EPSG:4326')
 (newr <- project(r,y=crs('EPSG:32719')))
 ```
 
-## 6. Datos raster: `{terra}` {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 4. Manejo de CRS en R {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**4.2 Datos raster: `{terra}`**
 
 **Reproyectar**
 
@@ -559,7 +571,9 @@ crs(r) <- crs('EPSG:4326')
 plot(newr)
 ```
 
-## 6. Conversion entre CRS(`{terra}`) y crs(`{sf}`)
+## 4. Manejo de CRS en R {.smaller background-image="../imgs/R_logo.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
+**4.3 Conversion entre CRS(`{terra}`) y crs(`{sf}`)**
 
 De `sf` a `terra`
 
@@ -577,7 +591,7 @@ new_crs2 <- st_crs(crs("EPSG:32719"))
 class(new_crs2)
 ```
 
-## 7. Algunas operaciones espaciales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 5. Operaciones espaciales con datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
 Necesitamos para poder reproducir
 
@@ -590,7 +604,7 @@ library(spData)
 `nz`: geometria de Nueva Zelanda\
 `nz_height` : geometría de las mayores alturas en Nueva Zelanda
 
-## 7. Operaciones espaciales con datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 5. Operaciones espaciales con datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
 **Filtrado espacial**
 
@@ -598,7 +612,7 @@ library(spData)
 nz
 ```
 
-## 7. Operaciones espaciales con datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 5. Operaciones espaciales con datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
 **Filtrado espacial**
 
@@ -606,13 +620,13 @@ nz
 str(nz)
 ```
 
-## 7. Operaciones espaciales con datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 5. Operaciones espaciales con datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
 ```{r,echo=TRUE}
 nz_height
 ```
 
-## 7. Operaciones espaciales con datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 5. Operaciones espaciales con datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
 **Filtrado espacial**
 
@@ -626,7 +640,7 @@ tm_shape(nz) +
   tm_dots()
 ```
 
-## 7. Operaciones espaciales con datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 5. Operaciones espaciales con datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
 **Filtrado espacial**
 
@@ -640,6 +654,16 @@ canterbury <- nz[rows_sel,]
 cant_height <- nz_height[canterbury,]
 ```
 
+alternativa 2
+
+```{r,echo=TRUE}
+canterbury <- nz |> 
+  dplyr::filter(Name == 'Canterbury') |> 
+  st_join(nz_height |> st_as_sf(geom = 'geometry')) |> plot()
+
+cant_height <- nz_height[canterbury,]
+```
+
 Otra alternativa: con operaciones geométricas
 
 ```{r,echo=TRUE}
@@ -648,7 +672,7 @@ canterbury <- nz[rows_sel,]
 cant_height <- st_intersection(nz_height,canterbury)
 ```
 
-## 7. Operaciones espaciales en datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 5. Operaciones espaciales en datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
 **Filtrado espacial**
 
@@ -666,7 +690,7 @@ tm_shape(nz) +
   tm_dots(col = 'green')
 ```
 
-## 7. Operaciones espaciales en datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 5. Operaciones espaciales con datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
 **Distancia**
 
@@ -684,7 +708,7 @@ tm_shape(nz_highest) +
   tm_dots(col='blue')
 ```
 
-## 7. Operaciones espaciales en datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 5. Operaciones espaciales con datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
 **Distancia**
 
@@ -698,7 +722,7 @@ Dos cosas que hay que notar:\
 
 `st_distance` devuelve una matriz de distancia. La función tiene la `habilidad` de calcular la distancia entre cualquier combinación de objetos.
 
-## 7. Operaciones espaciales en datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 5. Operaciones espaciales con datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
 **Distancia**
 
@@ -712,7 +736,7 @@ tm_shape(co) +
   tm_dots()
 ```
 
-## 7. Operaciones espaciales en datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 5. Operaciones espaciales con datos vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
 **Distancia**
 
@@ -720,8 +744,373 @@ tm_shape(co) +
 (st_distance(nz_height[1:3, ], co))
 ```
 
+## 6. Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
 
-## 8. Función `app` {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+**Subconjunto espacial**
+
+```{r}
+#| fig-align: center
+library(spData)
+library(terra)
+elev <- rast(system.file("raster/elev.tif", package = "spData"))
+grain <- rast(system.file("raster/grain.tif", package = "spData"))
+par(mfrow=c(1,2))
+plot(elev,main = 'elev');text(elev);
+plot(grain,main = 'grain');text(grain)
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.1. Subconjunto espacial**
+
+Extrae la posición de la celda con `cellFromXY` y luego con indexación extrae el valor de esa celda con `elev[id]`
+```{r}
+id = cellFromXY(elev, xy = matrix(c(0.1, 0.1), ncol = 2))
+elev[id]
+```
+
+Extrae el valor que se encuentra en las coordenadas indicadas con la función `extract`
+
+```{r}
+terra::extract(elev, matrix(c(0.1, 0.1), ncol = 2))
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.1. Subconjunto espacial**
+
+También se puede extraer utilizando otro raster, como rater de indexación.
+
+```{r}
+#| fig-align: center
+clip <- rast(xmin = 0.9, xmax = 1.8, ymin = -0.45, ymax = 0.45,
+            resolution = 0.3, vals = rep(1, 9))
+par(mfrow = c(1,2))
+plot(elev);text(elev)
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.1. Subconjunto espacial**
+
+También se puede extraer utilizando otro raster, como rater de indexación.
+
+```{r}
+#| fig-align: center
+clip <- rast(xmin = 0.9, xmax = 1.8, ymin = -0.45, ymax = 0.45,
+            resolution = 0.3, vals = rep(1, 9),crs="EPSG:4326")
+par(mfrow = c(1,2))
+plot(elev);text(elev)
+plot(clip,add = TRUE)
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.1. Subconjunto espacial**
+
+Extraer desde el objeto `elev` los valores que se encuentran en la extensión del objeto `clip`
+```{r}
+elev[clip] #como valores númericos
+
+elev_clip <- elev[clip,drop = FALSE]
+elev_clip
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.1. Subconjunto espacial**
+
+La función `crop` sirve para realizar `elev[clip,drop = FALSE]`
+
+```{r}
+elev_crop <- crop(elev,clip)
+par(mfrow = c(1,2))
+plot(elev_clip)
+plot(elev_crop)
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.1. Subconjunto espacial**
+
+**Con indexación**
+
+::: {.columns}
+::: {.column width=50%}
+```{r}
+elev[1:2,]
+```
+:::
+::: {.column width=50%}
+```{r}
+elev[1:2,drop = FALSE]
+```
+:::
+:::
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**Subconjunto espacial**
+
+Utilizando un raster con valores `lógicos` para ser utilizado como mascara
+
+```{r}
+rmask <- elev
+values(rmask) <- sample(c(FALSE, TRUE), 36, replace = TRUE)
+par(mfrow = c(1,2))
+plot(elev);text(elev)
+plot(rmask)
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.1. Subconjunto espacial**
+
+```{r}
+em <- elev[rmask,drop = FALSE]
+par(mfrow = c(1,2))
+plot(elev);text(elev)
+plot(em);text(em)
+```
+
+
+Utilizando un raster con valores `NA` para ser utilizado como mascara con la función `mask`
+
+```{r}
+par(mfrow = c(1,2))
+plot(elev);text(elev)
+plot(rmask,add = TRUE)
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.1. Subconjunto espacial**
+
+Utilizando un raster con valores `NA` para ser utilizado como mascara. 
+
+Se puede utilizar la función `mask`
+
+```{r}
+rmask[isFALSE(rmask)] <- NA #transforma FALSE to NA para aplicar mask
+em <- mask(elev,rmask) 
+par(mfrow = c(1,2))
+plot(elev);text(elev)
+plot(em);text(em)
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.1. Subconjunto espacial**
+
+Se pueden crear mascaras con operaciones lógicas.
+
+```{r}
+m <- elev
+m[m >30] <- NA
+em2 <- mask(elev,m)
+par(mfrow = c(1,2))
+plot(elev);text(elev)
+plot(em2);text(em2)
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.2. Algebra raster**
+
+Algunas consideraciones
+
+. . .
+
+-   Si usas multiples raster, estos deben tener el mismo punto origen[^1] y la misma resolución
+-   Generalmenet tienen la misma extensión, pero si no, devuelve la operación dentro de la intersección de los dos
+-   El reciclado de raster en operaciones algebraicas funciona de las misma forma que en el caso de los `atomic vectors`
+
+[^1]: el punto más cercano a la coordenada c(0,0)
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.2. Algebra raster**
+
+Muchas de las operaciones genéricas han sido implementadas
+
+. . .
+
+-   Operaciones: `+, -, *, /,`
+-   Operadores lógicos: `>, >=, <, ==, !`
+-   Funciones como: `abs, round, ceiling, floor, trunc, sqrt, log, log10, exp, cos, sin, atan, tan, max, min, range, prod, sum, any, all`
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.2. Operaciones locales**
+
+```{r}
+e1 <- elev + elev
+e2<- elev^2
+e3 <- log(elev)
+e4 <- elev > 5
+par(mfrow=c(1,4))
+plot(e1,main = 'elev+elev')
+plot(e2,main = 'elev^2')
+plot(e3,main = 'log(elev)')
+plot(e4,main = 'elev > 5')
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.2. Operaciones locales**
+
+### Reclasificación
+
+Agrupamos los valores por un rango que define una clase y se le asigna un valor
+
+```{r}
+rcl <- matrix(c(0, 12, 1, 12, 24, 2, 24, 36, 3), ncol = 3, byrow = TRUE)
+rcl
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.2. Operaciones locales**
+
+### Reclasificación
+
+```{r}
+recl <- classify(elev, rcl = rcl)
+par(mfrow = c(1,2))
+plot(elev);text(elev)
+plot(recl);text(recl)
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.2. Operaciones locales**
+
+Funciones de resumen: `min`, `max`, `mean`, `prod`, `sum`, `Median`, `cv`, `range`, `any`, `all`, siempre devuelven un `SpatRaster`
+
+```{r}
+mr <- c(e1,e2,e3,e4) #raster multicapa
+names(mr) <- c('elev+elev','elev^2','log(elev)','elev > 5')
+plot(mr)
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.2. Operaciones locales**
+
+Funciones de resumen: `min`, `max`, `mean`, `prod`, `sum`, `Median`, `cv`, `range`, `any`, `all`, siempre devuelven un `SpatRaster`
+
+```{r}
+mr_mean <- mean(mr)
+mr_max <- max(mr)
+mr_min <- min(mr)
+mr_sum <- sum(mr)
+par(mfrow= c(1,4))
+plot(mr_mean);plot(mr_max);plot(mr_min);plot(mr_sum)
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.3. Operaciones globales**
+
+Usar la función `global` para obtener un valor resumen de todo el raster. En general operaciones de estadística descriptiva.
+
+```{r}
+global(e1, 'mean')
+global(e1, 'max')
+global(e1, 'min')
+global(e1, 'sum')
+
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.3. Operaciones globales**
+
+Cuando se aplica sobre un raster multicapa, devuleve el resultado de la función sobre cada capa del raster.
+
+::: {.columns}
+::: {.column width=50%}
+```{r}
+global(mr, 'mean')
+global(mr, 'max')
+```
+:::
+::: {.column width=50%}
+```{r}
+global(mr, 'min')
+global(mr, 'sum')
+```
+:::
+:::
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.4. Unión de rasters (merge)**
+
+Cuando tenemos dos o más raster de una misma área geográfica y queremos unirlos.
+
+
+```{r}
+r1 <- rast(xmin = 0, xmax=5,ymin=0,ymax=5,vals = 1:25,ncol=5,nrow = 5)
+r2 <- rast(xmin = 3, xmax=8,ymin=0,ymax=5,vals = 25:1,ncol=5, nrow = 5)
+par(mfrow = c(1,2))
+plot(r1);text(r1)
+plot(r2);text(r2)
+
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.4. Unión de rasters (merge)**
+
+Cuando tenemos dos o más raster de una misma área geográfica y queremos unirlos.
+
+```{r}
+plot(r1,xlim = c(0,8));text(r1)
+plot(r2,add = TRUE);text(r2)
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.4. Unión de rasters (merge)**
+
+Para unirlos utilizamos la función `merge`. 
+
+* Los raster deben tener el mismo origen y resolución.
+
+* Los valores del primer raster se mantienen por defecto.
+
+
+```{r}
+m <- merge(r1,r2)
+plot(m);text(m)
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.4. Unión de rasters (merge)**
+
+* También podemos utilizar la función `mosaic`. 
+* `mosaic` permite definir una función para resolver en la zona de intersección, por defecto utiliza el promedio, pero se puede cambiar la función.
+* `mosaic` es más lento que `merge`,
+
+```{r}
+mos <- mosaic(r1,r2)
+plot(mos);text(mos)
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.4. Unión de rasters (merge)**
+
+```{r}
+mos2 <- mosaic(r1,r2,fun='max')
+plot(mos2);text(mos2)
+```
+
+## Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**6.5. Función `app`**
 
 ```{r}
 #| echo: true
@@ -738,16 +1127,18 @@ res <- app(elev4, \(y){
 plot(elev4)
 ```
 
-## Función `app` {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 6.1.  Operaciones espaciales con datos raster {.smaller .scrollable background-image="https://rspatial.github.io/terra/reference/figures/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+
+**Función `app`**
 
 ```{r}
 #| echo: true
 plot(res);text(res)
 ```
 
-## 9. Interacciones raster-vectorial {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 7. Interacciones raster-vectorial {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
-### Cortado de raster
+**7.1 Cortado de raster**
 
 ```{r}
 #| echo: true
@@ -763,9 +1154,9 @@ plot(srtm)
 plot(zion,add = TRUE,col='transparent')
 ```
 
-## 9. Interacciones raster-vectorial {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 7. Interacciones raster-vectorial {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
-### Cortado de raster
+**7.1. Cortado de raster**
 
 Función de corte `crop`
 ```{r}
@@ -778,9 +1169,9 @@ plot(srtm_cropped)
 plot(zion,add = TRUE,col='transparent')
 ```
 
-## 9. Interacciones raster-vectorial {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 7. Interacciones raster-vectorial {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
-### Cortado de raster
+**7.1. Cortado raster**
 
 Función de mascara `mask`
 
@@ -794,9 +1185,9 @@ plot(srtm_masked)
 plot(zion,add = TRUE,col='transparent')
 ```
 
-## 9. Interacciones raster-vectorial {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 7. Interacciones raster-vectorial {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
-### Cortado de raster
+**7.1. Cortado de raster**
 
 La mayoría de las veces se utilizaran las dos funciones. `crop` para limitar la estensión y `mask` para reemplazar por NA los valores fuera de la geometría.
 
@@ -806,9 +1197,9 @@ srtm_cropped = crop(srtm, zion)
 srtm_final = mask(srtm_cropped, zion)
 ```
 
-## 9. Interacciones raster-vectorial {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 7. Interacciones raster-vectorial {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
-### Cortado de raster
+**7.1. Cortado de raster**
 
 Argumento inverse = TRUE
 
@@ -822,9 +1213,11 @@ plot(srtm_inv_masked)
 plot(zion,add = TRUE,col='transparent')
 ```
 
-## 10. Extracción raster {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 7. Interacciones raster-vectorial {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
-### Desde puntos
+**7.2. Extracción raster**
+
+Desde puntos
 
 ```{r}
 #| echo: true
@@ -838,9 +1231,11 @@ plot(srtm)
 plot(zion,col='transparent',add = TRUE)
 plot(st_as_sf(zion_points),col='black',lty =1,add = TRUE)
 ```
-## 10. Extracción raster {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 7. Interacciones raster-vectorial {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
-### Desde polígono
+**7.2. Extracción raster**
+
+Desde polígono
 
 ```{r}
 #| echo: true
@@ -850,10 +1245,11 @@ library(tidyverse)
 zion_srtm_values |> as_tibble()
 ```
 
- 
-## 10. Extracción raster {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+## 7. Interacciones raster-vectorial {.smaller background-image="../imgs/logo_terra.png" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
-### Desde polígono
+**7.2. Extracción raster**
+
+Desde polígono
 
 ```{r}
 #| echo: true
