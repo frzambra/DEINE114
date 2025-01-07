@@ -188,6 +188,12 @@ Los tres tipos de datos utilizados para representarlos son:\
 
 ## 2. Datos espaciales vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
 
+**Resumiendo la clases `sf`**
+
+![](figs/sf_class_diagram.png)
+
+## 2. Datos espaciales vectoriales {.smaller background-image="../imgs/logo_sf.gif" background-position="97.5% 2.5%" background-size="7.5%" layout="true"}
+
 **Simple Feature `{sf}`: Clase `sf`**
 
 ```{r}
