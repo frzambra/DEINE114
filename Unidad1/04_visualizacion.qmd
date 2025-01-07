@@ -804,7 +804,7 @@ ggplot() +
   )
 ```
 
-## Mapas con {ggplot2} {.smaller .scrollable background-image="https://dieghernan.github.io/tidyterra/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+## Funciones para {ggplot2} {.smaller .scrollable background-image="https://dieghernan.github.io/tidyterra/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
 
 * {tidyterra} proporciona varias funciones `geom_*` para objetos `SpatRaster
 
@@ -827,7 +827,7 @@ ggplot() +
   )
 ```
 
-## Mapas con {ggplot2} {.smaller .scrollable background-image="https://dieghernan.github.io/tidyterra/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
+## Funciones para {ggplot2} {.smaller .scrollable background-image="https://dieghernan.github.io/tidyterra/logo.png" background-position="97.5% 2.5%" background-size="7.5%"}
 
 **Datos Vectoriales con geom_spatvector**
 
