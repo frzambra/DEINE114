@@ -3,6 +3,8 @@ title: 'Análisis Espacial con R'
 subtitle: "Datos Espaciales en R"
 author: 'Dr. Francisco Zambrano Bigiarini'
 institute: "Hemera, Universidad Mayor"
+execute:
+  echo: true
 format: 
   revealjs:
     logo: ../imgs/logo_hemera_2024.png
