@@ -58,6 +58,8 @@ website:
       #       href: Talleres/Taller5.html
       - text: Ejercicios
         href: Ejercicios/index_ejercicios.qmd
+      - text: Proyecto final
+        href: Proyecto_final/proyecto_final.qmd
       - text: Acerca
         href: about.qmd
     right:

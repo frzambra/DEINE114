@@ -1,0 +1,115 @@
+---
+title: "Proyecto Final"
+subtitle: "Modelo de distribución de especies"
+author: "Dr. Francisco Zambrano"
+date: "`Sys.Date()`"
+format: 
+  html:
+    number-sections: true
+    echo: true
+    eval: true
+    table-of-contents: true
+lang: es
+bibliography: "referencias.bib"
+#csl: apa-6th-edition.csl
+editor: source
+---
+
+# Introducción 
+
+## Modelos de distribución de especie (MDE)
+
+Modelar la distribución de las especies y la demografía de las poblaciones es un pilar de la ecología. En teoría, se espera que las especies se encuentren en lugares donde las condiciones permitan que las tasas de crecimiento poblacional sean estables o positivas [@Pulliam2002]. Dentro de este conjunto de condiciones, se espera que ambientes más favorables resulten en un mayor exceso de nacimientos (por ejemplo, mayor supervivencia y éxito reproductivo de los individuos) y, por lo tanto, se espera que la abundancia y la aptitud media de la población aumenten positivamente con la idoneidad del hábitat [@Brown1984]. Las poblaciones grandes son menos propensas a la pérdida de alelos debido a la deriva genética [@Frankham1996; @Leimu2006; @Mccusker2010] y, por lo tanto, la idoneidad del hábitat (a través de efectos sobre el tamaño de la población) también puede influir en la cantidad de diversidad genética dentro de las poblaciones [@Eckert2008], que a su vez puede retroalimentarse para influir en la persistencia de la población [@Agashe2009].
+
+Una forma de hacer predicciones sobre la demografía de la población es utilizar información sobre las condiciones ambientales que subyacen a la ocurrencia de especies (es decir, presencia o presencia-ausencia) para modelar el nicho ecológico (o parte del mismo) de una especie de interés [@Peterson2011]. En adelante utilizamos el término modelo de distribución de especies (MDE) para referirnos a este enfoque. En algunos casos, el resultado de un MDE se trata como probabilidad de ocurrencia y la proyección espacial del modelo se utiliza para hacer predicciones sobre la distribución de las poblaciones. En otros casos, el resultado del modelo se trata como idoneidad relativa del hábitat, ya sea debido a decisiones tomadas durante la construcción del modelo [@Peterson2012] o por convención (ver @Elith2010 para el tratamiento del resultado máximo), y luego se utilizan predicciones para hacer inferencias sobre diferencias potenciales en el desempeño demográfico de las poblaciones en todo el espacio. Un atractivo importante de estos modelos es que solo requieren un conjunto de registros de localidad y los datos ambientales correspondientes para generarlos, los cuales a menudo están disponibles gratuitamente. Por lo tanto, ha habido un interés creciente en utilizar estos métodos para inferir parámetros poblacionales que son difíciles de medir directamente [@Vaz2015].
+
+## Variables predictoras
+
+Identificamos 5 tipos de variables predictivas utilizadas en los análisis de MDE: 1) variables bioclimáticas de conjuntos de datos globales (Globclim); 2) variables bioclimáticas de modelos climáticos regionales (Regclim); 3) variables relacionadas con la topografía (DEM); 4) variables de cobertura terrestre (LC; incluidos suelos/geología y cobertura vegetal); y 5) información de interacción biótica (Biótica). 
+
+
+# Fuentes de datos
+
+Para identificar la cobertura geográfica de los datos y, por lo tanto, identificar posibles lagunas de conocimiento, para cada estudio, categorizamos sus fuentes de datos de ocurrencia correspondientes como: (1) ciencia ciudadana, (2) directamente de GBIF, (3) herbarios, (4 ) museo, (5) literatura publicada previamente, (6) recopilación de datos de campo primarios (es decir, datos de campo recopilados como parte de un estudio), (7) bases de datos de ocurrencia regional (por ejemplo, ATLANTIS de las islas Azores), (8) sitios remotos sintiendo (es decir, datos de imágenes aéreas y satelitales) y (9) conjuntos de datos especializados (por ejemplo, centrándose en un grupo específico de especies, como especies económicamente importantes, no nativas, etc.).
+
+
+## Datos de especies
+
+El Sistema Global de Información sobre Biodiversidad–GBIF por sus siglas en inglés–es una red internacional e infraestructura de datos financiada por los gobiernos del mundo para dar a cualquiera, en cualquier lugar, acceso abierto a datos sobre todas las formas de vida en la Tierra.
+
+La red GBIF de países —que se estructuran como nodos— y organizaciones participantes, está coordinada a través de su Secretaría en Copenhague y proporciona a las instituciones proveedoras de datos de todo el mundo estándares comunes y herramientas de código abierto que les permiten compartir información sobre dónde y cuándo se han registrado las especies. Este conocimiento procede de diversas fuentes, que incluyen desde especímenes de museos recogidos en los siglos XVIII y XIX hasta fotografías de teléfonos inteligentes geoetiquetadas y compartidas por naturalistas aficionados en los últimos días y semanas.
+
+`{Rgbif}` [@Chamberlain2022] es un paquete R que proporciona una interfaz programática para los métodos de servicio web (API) proporcionados por el Fondo Mundial de Información sobre Biodiversidad (GBIF). `{Rgbif}` incluye funciones para buscar nombres taxonómicos, recuperar información sobre proveedores de datos, obtener registros de ocurrencia de especies, obtener recuentos de registros de ocurrencia y utilizar el servicio de mapas en mosaico de GBIF para crear rásteres que resuman grandes cantidades de datos.
+
+
+## Datos ambientales
+
+El clima juega un papel considerable en la distribución de los organismos porque limita fisiológicamente la aparición de especies. En este sentido, el clima se utiliza a menudo como indicador del régimen ambiental primario [@Franklin2010].
+
+`{geodata}` [@geodata2024] es un paquete R para descargar datos geográficos. Este paquete facilita el acceso a datos de clima, elevación, suelo, cultivos, presencia de especies y límites administrativos, y es un sucesor de la función getData() del paquete ráster.
+
+| Tipo                    | Variable                                          | Resolución Espacial             |
+| ----------------------- | ------------------------------------------------- | ------------------------------- |
+| Bioclimáticos           | Bio1: Temperatura media anual                     | ~1 km²                          |
+|                         | Bio2: Amplitud térmica diaria promedio            | ~1 km²                          |
+|                         | Bio3: Isotermalidad                               | ~1 km²                          |
+|                         | Bio4: Estacionalidad de la temperatura            | ~1 km²                          |
+|                         | Bio5: Temperatura máxima del mes más cálido       | ~1 km²                          |
+|                         | Bio6: Temperatura mínima del mes más frío         | ~1 km²                          |
+|                         | Bio7: Rango de temperatura anual                  | ~1 km²                          |
+|                         | Bio8: Temperatura media del trimestre más húmedo  | ~1 km²                          |
+|                         | Bio9: Temperatura media del trimestre más seco    | ~1 km²                          |
+|                         | Bio10: Temperatura media del trimestre más cálido | ~1 km²                          |
+|                         | Bio11: Temperatura media del trimestre más frío   | ~1 km²                          |
+|                         | Bio12: Precipitación anual                        | ~1 km²                          |
+|                         | Bio13: Precipitación del mes más húmedo           | ~1 km²                          |
+|                         | Bio14: Precipitación del mes más seco             | ~1 km²                          |
+|                         | Bio15: Estacionalidad de la precipitación         | ~1 km²                          |
+|                         | Bio16: Precipitación del trimestre más húmedo     | ~1 km²                          |
+|                         | Bio17: Precipitación del trimestre más seco       | ~1 km²                          |
+|                         | Bio18: Precipitación del trimestre más cálido     | ~1 km²                          |
+|                         | Bio19: Precipitación del trimestre más frío       | ~1 km²                          |
+|                         | Velocidad del viento                              | ~9 km                           |
+|                         | Radiación solar                                   | ~9 km                           |
+| Vegetación              | Índice NDVI                                       | 250 m                           |
+|                         | Índice EVI                                        | 250 m                           |
+|                         | Índice de Área Foliar (LAI)                       | 500 m                           |
+|                         | Índice de Humedad (NDMI)                          | 30 m (Landsat), 10 m (Sentinel) |
+| Topografía              | Elevación (Modelo Digital de Elevación, MDE)      | 30 m                            |
+|                         | Pendiente (Slope)                                 | 30 m                            |
+|                         | Orientación del relieve (Aspect)                  | 30 m                            |
+| Métricas de paisaje                         | Tamaño de parches                                 | 30 m                            |
+|                         | Conectividad entre parches                        | 30 m                            |
+|                         | Longitud de bordes                                | 30 
+
+Table: Variables predictoras a utilizar en el modelo de distribución de especies       
+
+## Preparación de la información para el MDE
+
+De acuerdo a lo que se describe los MDE nos permiten identifcar las zonas en las que hay probabilidades de que se encuentre una especie (Spatial Predictions @fig-MDE). Para poder realizar esto, en primer lugar hay que identificar la o las especies para las que se quiere realizar un MDE. Luego, hay que reunir información de dónde hay presencia de la especie. En este sentido, la fuente de información de `GBIF` pone a disposición datos sobre las especies y la coordenada espacial en la que se encuentra (Species field observations, @fig-MDE). El MDE se utilizará para poder espacializar la presencia-ausencia (en un raster) en dónde no se tiene información de la presencia-ausencia de la especie (Spatial predictions, @fig-MDE). Como información que permita al MDE reconocer su hábitat, se utilizan variables ambientales (clima, elevación, etc) que están espacialmente distribuidas (datos raster).
+
+![Diagrama modelo de distribución de especies](img/mde_diagram.png){#fig-MDE}
+
+# Objetivo del proyecto
+
+Realizar investigación reproducible en `R` [@R2022] para desarrollar un modelo de distribución de especies (MDE) en una zona de Chile.
+
+Para esto debera:
+
+1. Preparar los datos de la presencia y pseudo-ausencia de la especie obtenidos desde GBIF mediante `{rgbif}` [@Chamberlain2022].
+2. Prepara los predictores ambientales dn formato raster.
+3. Implementar el MDE en R [@R2022] mediante `{tidymodels}` [@Kuhn2020] aplicando el método de Machine Learning Random Forest.
+4. Evaluar la incerteza del MDE.
+5. Identificar las variables que tiene mayor importancia en el modelo.
+6. Generar un documento en formato `HTML` mediante quarto con el proceso paso a paso para desarrollar el MDE.
+7. Crear una presentación utilizando Quarto, en la que presente el proyecto.
+
+# Fecha de entrega
+
+27 de enero 2025 
+
+# Referencias {-}
+
+::: {#refs}
+:::
+
