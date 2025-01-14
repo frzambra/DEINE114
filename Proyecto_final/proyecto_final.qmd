@@ -82,7 +82,7 @@ El clima juega un papel considerable en la distribución de los organismos porqu
 |                         | Conectividad entre parches                        | 30 m                            |
 |                         | Longitud de bordes                                | 30 
 
-Table: Variables predictoras a utilizar en el modelo de distribución de especies       
+Table: Ejemplo de variables predictoras a utilizar en modelos de distribución de especies.       
 
 ## Preparación de la información para el MDE
 
@@ -103,6 +103,12 @@ Para esto debera:
 5. Identificar las variables que tiene mayor importancia en el modelo.
 6. Generar un documento en formato `HTML` mediante quarto con el proceso paso a paso para desarrollar el MDE.
 7. Crear una presentación utilizando Quarto, en la que presente el proyecto.
+
+# Estudios de utilidad
+
+1. Want to model a species niche? A step-by-step guideline on correlative ecological niche modelling [@sillero2021]
+2. Predictive performance of presence-only species distribution models: a benchmark study with reproducible code [@Valavi2022]
+3. Predicting species distributions: unifying model selection and scale optimization for multi-scale occupancy models [@Stevens2019]
 
 # Fecha de entrega
 
